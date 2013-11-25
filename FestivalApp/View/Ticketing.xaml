@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="FestivalApp.View.Ticketing"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c="clr-namespace:FestivalApp.View.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+    <UserControl.Resources>
+        <c:RemainingTicketsToColorConverter x:Key="RemainingTicketsToColorConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="32"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Tickets" Margin="8,0" FontSize="16" Padding="0" VerticalContentAlignment="Center" FontWeight="Bold"/>
+        <Label Content="Reservaties" Margin="8,0" Grid.Column="1" FontSize="16" VerticalContentAlignment="Center" Padding="0" FontWeight="Bold"/>
+
+        <ListView Margin="8" Grid.Row="1" ItemsSource="{Binding TicketTypeManager.TicketTypes}" SelectedItem="{Binding SelectedTicketType}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Naam" Width="175" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Prijs" Width="75" DisplayMemberBinding="{Binding Price, ConverterCulture='nl-BE', StringFormat={}{0:C}}"/>
+                    <GridViewColumn Header="Aantal" Width="75">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding AvailableTickets}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Resterend" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" Foreground="{Binding RemainingTickets, Converter={StaticResource RemainingTicketsToColorConverter}}" Text="{Binding RemainingTickets}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Button Content="Wijzig" HorizontalAlignment="Right" Height="24" Margin="0,0,116,0" Grid.Row="2" VerticalAlignment="Top" Width="100"/>
+        <Button Content="Toevoegen" HorizontalAlignment="Right" Height="24" Margin="0,0,8,0" Grid.Row="2" VerticalAlignment="Top" Width="100"/>
+
+        <ListView Margin="8" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding TicketManager.Tickets}" SelectedItem="{Binding SelectedTicket}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Naam" DisplayMemberBinding="{Binding TicketHolder}"/>
+                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding TicketHolderEmail}"/>
+                    <GridViewColumn Header="Ticket" DisplayMemberBinding="{Binding TicketType}"/>
+                    <GridViewColumn Header="Aantal" Width="70">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding Amount}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Button Content="Wijzig" HorizontalAlignment="Right" Height="24" Margin="0,0,116,0" Grid.Column="1" Grid.Row="2" VerticalAlignment="Top" Width="100"/>
+        <Button Content="Toevoegen" HorizontalAlignment="Right" Height="24" Margin="0,0,8,0" Grid.Column="1" Grid.Row="2" VerticalAlignment="Top" Width="100"/>
+    </Grid>
+</UserControl>
