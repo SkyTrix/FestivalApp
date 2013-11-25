@@ -83,6 +83,8 @@
     <Compile Include="Model\DAL\TicketTypeManager.cs" />
     <Compile Include="Utilities\Database.cs" />
     <Compile Include="Model\DAL\LineUpManager.cs" />
+    <Compile Include="ViewModel\AddBandVM.cs" />
+    <Compile Include="ViewModel\EditBandVM.cs" />
     <Compile Include="ViewModel\EditGenreVM.cs" />
     <Compile Include="ViewModel\EditStageVM.cs" />
     <Compile Include="View\Converters\RemainingTicketsToColorConverter.cs" />
@@ -101,7 +103,6 @@
     <Compile Include="Model\Ticket.cs" />
     <Compile Include="Model\TicketType.cs" />
     <Compile Include="ViewModel\ApplicationVM.cs" />
-    <Compile Include="ViewModel\BandVM.cs" />
     <Compile Include="ViewModel\ContactsVM.cs" />
     <Compile Include="ViewModel\EditLineUpVM.cs" />
     <Compile Include="ViewModel\LineUpVM.cs" />

@@ -204,5 +204,37 @@ namespace FestivalApp.ViewModel
                 MessageBox.Show("Er is een fout opgetreden tijdens het verwijderen van een lineup item: " + e.Message);
             }
         }
+
+        public ICommand AddBandCommand
+        {
+            get { return new RelayCommand(AddBand); }
+        }
+
+        private void AddBand()
+        {
+            BandWindow window = new BandWindow();
+            window.DataContext = new AddBandVM();
+            window.ShowDialog();
+        }
+
+        public ICommand EditBandCommand
+        {
+            get { return new RelayCommand(EditBand, CanEditBand); }
+        }
+
+        private bool CanEditBand()
+        {
+            return SelectedBand != null;
+        }
+
+        private void EditBand()
+        {
+            BandWindow window = new BandWindow();
+            EditBandVM viewModel = new EditBandVM();
+            viewModel.Band = SelectedBand.Copy();
+            window.DataContext = viewModel;
+            window.Title = "Band wijzigen";
+            window.ShowDialog();
+        }
     }
 }

@@ -127,7 +127,7 @@
         <Button Content="Wijzig" HorizontalAlignment="Right" Height="24" Margin="0,0,116,0" Grid.Row="2" VerticalAlignment="Top" Width="100" Command="{Binding EditLineUpItemCommand}"/>
         <Button Content="Verwijder" HorizontalAlignment="Right" Height="24" Margin="0,0,8,0" Grid.Row="2" VerticalAlignment="Top" Width="100" Command="{Binding DeleteLineUpItemCommand}"/>
 
-        <Button Content="Wijzig" HorizontalAlignment="Right" Height="24" Margin="0,0,116,0" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Width="100"/>
-        <Button Content="Nieuwe band" HorizontalAlignment="Right" Height="24" Margin="0,0,8,0" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Width="100"/>
+        <Button Content="Wijzig" HorizontalAlignment="Right" Height="24" Margin="0,0,116,0" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Width="100" Command="{Binding EditBandCommand}"/>
+        <Button Content="Nieuwe band" HorizontalAlignment="Right" Height="24" Margin="0,0,8,0" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Width="100" Command="{Binding AddBandCommand}"/>
     </Grid>
 </UserControl>
