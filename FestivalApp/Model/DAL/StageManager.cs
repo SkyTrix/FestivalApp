@@ -129,5 +129,22 @@ namespace FestivalApp.Model.DAL
                 throw;
             }
         }
+
+        public void DeleteStage(Stage stage)
+        {
+            try
+            {
+                string sql = "DELETE FROM [Stages] WHERE [ID] = @ID";
+
+                Database.ModifyData(sql,
+                    Database.CreateParameter("@ID", stage.ID)
+                );
+                Stages = GetStages();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

@@ -128,6 +128,28 @@ namespace FestivalApp.ViewModel
             window.ShowDialog();
         }
 
+        public ICommand DeleteStageCommand
+        {
+            get { return new RelayCommand(DeleteStage, CanDeleteStage); }
+        }
+
+        private bool CanDeleteStage()
+        {
+            return SelectedStage != null;
+        }
+
+        private void DeleteStage()
+        {
+            try
+            {
+                StageManager.DeleteStage(SelectedStage);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Een stage kan enkel verwijderd worden indien er geen groepen geprogrammeerd zijn op deze stage.", "Stage kan niet verwijderd worden");
+            }
+        }
+
         public ICommand AddGenreCommand
         {
             get { return new RelayCommand(AddGenre, CanAddGenre); }
@@ -167,6 +189,24 @@ namespace FestivalApp.ViewModel
             EditGenreWindow window = new EditGenreWindow();
             ((EditGenreVM)window.DataContext).Genre = SelectedGenre.Copy();
             window.ShowDialog();
+        }
+
+        public ICommand DeleteGenreCommand
+        {
+            get { return new RelayCommand(DeleteGenre, CanDeleteGenre); }
+        }
+
+        private bool CanDeleteGenre()
+        {
+            return SelectedGenre != null;
+        }
+
+        private void DeleteGenre()
+        {
+            GenreManager.Instance.DeleteGenre(SelectedGenre);
+
+            // We also have to refresh the bands for the changes to be visible
+            BandManager.Instance.RefreshData();
         }
     }
 }

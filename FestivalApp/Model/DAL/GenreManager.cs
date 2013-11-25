@@ -129,5 +129,24 @@ namespace FestivalApp.Model.DAL
                 throw;
             }
         }
+
+        public void DeleteGenre(Genre genre)
+        {
+            try
+            {
+                string sql = "DELETE FROM [Genres] WHERE [ID] = @ID";
+
+                Database.ModifyData(sql,
+                    Database.CreateParameter("@ID", genre.ID)
+                );
+
+                // Refresh data to retrieve ID of newly added item
+                Genres = GetGenres();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
