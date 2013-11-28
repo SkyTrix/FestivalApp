@@ -38,13 +38,6 @@ namespace FestivalApp.Model
             set { _availableTickets = value; }
         }
 
-        private int _remainingTickets;
-        public int RemainingTickets
-        {
-            get { return _remainingTickets; }
-            set { _remainingTickets = value; }
-        }
-
         public override string ToString()
         {
             return this.Name;

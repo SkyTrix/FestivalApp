@@ -87,6 +87,7 @@
     <Compile Include="ViewModel\EditBandVM.cs" />
     <Compile Include="ViewModel\EditGenreVM.cs" />
     <Compile Include="ViewModel\EditStageVM.cs" />
+    <Compile Include="ViewModel\TicketTypeVM.cs" />
     <Compile Include="View\Converters\RemainingTicketsToColorConverter.cs" />
     <Compile Include="View\EditGenreWindow.xaml.cs">
       <DependentUpon>EditGenreWindow.xaml</DependentUpon>

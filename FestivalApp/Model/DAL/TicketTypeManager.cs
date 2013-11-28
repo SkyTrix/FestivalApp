@@ -46,7 +46,7 @@ namespace FestivalApp.Model.DAL
         {
             try
             {
-                string query = "SELECT [ID], [Name], [Price], [AvailableTickets], ([AvailableTickets] - ISNULL((SELECT SUM([amount]) FROM [Tickets] WHERE [Type] = [TicketTypes].[ID]), 0)) AS [RemainingTickets] FROM [TicketTypes]";
+                string query = "SELECT [ID], [Name], [Price], [AvailableTickets] FROM [TicketTypes]";
                 DbDataReader reader = Database.GetData(query);
 
                 return GetResults(reader);
@@ -59,7 +59,7 @@ namespace FestivalApp.Model.DAL
 
         public static TicketType GetTicketTypeByID(string id)
         {
-            string query = "SELECT [ID], [Name], [Price], [AvailableTickets], ([AvailableTickets] - ISNULL((SELECT SUM([amount]) FROM [Tickets] WHERE [Type] = [TicketTypes].[ID]), 0)) AS [RemainingTickets] FROM [TicketTypes] WHERE ID = @ID";
+            string query = "SELECT [ID], [Name], [Price], [AvailableTickets] FROM [TicketTypes] WHERE ID = @ID";
             DbParameter idPar = Database.CreateParameter("@ID", id);
 
             DbDataReader reader = Database.GetData(query, idPar);
@@ -69,6 +69,21 @@ namespace FestivalApp.Model.DAL
                 return ticketTypes[0];
 
             return null;
+        }
+
+        public static int CountTicketsRemainingForTicketType(string id)
+        {
+            string query = "SELECT ([AvailableTickets] - ISNULL((SELECT SUM([amount]) FROM [Tickets] WHERE [Type] = [TicketTypes].[ID]), 0)) AS [RemainingTickets] FROM [TicketTypes] WHERE ID = @ID";
+            DbParameter idPar = Database.CreateParameter("@ID", id);
+            DbDataReader reader = Database.GetData(query, idPar);
+
+            if (reader.HasRows)
+            {
+                reader.Read();
+                return (int)reader["RemainingTickets"];
+            }
+
+            return 0;
         }
 
         private static ObservableCollection<TicketType> GetResults(DbDataReader reader)
@@ -90,7 +105,6 @@ namespace FestivalApp.Model.DAL
             ticketType.Name = !Convert.IsDBNull(row["Name"]) ? row["Name"].ToString() : string.Empty;
             ticketType.Price = !Convert.IsDBNull(row["Price"]) ? Convert.ToDouble(row["Price"]) : 0;
             ticketType.AvailableTickets = !Convert.IsDBNull(row["AvailableTickets"]) ? (int)row["AvailableTickets"] : 0;
-            ticketType.RemainingTickets = !Convert.IsDBNull(row["RemainingTickets"]) ? (int)row["RemainingTickets"] : 0;
 
             return ticketType;
         }

@@ -24,15 +24,15 @@
         <Label Content="Tickets" Margin="8,0" FontSize="16" Padding="0" VerticalContentAlignment="Center" FontWeight="Bold"/>
         <Label Content="Reservaties" Margin="8,0" Grid.Column="1" FontSize="16" VerticalContentAlignment="Center" Padding="0" FontWeight="Bold"/>
 
-        <ListView Margin="8" Grid.Row="1" ItemsSource="{Binding TicketTypeManager.TicketTypes}" SelectedItem="{Binding SelectedTicketType}">
+        <ListView Margin="8" Grid.Row="1" ItemsSource="{Binding TicketTypes}" SelectedItem="{Binding SelectedTicketTypeVM}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Naam" Width="175" DisplayMemberBinding="{Binding Name}"/>
-                    <GridViewColumn Header="Prijs" Width="75" DisplayMemberBinding="{Binding Price, ConverterCulture='nl-BE', StringFormat={}{0:C}}"/>
+                    <GridViewColumn Header="Naam" Width="175" DisplayMemberBinding="{Binding TicketType.Name}"/>
+                    <GridViewColumn Header="Prijs" Width="75" DisplayMemberBinding="{Binding TicketType.Price, ConverterCulture='nl-BE', StringFormat={}{0:C}}"/>
                     <GridViewColumn Header="Aantal" Width="75">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock HorizontalAlignment="Center" Text="{Binding AvailableTickets}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding TicketType.AvailableTickets}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

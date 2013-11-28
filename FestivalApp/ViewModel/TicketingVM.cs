@@ -11,19 +11,6 @@ namespace FestivalApp.ViewModel
 {
     class TicketingVM : ObservableObject, IPage
     {
-        private TicketTypeManager _ticketTypeManager;
-        public TicketTypeManager TicketTypeManager
-        {
-            get
-            {
-                if (_ticketTypeManager == null)
-                    _ticketTypeManager = TicketTypeManager.Instance;
-
-                return _ticketTypeManager;
-            }
-            set { _ticketTypeManager = value; OnPropertyChanged("TicketTypeManager"); }
-        }
-
         private TicketManager _ticketManager;
         public TicketManager TicketManager
         {
@@ -36,13 +23,39 @@ namespace FestivalApp.ViewModel
             }
             set { _ticketManager = value; OnPropertyChanged("TicketManager"); }
         }
-        
 
-        private TicketType _selectedTicketType;
-        public TicketType SelectedTicketType
+        private ObservableCollection<TicketTypeVM> _ticketTypes;
+        public ObservableCollection<TicketTypeVM> TicketTypes
         {
-            get { return _selectedTicketType; }
-            set { _selectedTicketType = value; OnPropertyChanged("SelectedTicketType"); }
+            get
+            {
+                if (_ticketTypes == null)
+                {
+                    // Use a presentation model so we can display both the ticket types and the tickets remaining for the type
+                    ObservableCollection<TicketTypeVM> ticketTypes = new ObservableCollection<TicketTypeVM>();
+
+                    foreach (TicketType ticketType in TicketTypeManager.Instance.TicketTypes)
+                    {
+                        ticketTypes.Add(new TicketTypeVM()
+                        {
+                            TicketType = ticketType,
+                            RemainingTickets = TicketTypeManager.CountTicketsRemainingForTicketType(ticketType.ID)
+                        });
+                    }
+
+                    _ticketTypes = ticketTypes;
+                }
+
+                return _ticketTypes;
+            }
+            set { _ticketTypes = value; OnPropertyChanged("TicketTypes"); }
+        }
+
+        private TicketTypeVM _selectedTicketTypeVM;
+        public TicketTypeVM SelectedTicketTypeVM
+        {
+            get { return _selectedTicketTypeVM; }
+            set { _selectedTicketTypeVM = value; OnPropertyChanged("SelectedTicketTypeVM"); }
         }
 
         private Ticket _selectedTicket;
