@@ -165,9 +165,8 @@ namespace FestivalApp.ViewModel
             {
                 LineUpManager.Instance.AddLineUpItem(item);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                MessageBox.Show("Er is een fout opgetreden tijdens het toevoegen van een lineup item: " + e.Message);
             }
         }
 
@@ -199,9 +198,8 @@ namespace FestivalApp.ViewModel
             {
                 LineUpManager.Instance.DeleteLineUpItem(SelectedLineUpItem);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                MessageBox.Show("Er is een fout opgetreden tijdens het verwijderen van een lineup item: " + e.Message);
             }
         }
 

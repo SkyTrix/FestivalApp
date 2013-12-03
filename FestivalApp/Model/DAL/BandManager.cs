@@ -59,16 +59,23 @@ namespace FestivalApp.Model.DAL
 
         public static Band GetBandByID(string id)
         {
-            string query = "SELECT [ID], [Name], [PictureURL], [Description], [Twitter], [Facebook] FROM [Bands] WHERE ID = @ID";
-            DbParameter idPar = Database.CreateParameter("@ID", id);
+            try
+            {
+                string query = "SELECT [ID], [Name], [PictureURL], [Description], [Twitter], [Facebook] FROM [Bands] WHERE ID = @ID";
+                DbParameter idPar = Database.CreateParameter("@ID", id);
 
-            DbDataReader reader = Database.GetData(query, idPar);
+                DbDataReader reader = Database.GetData(query, idPar);
 
-            ObservableCollection<Band> bands = GetResults(reader);
-            if (bands.Count > 0)
-                return bands[0];
+                ObservableCollection<Band> bands = GetResults(reader);
+                if (bands.Count > 0)
+                    return bands[0];
 
-            return null;
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private static ObservableCollection<Band> GetResults(DbDataReader reader)

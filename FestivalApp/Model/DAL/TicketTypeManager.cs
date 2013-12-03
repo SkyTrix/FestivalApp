@@ -59,31 +59,45 @@ namespace FestivalApp.Model.DAL
 
         public static TicketType GetTicketTypeByID(string id)
         {
-            string query = "SELECT [ID], [Name], [Price], [AvailableTickets] FROM [TicketTypes] WHERE ID = @ID";
-            DbParameter idPar = Database.CreateParameter("@ID", id);
+            try
+            {
+                string query = "SELECT [ID], [Name], [Price], [AvailableTickets] FROM [TicketTypes] WHERE ID = @ID";
+                DbParameter idPar = Database.CreateParameter("@ID", id);
 
-            DbDataReader reader = Database.GetData(query, idPar);
+                DbDataReader reader = Database.GetData(query, idPar);
 
-            ObservableCollection<TicketType> ticketTypes = GetResults(reader);
-            if (ticketTypes.Count > 0)
-                return ticketTypes[0];
+                ObservableCollection<TicketType> ticketTypes = GetResults(reader);
+                if (ticketTypes.Count > 0)
+                    return ticketTypes[0];
 
-            return null;
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public static int CountTicketsRemainingForTicketType(string id)
         {
-            string query = "SELECT ([AvailableTickets] - ISNULL((SELECT SUM([amount]) FROM [Tickets] WHERE [Type] = [TicketTypes].[ID]), 0)) AS [RemainingTickets] FROM [TicketTypes] WHERE ID = @ID";
-            DbParameter idPar = Database.CreateParameter("@ID", id);
-            DbDataReader reader = Database.GetData(query, idPar);
-
-            if (reader.HasRows)
+            try
             {
-                reader.Read();
-                return (int)reader["RemainingTickets"];
-            }
+                string query = "SELECT ([AvailableTickets] - ISNULL((SELECT SUM([amount]) FROM [Tickets] WHERE [Type] = [TicketTypes].[ID]), 0)) AS [RemainingTickets] FROM [TicketTypes] WHERE ID = @ID";
+                DbParameter idPar = Database.CreateParameter("@ID", id);
+                DbDataReader reader = Database.GetData(query, idPar);
 
-            return 0;
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    return (int)reader["RemainingTickets"];
+                }
+
+                return 0;
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
         }
 
         private static ObservableCollection<TicketType> GetResults(DbDataReader reader)

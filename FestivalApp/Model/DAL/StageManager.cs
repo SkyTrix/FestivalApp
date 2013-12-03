@@ -59,16 +59,23 @@ namespace FestivalApp.Model.DAL
 
         public static Stage GetStageByID(string id)
         {
-            string query = "SELECT [ID], [Name] FROM Stages WHERE ID = @ID";
-            DbParameter idPar = Database.CreateParameter("@ID", id);
+            try
+            {
+                string query = "SELECT [ID], [Name] FROM Stages WHERE ID = @ID";
+                DbParameter idPar = Database.CreateParameter("@ID", id);
 
-            DbDataReader reader = Database.GetData(query, idPar);
+                DbDataReader reader = Database.GetData(query, idPar);
 
-            ObservableCollection<Stage> stages = GetResults(reader);
-            if (stages.Count > 0)
-                return stages[0];
+                ObservableCollection<Stage> stages = GetResults(reader);
+                if (stages.Count > 0)
+                    return stages[0];
 
-            return null;
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private static ObservableCollection<Stage> GetResults(DbDataReader reader)
@@ -81,6 +88,29 @@ namespace FestivalApp.Model.DAL
             reader.Close();
 
             return list;
+        }
+
+        public bool StageUsedInLineup(Stage stage)
+        {
+            try
+            {
+                string query = "SELECT COUNT(*) AS COUNT FROM LineUp WHERE Stage = @ID";
+                DbParameter idPar = Database.CreateParameter("@ID", stage.ID);
+                DbDataReader reader = Database.GetData(query, idPar);
+
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    return (int)reader["COUNT"] > 0;
+                }
+
+                return false;
+            }
+            catch (Exception)
+            {
+                // Don't try to delete if check fails
+                return true;
+            }
         }
 
         private static Stage CreateStage(IDataRecord row)

@@ -59,13 +59,20 @@ namespace FestivalApp.Model.DAL
 
         public static ObservableCollection<Genre> GetGenresForBand(Band band)
         {
-            ObservableCollection<Genre> list = new ObservableCollection<Genre>();
+            try
+            {
+                ObservableCollection<Genre> list = new ObservableCollection<Genre>();
 
-            string query = "SELECT [ID], [Name] FROM [Genres] JOIN [Band_Genre] ON [Genres].[ID] = [Band_Genre].[GenreID] WHERE [Band_Genre].[BandID] = @BandID";
-            DbParameter idParam = Database.CreateParameter("@BandID", band.ID);
-            DbDataReader reader = Database.GetData(query, idParam);
+                string query = "SELECT [ID], [Name] FROM [Genres] JOIN [Band_Genre] ON [Genres].[ID] = [Band_Genre].[GenreID] WHERE [Band_Genre].[BandID] = @BandID";
+                DbParameter idParam = Database.CreateParameter("@BandID", band.ID);
+                DbDataReader reader = Database.GetData(query, idParam);
 
-            return GetResults(reader);
+                return GetResults(reader);
+            }
+            catch (Exception)
+            {
+                return new ObservableCollection<Genre>();
+            }
         }
 
         private static ObservableCollection<Genre> GetResults(DbDataReader reader)

@@ -68,7 +68,6 @@ namespace FestivalApp.ViewModel
             }
             catch (Exception)
             {
-                MessageBox.Show("Er is een fout opgetreden tijdens het wijzigen van de stage.", "Fout bij wijzigen");
             }
         }
     }

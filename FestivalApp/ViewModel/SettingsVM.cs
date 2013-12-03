@@ -44,8 +44,21 @@ namespace FestivalApp.ViewModel
         public Stage SelectedStage
         {
             get { return _selectedStage; }
-            set { _selectedStage = value; OnPropertyChanged("SelectedStage"); }
+            set
+            {
+                _selectedStage = value;
+                _selectedStageUsedInLineUp = false;
+
+                if (_selectedStage != null)
+                {
+                    _selectedStageUsedInLineUp = StageManager.StageUsedInLineup(_selectedStage);
+                }
+
+                OnPropertyChanged("SelectedStage");
+            }
         }
+
+        private bool _selectedStageUsedInLineUp = false;
 
         private string _stage = string.Empty;
         public string Stage
@@ -53,7 +66,6 @@ namespace FestivalApp.ViewModel
             get { return _stage; }
             set { _stage = value; OnPropertyChanged("Stage"); }
         }
-
 
         private GenreManager _genreManager;
         public GenreManager GenreManager
@@ -85,6 +97,20 @@ namespace FestivalApp.ViewModel
         public string Name
         {
             get { return "Instellingen"; }
+        }
+
+        public ICommand LoadedCommand
+        {
+            get { return new RelayCommand(Loaded); }
+        }
+
+        private void Loaded()
+        {
+            // Selected stage could have been used in lineup since we last opened settings
+            if (SelectedStage != null)
+            {
+                _selectedStageUsedInLineUp = StageManager.StageUsedInLineup(SelectedStage);
+            }
         }
 
         public ICommand AddStageCommand
@@ -135,7 +161,7 @@ namespace FestivalApp.ViewModel
 
         private bool CanDeleteStage()
         {
-            return SelectedStage != null;
+            return SelectedStage != null && !_selectedStageUsedInLineUp;
         }
 
         private void DeleteStage()
@@ -146,7 +172,6 @@ namespace FestivalApp.ViewModel
             }
             catch (Exception)
             {
-                MessageBox.Show("Een stage kan enkel verwijderd worden indien er geen groepen geprogrammeerd zijn op deze stage.", "Stage kan niet verwijderd worden");
             }
         }
 

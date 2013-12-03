@@ -54,15 +54,22 @@ namespace FestivalApp.Model.DAL
 
         private static Festival GetFestivalFromDB()
         {
-            string query = "SELECT [ID], [Name], [StartDate], [EndDate] FROM [Festival]";
-            DbDataReader reader = Database.GetData(query);
-            if (reader.HasRows)
+            try
             {
-                reader.Read();
-                return CreateFestival(reader);
-            }
+                string query = "SELECT [ID], [Name], [StartDate], [EndDate] FROM [Festival]";
+                DbDataReader reader = Database.GetData(query);
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    return CreateFestival(reader);
+                }
 
-            return null;
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private static void InsertDemoFestival()
@@ -90,7 +97,6 @@ namespace FestivalApp.Model.DAL
             }
             catch (Exception)
             {
-                throw;
             }
         }
 
