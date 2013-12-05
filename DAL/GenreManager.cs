@@ -1,5 +1,5 @@
 ﻿using FestivalApp.Utilities;
-using FestivalApp.ViewModel;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FestivalApp.Model.DAL
+namespace DAL
 {
-    class GenreManager : ObservableObject
+    public class GenreManager : ObservableObject
     {
         #region "Properties"
         private static readonly GenreManager _instance = new GenreManager();

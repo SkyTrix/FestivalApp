@@ -1,4 +1,4 @@
-﻿using FestivalApp.Model;
+﻿using Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,7 +17,7 @@ namespace FestivalApp.ViewModel
             {
                 if (_contactPersons == null)
                 {
-                    _contactPersons = ContactPerson.GetContactPersons();
+                    //_contactPersons = ContactPerson.GetContactPersons();
                 }
 
                 return _contactPersons;
@@ -27,7 +27,7 @@ namespace FestivalApp.ViewModel
                 _contactPersons = value;
                 OnPropertyChanged("ContactPersons");
 
-                FilteredContactPersons = ContactPerson.GetFilteredContactPersons(_contactPersons, SearchQuery);
+                //FilteredContactPersons = ContactPerson.GetFilteredContactPersons(_contactPersons, SearchQuery);
             }
         }
 
@@ -47,7 +47,7 @@ namespace FestivalApp.ViewModel
                 _searchQuery = value;
                 OnPropertyChanged("SearchQuery");
 
-                FilteredContactPersons = ContactPerson.GetFilteredContactPersons(ContactPersons, _searchQuery);
+                //FilteredContactPersons = ContactPerson.GetFilteredContactPersons(ContactPersons, _searchQuery);
             }
         }
 
@@ -58,7 +58,7 @@ namespace FestivalApp.ViewModel
             {
                 if (_filteredContactPersons == null)
                 {
-                    ContactPersons = ContactPerson.GetContactPersons();
+                    //ContactPersons = ContactPerson.GetContactPersons();
                 }
 
                 return _filteredContactPersons;
@@ -67,18 +67,18 @@ namespace FestivalApp.ViewModel
         }
         
 
-        private ObservableCollection<ContactPersonType> _contactPersonTypes;
-        public ObservableCollection<ContactPersonType> ContactPersonTypes
-        {
-            get
-            {
-                if (_contactPersonTypes == null)
-                    _contactPersonTypes = ContactPersonType.GetContactPersonTypes();
+        //private ObservableCollection<ContactPersonType> _contactPersonTypes;
+        //public ObservableCollection<ContactPersonType> ContactPersonTypes
+        //{
+        //    get
+        //    {
+        //        if (_contactPersonTypes == null)
+        //            _contactPersonTypes = ContactPersonType.GetContactPersonTypes();
 
-                return _contactPersonTypes;
-            }
-            set { _contactPersonTypes = value; OnPropertyChanged("ContactPersonTypes"); }
-        }
+        //        return _contactPersonTypes;
+        //    }
+        //    set { _contactPersonTypes = value; OnPropertyChanged("ContactPersonTypes"); }
+        //}
 
         private ContactPersonType _selectedContactPersonType;
         public ContactPersonType SelectedContactPersonType

@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace FestivalApp.Model
+namespace Models
 {
-    class TicketType
+    public class ContactPersonType
     {
         private string _id;
         public string ID
@@ -22,20 +19,6 @@ namespace FestivalApp.Model
         {
             get { return _name; }
             set { _name = value; }
-        }
-
-        private double _price;
-        public double Price
-        {
-            get { return _price; }
-            set { _price = value; }
-        }
-
-        private int _availableTickets;
-        public int AvailableTickets
-        {
-            get { return _availableTickets; }
-            set { _availableTickets = value; }
         }
 
         public override string ToString()
