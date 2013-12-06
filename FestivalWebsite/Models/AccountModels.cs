@@ -10,8 +10,7 @@ namespace FestivalWebsite.Models
 {
     public class UsersContext : DbContext
     {
-        public UsersContext()
-            : base("DefaultConnection")
+        public UsersContext() : base("ConnectionString")
         {
         }
 
