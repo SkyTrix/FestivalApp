@@ -50,7 +50,7 @@ namespace FestivalApp.Utilities
 
             return command;
         }
-
+        
         public static DbParameter CreateParameter(string name, object value)
         {
             DbParameter param = DbProviderFactories.GetFactory(ConnectionString.ProviderName).CreateParameter();

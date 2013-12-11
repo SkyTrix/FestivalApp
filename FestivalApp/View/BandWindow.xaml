@@ -3,34 +3,40 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:FestivalApp.ViewModel"
         xmlns:vh="clr-namespace:FestivalApp.View.ViewHelpers"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WPF45"
+        xmlns:c="clr-namespace:FestivalApp.View.Converters"
         vh:DialogCloser.DialogResult="{Binding DialogResult}"
-        Title="Nieuwe band" Height="503" Width="300" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterScreen" SizeToContent="Height">
+        Title="Nieuwe band" Width="300" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" SizeToContent="Height">
     <Window.Resources>
-        <DataTemplate x:Key="GenreTemplate">
-            <!--<StackPanel Orientation="Horizontal" Margin="0,0,0,2">-->
-                <CheckBox Margin="0,1,0,0" Content="{Binding Name}"/>
-            <!--</StackPanel>-->
-        </DataTemplate>
+        <c:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter"/>
     </Window.Resources>
     <Grid>
         <StackPanel Margin="8">
             <Label Content="Naam:" FontWeight="Bold" Padding="0,0,0,3"/>
-            <TextBox MinHeight="24" VerticalContentAlignment="Center" Text="{Binding Band.Name}"/>
+            <TextBox MinHeight="24" VerticalContentAlignment="Center" Text="{Binding Band.Name, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="Omschrijving:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBox MinLines="3" TextWrapping="Wrap" MinHeight="50" Text="{Binding Band.Description}"/>
+            <TextBox MinLines="3" TextWrapping="Wrap" MinHeight="50" Text="{Binding Band.Description, UpdateSourceTrigger=PropertyChanged}"/>
             <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
                 <Label Content="Foto:" FontWeight="Bold" Padding="0,0,0,3"/>
-                <Button Content="Foto selecteren" Margin="8,0,0,0" Padding="5,1"/>
+                <Button Command="{Binding ChooseImageCommand}" Content="Foto selecteren" Margin="8,0,0,0" Padding="5,1"/>
+                <TextBlock FontSize="10" Text="(of sleep foto)" Margin="8,0,0,0" VerticalAlignment="Center"/>
             </StackPanel>
-            <Image Height="100" Width="100"/>
+            <Border Margin="0,8,0,0" MinHeight="50" MaxHeight="250" BorderThickness="1" BorderBrush="Black">
+                <Image Stretch="Uniform" StretchDirection="DownOnly" AllowDrop="True" Source="{Binding Band.Picture, Converter={StaticResource ByteArrayToImageConverter}}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Drop">
+                            <cmd:EventToCommand Command="{Binding DropCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Image>
+            </Border>
             <Label Content="Twitter:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBox MinHeight="24" VerticalContentAlignment="Center" Text="{Binding Band.Twitter}"/>
+            <TextBox MinHeight="24" VerticalContentAlignment="Center" Text="{Binding Band.Twitter, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="Facebook:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBox MinHeight="24" VerticalContentAlignment="Center" Text="{Binding Band.Facebook}"/>
+            <TextBox MinHeight="24" VerticalContentAlignment="Center" Text="{Binding Band.Facebook, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="Genre(s):" FontWeight="Bold" Padding="0,5,0,3"/>
-            <ItemsControl ItemsSource="{Binding GenreCheckBoxes}">
-                          <!--ItemTemplate="{StaticResource GenreTemplate}"-->
-                
+            <ItemsControl ItemsSource="{Binding GenreCheckBoxes, UpdateSourceTrigger=PropertyChanged}">                
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Columns="2"/>

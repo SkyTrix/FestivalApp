@@ -22,11 +22,11 @@ namespace Models
             set { _name = value; }
         }
 
-        private string _pictureURL;
-        public string PictureURL
+        private byte[] _picture;
+        public byte[] Picture
         {
-            get { return _pictureURL; }
-            set { _pictureURL = value; }
+            get { return _picture; }
+            set { _picture = value; }
         }
 
         private string _description;

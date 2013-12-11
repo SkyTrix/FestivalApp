@@ -68,7 +68,9 @@
             </TextBox.InputBindings>
         </TextBox>
         <Button Content="Toevoegen" Grid.Column="2" Margin="0,8,8,0" Grid.Row="1" HorizontalAlignment="Right" Width="100" Command="{Binding AddGenreCommand}"/>
-        <ListBox Grid.Column="2" Margin="8,8,8,8" Grid.Row="2" ItemsSource="{Binding GenreManager.Genres}" SelectedItem="{Binding SelectedGenre}" DisplayMemberPath="Name"/>
+        <ListBox Grid.Column="2" Margin="8,8,8,8" Grid.Row="2" ItemsSource="{Binding GenreManager.Genres}" SelectedItem="{Binding SelectedGenre}" DisplayMemberPath="Name"
+                      SelectedValuePath="ID"
+                      SelectedValue="{Binding SelectedGenre.ID}"/>
         <Button Content="Wijzig" HorizontalAlignment="Right" Height="24" Margin="0,0,116,0" Grid.Row="3" Grid.Column="2" VerticalAlignment="Top" Width="100" Command="{Binding EditGenreCommand}"/>
         <Button Content="Verwijder" HorizontalAlignment="Right" Height="24" Margin="0,0,8,0" Grid.Row="3" Grid.Column="2" VerticalAlignment="Top" Width="100" Command="{Binding DeleteGenreCommand}"/>
     </Grid>
