@@ -107,7 +107,8 @@ namespace FestivalApp.ViewModel
         public Band SelectedBand
         {
             get { return _selectedBand; }
-            set { _selectedBand = value; OnPropertyChanged("SelectedBand"); }
+            set
+            { _selectedBand = value; OnPropertyChanged("SelectedBand"); }
         }
 
         private string _startTime = string.Empty;
@@ -124,16 +125,34 @@ namespace FestivalApp.ViewModel
             set { _endTime = value; OnPropertyChanged("EndTime"); }
         }
 
+        private bool _addingBand = false;
+
         public LineUpVM()
         {
             try
             {
+                // Startup with some default selected values
                 SelectedFestivalDate = FestivalManager.Instance.Festival.FestivalDates[0];
                 SelectedStage = StageManager.Instance.Stages[0];
                 SelectedBand = BandManager.Instance.Bands[0];
+
+                // Observe changes to bands so we can keep the selected item selected after updating
+                BandManager.Instance.PropertyChanged += BandManager_PropertyChanged;
             }
             catch (Exception)
             {
+            }
+        }
+
+        void BandManager_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Bands")
+            {
+                // show new band if we added one, previously selected one if we didn't add one
+                var selected = _addingBand ? BandManager.Bands.Last() : SelectedBand;
+                OnPropertyChanged("BandManager");
+                SelectedBand = selected;
+                _addingBand = false;
             }
         }
 
@@ -210,6 +229,8 @@ namespace FestivalApp.ViewModel
 
         private void AddBand()
         {
+            _addingBand = true;
+
             BandWindow window = new BandWindow();
             window.DataContext = new AddBandVM();
             window.ShowDialog();

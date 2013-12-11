@@ -5,7 +5,7 @@
         xmlns:v="clr-namespace:FestivalApp.View"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WPF45"
-        Title="Festival Planner" Height="600" Width="1024" MinWidth="800" MinHeight="600">
+        Title="Festival Planner" Height="600" Width="1024" MinWidth="800" MinHeight="600" SizeToContent="Height" WindowStartupLocation="CenterScreen">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closed">
             <cmd:EventToCommand Command="{Binding ClosedCommand}" />

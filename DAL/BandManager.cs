@@ -46,7 +46,7 @@ namespace DAL
         {
             try
             {
-                string query = "SELECT [ID], [Name], [PictureURL], [Description], [Twitter], [Facebook] FROM [Bands]";
+                string query = "SELECT [ID], [Name], [Picture], [Description], [Twitter], [Facebook] FROM [Bands]";
                 DbDataReader reader = Database.GetData(query);
 
                 return GetResults(reader);
@@ -61,7 +61,7 @@ namespace DAL
         {
             try
             {
-                string query = "SELECT [ID], [Name], [PictureURL], [Description], [Twitter], [Facebook] FROM [Bands] WHERE ID = @ID";
+                string query = "SELECT [ID], [Name], [Picture], [Description], [Twitter], [Facebook] FROM [Bands] WHERE ID = @ID";
                 DbParameter idPar = Database.CreateParameter("@ID", id);
 
                 DbDataReader reader = Database.GetData(query, idPar);
@@ -95,7 +95,7 @@ namespace DAL
             Band band = new Band();
             band.ID = !Convert.IsDBNull(row["ID"]) ? row["ID"].ToString() : null;
             band.Name = !Convert.IsDBNull(row["Name"]) ? row["Name"].ToString() : string.Empty;
-            band.PictureURL = !Convert.IsDBNull(row["PictureURL"]) ? row["PictureURL"].ToString() : null;
+            band.Picture = !Convert.IsDBNull(row["Picture"]) ? (byte[])row["Picture"] : null;
             band.Description = !Convert.IsDBNull(row["Description"]) ? row["Description"].ToString() : string.Empty;
             band.Twitter = !Convert.IsDBNull(row["Twitter"]) ? row["Twitter"].ToString() : string.Empty;
             band.Facebook = !Convert.IsDBNull(row["Facebook"]) ? row["Facebook"].ToString() : string.Empty;
@@ -109,12 +109,15 @@ namespace DAL
         {
             try
             {
-                string sql = "INSERT INTO [Bands] ([Name], [PictureURL], [Description], [Twitter], [Facebook])";
-                sql += " VALUES (@Name, @PictureURL, @Description, @Twitter, @Facebook)";
+                string sql = "INSERT INTO [Bands] ([Name], [Picture], [Description], [Twitter], [Facebook])";
+                sql += " VALUES (@Name, @Picture, @Description, @Twitter, @Facebook)";
+
+                DbParameter pictureParam = band.Picture == null ? Database.CreateParameter("@Picture", DBNull.Value) : Database.CreateParameter("@Picture", band.Picture);
+                pictureParam.DbType = DbType.Binary;
 
                 Database.ModifyData(sql,
                     Database.CreateParameter("@Name", band.Name),
-                    Database.CreateParameter("@PictureURL", band.PictureURL),
+                    pictureParam,
                     Database.CreateParameter("@Description", band.Description),
                     Database.CreateParameter("@Twitter", band.Twitter),
                     Database.CreateParameter("@Facebook", band.Facebook)
@@ -133,13 +136,16 @@ namespace DAL
         {
             try
             {
-                string sql = "UPDATE [Bands] SET [Name] = @Name, [PictureURL] = @PictureURL, [Description] = @Description, [Twitter] = @Twitter, [Facebook] = @Facebook";
+                string sql = "UPDATE [Bands] SET [Name] = @Name, [Picture] = @Picture, [Description] = @Description, [Twitter] = @Twitter, [Facebook] = @Facebook";
                 sql += " WHERE [ID] = @ID";
+
+                DbParameter pictureParam = band.Picture == null ? Database.CreateParameter("@Picture", DBNull.Value) : Database.CreateParameter("@Picture", band.Picture);
+                pictureParam.DbType = DbType.Binary;
 
                 Database.ModifyData(sql,
                     Database.CreateParameter("@ID", band.ID),
                     Database.CreateParameter("@Name", band.Name),
-                    Database.CreateParameter("@PictureURL", band.PictureURL),
+                    pictureParam,
                     Database.CreateParameter("@Description", band.Description),
                     Database.CreateParameter("@Twitter", band.Twitter),
                     Database.CreateParameter("@Facebook", band.Facebook)
@@ -150,6 +156,11 @@ namespace DAL
             {
                 throw;
             }
+        }
+
+        public void SetGenresForBand(Band band, Genre[] genres)
+        {
+
         }
 
         public void RefreshData()

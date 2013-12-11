@@ -15,14 +15,21 @@ namespace FestivalApp.View.Converters
             if (value == null)
                 return new BitmapImage(new Uri(@"pack://application:,,,/FestivalApp;component/View/images/noimage.png"));
 
-            using (var ms = new System.IO.MemoryStream((byte[])value))
+            try
             {
-                var image = new BitmapImage();
-                image.BeginInit();
-                image.CacheOption = BitmapCacheOption.OnLoad; // here
-                image.StreamSource = ms;
-                image.EndInit();
-                return image;
+                using (var ms = new System.IO.MemoryStream((byte[])value))
+                {
+                    var image = new BitmapImage();
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.StreamSource = ms;
+                    image.EndInit();
+                    return image;
+                }
+            }
+            catch(Exception)
+            {
+                return new BitmapImage(new Uri(@"pack://application:,,,/FestivalApp;component/View/images/noimage.png"));;
             }
         }
 
