@@ -104,6 +104,28 @@ namespace FestivalApp.Utilities
             }
         }
 
+        public static int ModifyDataScalar(string query, params DbParameter[] parameters)
+        {
+            DbCommand command = null;
+
+            try
+            {
+                command = BuildCommand(query, parameters);
+                int firstColumn = (Int32)command.ExecuteScalar();
+
+                ReleaseConnection(command.Connection);
+
+                return firstColumn;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                if (command != null) ReleaseConnection(command.Connection);
+
+                throw e;
+            }
+        }
+
         public static DbTransaction BeginTransaction()
         {
             DbConnection connection = null;
@@ -125,9 +147,9 @@ namespace FestivalApp.Utilities
         private static DbCommand BuildCommand(DbTransaction transaction, string query, params DbParameter[] parameters)
         {
             DbCommand command = transaction.Connection.CreateCommand();
+            command.Transaction = transaction;
             command.CommandType = System.Data.CommandType.Text;
             command.CommandText = query;
-            Console.WriteLine(command.Transaction);
 
             if (parameters != null)
             {
@@ -167,8 +189,6 @@ namespace FestivalApp.Utilities
             {
                 command = BuildCommand(transaction, query, parameters);
                 int affectedRows = command.ExecuteNonQuery();
-
-                ReleaseConnection(command.Connection);
 
                 return affectedRows;
             }

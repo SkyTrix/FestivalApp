@@ -75,6 +75,41 @@ namespace DAL
             }
         }
 
+        public void SetGenresForBand(Band band, IEnumerable<Genre> genres)
+        {
+            DbTransaction transaction = Database.BeginTransaction();
+
+            try
+            {
+                // Delete all links between genres and the band
+                string sql = "DELETE FROM [Band_Genre] WHERE [BandID] = @ID";
+
+                Database.ModifyData(transaction, sql,
+                    Database.CreateParameter("@ID", band.ID)
+                );
+
+                // Add links between genres and the band
+                foreach (Genre genre in genres)
+                {
+                    string query = "INSERT INTO [Band_Genre] ([BandID], [GenreID]) VALUES (@BandID, @GenreID)";
+                    Database.ModifyData(transaction, query,
+                        Database.CreateParameter("@BandID", band.ID),
+                        Database.CreateParameter("@GenreID", genre.ID)
+                    );
+                }
+
+                transaction.Commit();
+
+                // We cannot release the connection in the middle of a transaction
+                Database.ReleaseConnection(transaction.Connection);
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
+
         private static ObservableCollection<Genre> GetResults(DbDataReader reader)
         {
             ObservableCollection<Genre> list = new ObservableCollection<Genre>();
@@ -128,7 +163,6 @@ namespace DAL
                     Database.CreateParameter("@Name", genre.Name)
                 );
 
-                // Refresh data to retrieve ID of newly added item
                 Genres = GetGenres();
             }
             catch (Exception)
@@ -147,7 +181,6 @@ namespace DAL
                     Database.CreateParameter("@ID", genre.ID)
                 );
 
-                // Refresh data to retrieve ID of newly added item
                 Genres = GetGenres();
             }
             catch (Exception)

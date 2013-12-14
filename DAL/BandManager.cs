@@ -105,17 +105,17 @@ namespace DAL
             return band;
         }
 
-        public void AddBand(Band band)
+        public int AddBand(Band band) 
         {
             try
             {
                 string sql = "INSERT INTO [Bands] ([Name], [Picture], [Description], [Twitter], [Facebook])";
-                sql += " VALUES (@Name, @Picture, @Description, @Twitter, @Facebook)";
+                sql += " VALUES (@Name, @Picture, @Description, @Twitter, @Facebook); SELECT CAST(scope_identity() AS int)";
 
                 DbParameter pictureParam = band.Picture == null ? Database.CreateParameter("@Picture", DBNull.Value) : Database.CreateParameter("@Picture", band.Picture);
                 pictureParam.DbType = DbType.Binary;
 
-                Database.ModifyData(sql,
+                int bandID = Database.ModifyDataScalar(sql,
                     Database.CreateParameter("@Name", band.Name),
                     pictureParam,
                     Database.CreateParameter("@Description", band.Description),
@@ -123,8 +123,7 @@ namespace DAL
                     Database.CreateParameter("@Facebook", band.Facebook)
                 );
 
-                // Refresh data to retrieve ID of newly added item
-                Bands = GetBands();
+                return bandID;
             }
             catch (Exception)
             {
