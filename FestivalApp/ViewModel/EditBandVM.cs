@@ -59,7 +59,7 @@ namespace FestivalApp.ViewModel
                     foreach (Genre genre in GenreManager.Genres)
                     {
                         CheckBox box = new CheckBox();
-                        box.Content = genre.Name;
+                        box.Content = genre;
 
                         Genre bandGenre = genres.ToList().Find(x => x.ID == genre.ID);
                         if (bandGenre != null)
@@ -95,20 +95,26 @@ namespace FestivalApp.ViewModel
         {
             try
             {
+                List<Genre> genres = new List<Genre>();
+                foreach (CheckBox box in GenreCheckBoxes)
+                {
+                    if (box.IsChecked == true)
+                    {
+                        genres.Add((Genre)box.Content);
+                    }
+                }
+
+                GenreManager.Instance.SetGenresForBand(Band, genres);
+
                 BandManager.Instance.EditBand(Band);
-
-                //foreach (CheckBox box in GenreCheckBoxes)
-                //{
-                //    if (box.IsChecked == true)
-                //    {
-                //        Console.WriteLine(box.Content);
-                //    }
-                //}
-
-                DialogResult = true;
             }
             catch (Exception)
             {
+
+            }
+            finally
+            {
+                DialogResult = true;
             }
         }
 

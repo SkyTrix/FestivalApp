@@ -24,7 +24,7 @@ namespace FestivalApp.View.Converters
                 output += obj.ToString();
             }
 
-            return output;
+            return output.Length > 0 ? output : "-";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

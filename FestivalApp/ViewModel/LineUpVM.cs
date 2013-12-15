@@ -148,7 +148,7 @@ namespace FestivalApp.ViewModel
         {
             if (e.PropertyName == "Bands")
             {
-                // show new band if we added one, previously selected one if we didn't add one
+                // Show new band if we added one, previously selected one if we didn't add one
                 var selected = _addingBand ? BandManager.Bands.Last() : SelectedBand;
                 OnPropertyChanged("BandManager");
                 SelectedBand = selected;

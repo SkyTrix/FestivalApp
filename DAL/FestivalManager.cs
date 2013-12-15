@@ -37,7 +37,7 @@ namespace DAL
 
                 return _festival;
             }
-            set { _festival = value; OnPropertyChanged("Festival"); Console.WriteLine("Festival change"); }
+            set { _festival = value; OnPropertyChanged("Festival"); }
         }
         #endregion
 
