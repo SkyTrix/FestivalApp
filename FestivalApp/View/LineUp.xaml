@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:c="clr-namespace:FestivalApp.View.Converters"
+             xmlns:vh="clr-namespace:FestivalApp.View.ViewHelpers"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.Resources>
@@ -55,14 +56,14 @@
                 <ComboBox Grid.Column="1" Margin="4,4,0,8" VerticalContentAlignment="Center" ItemsSource="{Binding StageManager.Stages}" SelectedItem="{Binding SelectedFilterStage}" DisplayMemberPath="Name"/>
             </Grid>
 
-            <ListView x:Name="lstOverzicht" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding LineUpManager.LineUpItems}" SelectedItem="{Binding SelectedLineUpItem}">
+            <ListView x:Name="lstOverzicht" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding LineUpManager.LineUpItems}" SelectedItem="{Binding SelectedLineUpItem}" vh:GridViewSort.AutoSort="True">
                 <ListView.View>
                     <GridView AllowsColumnReorder="False">
-                        <GridViewColumn Header="Datum" Width="80" DisplayMemberBinding="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}"/>
-                        <GridViewColumn Header="Van" Width="50" DisplayMemberBinding="{Binding StartTime}"/>
-                        <GridViewColumn Header="Tot" Width="50" DisplayMemberBinding="{Binding EndTime}"/>
-                        <GridViewColumn Header="Stage" Width="110" DisplayMemberBinding="{Binding Stage}"/>
-                        <GridViewColumn Header="Band" Width="110" DisplayMemberBinding="{Binding Band}"/>
+                        <GridViewColumn Header="Datum" Width="80" DisplayMemberBinding="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}" vh:GridViewSort.PropertyName="Date"/>
+                        <GridViewColumn Header="Van" Width="50" DisplayMemberBinding="{Binding StartTime}" vh:GridViewSort.PropertyName="StartTime"/>
+                        <GridViewColumn Header="Tot" Width="50" DisplayMemberBinding="{Binding EndTime}" vh:GridViewSort.PropertyName="EndTime"/>
+                        <GridViewColumn Header="Stage" Width="110" DisplayMemberBinding="{Binding Stage}" vh:GridViewSort.PropertyName="Stage.Name"/>
+                        <GridViewColumn Header="Band" Width="110" DisplayMemberBinding="{Binding Band}" vh:GridViewSort.PropertyName="Band.Name"/>
                     </GridView>
                 </ListView.View>
             </ListView>

@@ -74,9 +74,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModel\AddBandVM.cs" />
+    <Compile Include="ViewModel\AddReservationVM.cs" />
+    <Compile Include="ViewModel\AddTicketTypeVM.cs" />
     <Compile Include="ViewModel\EditBandVM.cs" />
     <Compile Include="ViewModel\EditGenreVM.cs" />
+    <Compile Include="ViewModel\EditReservationVM.cs" />
     <Compile Include="ViewModel\EditStageVM.cs" />
+    <Compile Include="ViewModel\EditTicketTypeVM.cs" />
     <Compile Include="ViewModel\TicketTypeVM.cs" />
     <Compile Include="View\Converters\RemainingTicketsToColorConverter.cs" />
     <Compile Include="View\EditGenreWindow.xaml.cs">
@@ -114,9 +118,10 @@
     <Compile Include="View\Ticketing.xaml.cs">
       <DependentUpon>Ticketing.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TicketWindow.xaml.cs">
-      <DependentUpon>TicketWindow.xaml</DependentUpon>
+    <Compile Include="View\TicketTypeWindow.xaml.cs">
+      <DependentUpon>TicketTypeWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ViewHelpers\GridViewSort.cs" />
     <Compile Include="View\Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>
@@ -178,7 +183,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TicketWindow.xaml">
+    <Page Include="View\TicketTypeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
