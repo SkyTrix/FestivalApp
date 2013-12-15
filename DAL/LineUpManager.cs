@@ -73,7 +73,7 @@ namespace DAL
         private static LineUpItem CreateLineUpItem(IDataRecord row)
         {
             LineUpItem lineUpItem = new LineUpItem();
-            lineUpItem.ID = !Convert.IsDBNull(row["ID"]) ? row["ID"].ToString() : null;
+            lineUpItem.ID = !Convert.IsDBNull(row["ID"]) ? (int)row["ID"] : -1;
             lineUpItem.Date = !Convert.IsDBNull(row["Date"]) ? (DateTime)row["Date"] : DateTime.Now;
             lineUpItem.StartTime = !Convert.IsDBNull(row["StartTime"]) ? (string)row["StartTime"] : null;
             lineUpItem.EndTime = !Convert.IsDBNull(row["EndTime"]) ? (string)row["EndTime"] : null;

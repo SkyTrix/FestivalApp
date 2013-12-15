@@ -116,7 +116,7 @@ namespace DAL
         private static Stage CreateStage(IDataRecord row)
         {
             Stage stage = new Stage();
-            stage.ID = !Convert.IsDBNull(row["ID"]) ? row["ID"].ToString() : null;
+            stage.ID = !Convert.IsDBNull(row["ID"]) ? (int)row["ID"] : -1;
             stage.Name = !Convert.IsDBNull(row["Name"]) ? row["Name"].ToString() : string.Empty;
 
             return stage;

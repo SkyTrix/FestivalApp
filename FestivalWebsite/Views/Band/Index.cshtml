@@ -19,7 +19,10 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            <img width="200" src="data:image;base64,@System.Convert.ToBase64String(item.Picture)" />
+            @if(item.Picture != null)
+            {
+                <img width="200" src="data:image;base64,@System.Convert.ToBase64String(item.Picture)" />
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)

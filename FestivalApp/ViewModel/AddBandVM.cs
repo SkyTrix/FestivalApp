@@ -1,9 +1,11 @@
 ﻿using DAL;
 using GalaSoft.MvvmLight.Command;
+using Microsoft.Win32;
 using Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -54,7 +56,7 @@ namespace FestivalApp.ViewModel
 
                     foreach (Genre genre in GenreManager.Genres)
                     {
-                        CheckBox box = new CheckBox() { Content = genre.Name };
+                        CheckBox box = new CheckBox() { Content = genre };
                         _genreCheckBoxes.Add(box);
                     }
                 }
@@ -83,11 +85,64 @@ namespace FestivalApp.ViewModel
         {
             try
             {
-                BandManager.Instance.AddBand(Band);
-                DialogResult = true;
+                int bandID = BandManager.Instance.AddBand(Band);
+                Band.ID = bandID;
+
+                List<Genre> genres = new List<Genre>();
+                foreach (CheckBox box in GenreCheckBoxes)
+                {
+                    if (box.IsChecked == true)
+                    {
+                        genres.Add((Genre)box.Content);
+                    }
+                }
+
+                GenreManager.Instance.SetGenresForBand(Band, genres);
+                BandManager.Instance.RefreshData();
             }
             catch (Exception)
             {
+
+            }
+            finally
+            {
+                DialogResult = true;
+            }
+        }
+
+        public ICommand ChooseImageCommand
+        {
+            get { return new RelayCommand(ChooseImage); }
+        }
+
+        private void ChooseImage()
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "";
+
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
+            string sep = string.Empty;
+
+            string allPictureExtensions = "";
+
+            foreach (var c in codecs)
+            {
+                string codecName = c.CodecName.Substring(8).Replace("Codec", "Files").Trim();
+                ofd.Filter = String.Format("{0}{1}{2} ({3})|{3}", ofd.Filter, sep, codecName, c.FilenameExtension);
+                sep = "|";
+
+                allPictureExtensions += c.FilenameExtension + ";";
+            }
+
+            ofd.Filter = String.Format("{0}{1}{2} ({3})|{3}", ofd.Filter, sep, "All Picture Files", allPictureExtensions);
+            ofd.FilterIndex = 6;
+
+            ofd.DefaultExt = ".png";
+
+            if (ofd.ShowDialog() == true)
+            {
+                Band.Picture = GetPhoto(ofd.FileName);
+                OnPropertyChanged("Band");
             }
         }
 

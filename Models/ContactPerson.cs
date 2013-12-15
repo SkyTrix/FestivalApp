@@ -7,8 +7,8 @@ namespace Models
 {
     public class ContactPerson
     {
-        private string _id;
-        public string ID
+        private int _id;
+        public int ID
         {
             get { return _id; }
             set { _id = value; }

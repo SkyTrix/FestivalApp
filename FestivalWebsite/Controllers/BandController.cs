@@ -21,7 +21,7 @@ namespace FestivalWebsite.Controllers
 
         public ActionResult Details(int id)
         {
-            Band band = BandManager.Instance.Bands.Where(x => x.ID == id.ToString()).FirstOrDefault();
+            Band band = BandManager.Instance.Bands.Where(x => x.ID == id).FirstOrDefault();
             if (band == null)
                 return HttpNotFound();
 
