@@ -1,15 +1,11 @@
-﻿using FestivalApp.Model.DAL;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace FestivalApp.Model
+namespace Models
 {
-    class Ticket
+    public class Ticket
     {
         private string _id;
         public string ID

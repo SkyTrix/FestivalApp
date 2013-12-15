@@ -50,6 +50,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -72,19 +73,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\Band.cs" />
-    <Compile Include="Model\ContactPerson.cs" />
-    <Compile Include="Model\ContactPersonType.cs" />
-    <Compile Include="Model\DAL\BandManager.cs" />
-    <Compile Include="Model\DAL\FestivalManager.cs" />
-    <Compile Include="Model\DAL\GenreManager.cs" />
-    <Compile Include="Model\DAL\StageManager.cs" />
-    <Compile Include="Model\DAL\TicketManager.cs" />
-    <Compile Include="Model\DAL\TicketTypeManager.cs" />
-    <Compile Include="Utilities\Database.cs" />
-    <Compile Include="Model\DAL\LineUpManager.cs" />
+    <Compile Include="ViewModel\AddBandVM.cs" />
+    <Compile Include="ViewModel\EditBandVM.cs" />
     <Compile Include="ViewModel\EditGenreVM.cs" />
     <Compile Include="ViewModel\EditStageVM.cs" />
+    <Compile Include="ViewModel\TicketTypeVM.cs" />
     <Compile Include="View\Converters\RemainingTicketsToColorConverter.cs" />
     <Compile Include="View\EditGenreWindow.xaml.cs">
       <DependentUpon>EditGenreWindow.xaml</DependentUpon>
@@ -93,15 +86,7 @@
       <DependentUpon>EditStageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ViewHelpers\DialogCloser.cs" />
-    <Compile Include="Model\Festival.cs" />
-    <Compile Include="Model\Genre.cs" />
-    <Compile Include="Model\LineUpItem.cs" />
-    <Compile Include="Utilities\ObjectExtensions.cs" />
-    <Compile Include="Model\Stage.cs" />
-    <Compile Include="Model\Ticket.cs" />
-    <Compile Include="Model\TicketType.cs" />
     <Compile Include="ViewModel\ApplicationVM.cs" />
-    <Compile Include="ViewModel\BandVM.cs" />
     <Compile Include="ViewModel\ContactsVM.cs" />
     <Compile Include="ViewModel\EditLineUpVM.cs" />
     <Compile Include="ViewModel\LineUpVM.cs" />
@@ -229,7 +214,19 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{014c5be0-763d-4506-8c0c-fb53507790c8}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Models\Models.csproj">
+      <Project>{eff689af-dbab-4c57-851d-9c7f6cf5ba06}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Images\noimage.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

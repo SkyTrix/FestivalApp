@@ -1,5 +1,5 @@
 ﻿using FestivalApp.Utilities;
-using FestivalApp.ViewModel;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FestivalApp.Model.DAL
+namespace DAL
 {
-    class GenreManager : ObservableObject
+    public class GenreManager : ObservableObject
     {
         #region "Properties"
         private static readonly GenreManager _instance = new GenreManager();
@@ -59,13 +59,55 @@ namespace FestivalApp.Model.DAL
 
         public static ObservableCollection<Genre> GetGenresForBand(Band band)
         {
-            ObservableCollection<Genre> list = new ObservableCollection<Genre>();
+            try
+            {
+                ObservableCollection<Genre> list = new ObservableCollection<Genre>();
 
-            string query = "SELECT [ID], [Name] FROM [Genres] JOIN [Band_Genre] ON [Genres].[ID] = [Band_Genre].[GenreID] WHERE [Band_Genre].[BandID] = @BandID";
-            DbParameter idParam = Database.CreateParameter("@BandID", band.ID);
-            DbDataReader reader = Database.GetData(query, idParam);
+                string query = "SELECT [ID], [Name] FROM [Genres] JOIN [Band_Genre] ON [Genres].[ID] = [Band_Genre].[GenreID] WHERE [Band_Genre].[BandID] = @BandID";
+                DbParameter idParam = Database.CreateParameter("@BandID", band.ID);
+                DbDataReader reader = Database.GetData(query, idParam);
 
-            return GetResults(reader);
+                return GetResults(reader);
+            }
+            catch (Exception)
+            {
+                return new ObservableCollection<Genre>();
+            }
+        }
+
+        public void SetGenresForBand(Band band, IEnumerable<Genre> genres)
+        {
+            DbTransaction transaction = Database.BeginTransaction();
+
+            try
+            {
+                // Delete all links between genres and the band
+                string sql = "DELETE FROM [Band_Genre] WHERE [BandID] = @ID";
+
+                Database.ModifyData(transaction, sql,
+                    Database.CreateParameter("@ID", band.ID)
+                );
+
+                // Add links between genres and the band
+                foreach (Genre genre in genres)
+                {
+                    string query = "INSERT INTO [Band_Genre] ([BandID], [GenreID]) VALUES (@BandID, @GenreID)";
+                    Database.ModifyData(transaction, query,
+                        Database.CreateParameter("@BandID", band.ID),
+                        Database.CreateParameter("@GenreID", genre.ID)
+                    );
+                }
+
+                transaction.Commit();
+
+                // We cannot release the connection in the middle of a transaction
+                Database.ReleaseConnection(transaction.Connection);
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
 
         private static ObservableCollection<Genre> GetResults(DbDataReader reader)
@@ -121,7 +163,24 @@ namespace FestivalApp.Model.DAL
                     Database.CreateParameter("@Name", genre.Name)
                 );
 
-                // Refresh data to retrieve ID of newly added item
+                Genres = GetGenres();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void DeleteGenre(Genre genre)
+        {
+            try
+            {
+                string sql = "DELETE FROM [Genres] WHERE [ID] = @ID";
+
+                Database.ModifyData(sql,
+                    Database.CreateParameter("@ID", genre.ID)
+                );
+
                 Genres = GetGenres();
             }
             catch (Exception)

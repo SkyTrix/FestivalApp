@@ -1,5 +1,5 @@
 ﻿using FestivalApp.Utilities;
-using FestivalApp.ViewModel;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FestivalApp.Model.DAL
+namespace DAL
 {
-    class FestivalManager : ObservableObject
+    public class FestivalManager : ObservableObject
     {
         #region "Properties"
         private static readonly FestivalManager _instance = new FestivalManager();
@@ -37,7 +37,7 @@ namespace FestivalApp.Model.DAL
 
                 return _festival;
             }
-            set { _festival = value; OnPropertyChanged("Festival"); Console.WriteLine("Festival change"); }
+            set { _festival = value; OnPropertyChanged("Festival"); }
         }
         #endregion
 
@@ -54,15 +54,22 @@ namespace FestivalApp.Model.DAL
 
         private static Festival GetFestivalFromDB()
         {
-            string query = "SELECT [ID], [Name], [StartDate], [EndDate] FROM [Festival]";
-            DbDataReader reader = Database.GetData(query);
-            if (reader.HasRows)
+            try
             {
-                reader.Read();
-                return CreateFestival(reader);
-            }
+                string query = "SELECT [ID], [Name], [StartDate], [EndDate] FROM [Festival]";
+                DbDataReader reader = Database.GetData(query);
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    return CreateFestival(reader);
+                }
 
-            return null;
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private static void InsertDemoFestival()
@@ -90,7 +97,6 @@ namespace FestivalApp.Model.DAL
             }
             catch (Exception)
             {
-                throw;
             }
         }
 

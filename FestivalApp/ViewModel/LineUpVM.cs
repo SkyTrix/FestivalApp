@@ -1,7 +1,7 @@
-﻿using FestivalApp.Model;
-using FestivalApp.Model.DAL;
+﻿using DAL;
 using FestivalApp.View;
 using GalaSoft.MvvmLight.Command;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -107,7 +107,8 @@ namespace FestivalApp.ViewModel
         public Band SelectedBand
         {
             get { return _selectedBand; }
-            set { _selectedBand = value; OnPropertyChanged("SelectedBand"); }
+            set
+            { _selectedBand = value; OnPropertyChanged("SelectedBand"); }
         }
 
         private string _startTime = string.Empty;
@@ -124,16 +125,34 @@ namespace FestivalApp.ViewModel
             set { _endTime = value; OnPropertyChanged("EndTime"); }
         }
 
+        private bool _addingBand = false;
+
         public LineUpVM()
         {
             try
             {
+                // Startup with some default selected values
                 SelectedFestivalDate = FestivalManager.Instance.Festival.FestivalDates[0];
                 SelectedStage = StageManager.Instance.Stages[0];
                 SelectedBand = BandManager.Instance.Bands[0];
+
+                // Observe changes to bands so we can keep the selected item selected after updating
+                BandManager.Instance.PropertyChanged += BandManager_PropertyChanged;
             }
             catch (Exception)
             {
+            }
+        }
+
+        void BandManager_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Bands")
+            {
+                // Show new band if we added one, previously selected one if we didn't add one
+                var selected = _addingBand ? BandManager.Bands.Last() : SelectedBand;
+                OnPropertyChanged("BandManager");
+                SelectedBand = selected;
+                _addingBand = false;
             }
         }
 
@@ -165,9 +184,8 @@ namespace FestivalApp.ViewModel
             {
                 LineUpManager.Instance.AddLineUpItem(item);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                MessageBox.Show("Er is een fout opgetreden tijdens het toevoegen van een lineup item: " + e.Message);
             }
         }
 
@@ -199,10 +217,43 @@ namespace FestivalApp.ViewModel
             {
                 LineUpManager.Instance.DeleteLineUpItem(SelectedLineUpItem);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                MessageBox.Show("Er is een fout opgetreden tijdens het verwijderen van een lineup item: " + e.Message);
             }
+        }
+
+        public ICommand AddBandCommand
+        {
+            get { return new RelayCommand(AddBand); }
+        }
+
+        private void AddBand()
+        {
+            _addingBand = true;
+
+            BandWindow window = new BandWindow();
+            window.DataContext = new AddBandVM();
+            window.ShowDialog();
+        }
+
+        public ICommand EditBandCommand
+        {
+            get { return new RelayCommand(EditBand, CanEditBand); }
+        }
+
+        private bool CanEditBand()
+        {
+            return SelectedBand != null;
+        }
+
+        private void EditBand()
+        {
+            BandWindow window = new BandWindow();
+            EditBandVM viewModel = new EditBandVM();
+            viewModel.Band = SelectedBand.Copy();
+            window.DataContext = viewModel;
+            window.Title = "Band wijzigen";
+            window.ShowDialog();
         }
     }
 }

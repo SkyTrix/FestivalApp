@@ -1,7 +1,7 @@
-﻿using FestivalApp.Model;
-using FestivalApp.Model.DAL;
+﻿using DAL;
 using FestivalApp.View;
 using GalaSoft.MvvmLight.Command;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -44,8 +44,21 @@ namespace FestivalApp.ViewModel
         public Stage SelectedStage
         {
             get { return _selectedStage; }
-            set { _selectedStage = value; OnPropertyChanged("SelectedStage"); }
+            set
+            {
+                _selectedStage = value;
+                _selectedStageUsedInLineUp = false;
+
+                if (_selectedStage != null)
+                {
+                    _selectedStageUsedInLineUp = StageManager.StageUsedInLineup(_selectedStage);
+                }
+
+                OnPropertyChanged("SelectedStage");
+            }
         }
+
+        private bool _selectedStageUsedInLineUp = false;
 
         private string _stage = string.Empty;
         public string Stage
@@ -53,7 +66,6 @@ namespace FestivalApp.ViewModel
             get { return _stage; }
             set { _stage = value; OnPropertyChanged("Stage"); }
         }
-
 
         private GenreManager _genreManager;
         public GenreManager GenreManager
@@ -85,6 +97,20 @@ namespace FestivalApp.ViewModel
         public string Name
         {
             get { return "Instellingen"; }
+        }
+
+        public ICommand LoadedCommand
+        {
+            get { return new RelayCommand(Loaded); }
+        }
+
+        private void Loaded()
+        {
+            // Selected stage could have been used in lineup since we last opened settings
+            if (SelectedStage != null)
+            {
+                _selectedStageUsedInLineUp = StageManager.StageUsedInLineup(SelectedStage);
+            }
         }
 
         public ICommand AddStageCommand
@@ -128,6 +154,27 @@ namespace FestivalApp.ViewModel
             window.ShowDialog();
         }
 
+        public ICommand DeleteStageCommand
+        {
+            get { return new RelayCommand(DeleteStage, CanDeleteStage); }
+        }
+
+        private bool CanDeleteStage()
+        {
+            return SelectedStage != null && !_selectedStageUsedInLineUp;
+        }
+
+        private void DeleteStage()
+        {
+            try
+            {
+                StageManager.DeleteStage(SelectedStage);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
         public ICommand AddGenreCommand
         {
             get { return new RelayCommand(AddGenre, CanAddGenre); }
@@ -167,6 +214,24 @@ namespace FestivalApp.ViewModel
             EditGenreWindow window = new EditGenreWindow();
             ((EditGenreVM)window.DataContext).Genre = SelectedGenre.Copy();
             window.ShowDialog();
+        }
+
+        public ICommand DeleteGenreCommand
+        {
+            get { return new RelayCommand(DeleteGenre, CanDeleteGenre); }
+        }
+
+        private bool CanDeleteGenre()
+        {
+            return SelectedGenre != null;
+        }
+
+        private void DeleteGenre()
+        {
+            GenreManager.Instance.DeleteGenre(SelectedGenre);
+
+            // We also have to refresh the bands for the changes to be visible
+            BandManager.Instance.RefreshData();
         }
     }
 }

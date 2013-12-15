@@ -1,6 +1,6 @@
-﻿using FestivalApp.Model;
-using FestivalApp.Model.DAL;
+﻿using DAL;
 using GalaSoft.MvvmLight.Command;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,7 +68,6 @@ namespace FestivalApp.ViewModel
             }
             catch (Exception)
             {
-                MessageBox.Show("Er is een fout opgetreden tijdens het wijzigen van de stage.", "Fout bij wijzigen");
             }
         }
     }

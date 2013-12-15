@@ -1,17 +1,12 @@
-﻿using FestivalApp.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Data.Common;
-using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace FestivalApp.Model
+namespace Models
 {
-    class Band
+    public class Band
     {
         private string _id;
         public string ID
@@ -27,11 +22,11 @@ namespace FestivalApp.Model
             set { _name = value; }
         }
 
-        private string _pictureURL;
-        public string PictureURL
+        private byte[] _picture;
+        public byte[] Picture
         {
-            get { return _pictureURL; }
-            set { _pictureURL = value; }
+            get { return _picture; }
+            set { _picture = value; }
         }
 
         private string _description;

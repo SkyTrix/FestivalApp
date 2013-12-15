@@ -1,5 +1,5 @@
 ﻿using FestivalApp.Utilities;
-using FestivalApp.ViewModel;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FestivalApp.Model.DAL
+namespace DAL
 {
-    class BandManager : ObservableObject
+    public class BandManager : ObservableObject
     {
         #region "Properties"
         private static readonly BandManager _instance = new BandManager();
@@ -46,7 +46,7 @@ namespace FestivalApp.Model.DAL
         {
             try
             {
-                string query = "SELECT [ID], [Name], [PictureURL], [Description], [Twitter], [Facebook] FROM [Bands]";
+                string query = "SELECT [ID], [Name], [Picture], [Description], [Twitter], [Facebook] FROM [Bands]";
                 DbDataReader reader = Database.GetData(query);
 
                 return GetResults(reader);
@@ -59,16 +59,23 @@ namespace FestivalApp.Model.DAL
 
         public static Band GetBandByID(string id)
         {
-            string query = "SELECT [ID], [Name], [PictureURL], [Description], [Twitter], [Facebook] FROM [Bands] WHERE ID = @ID";
-            DbParameter idPar = Database.CreateParameter("@ID", id);
+            try
+            {
+                string query = "SELECT [ID], [Name], [Picture], [Description], [Twitter], [Facebook] FROM [Bands] WHERE ID = @ID";
+                DbParameter idPar = Database.CreateParameter("@ID", id);
 
-            DbDataReader reader = Database.GetData(query, idPar);
+                DbDataReader reader = Database.GetData(query, idPar);
 
-            ObservableCollection<Band> bands = GetResults(reader);
-            if (bands.Count > 0)
-                return bands[0];
+                ObservableCollection<Band> bands = GetResults(reader);
+                if (bands.Count > 0)
+                    return bands[0];
 
-            return null;
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private static ObservableCollection<Band> GetResults(DbDataReader reader)
@@ -88,7 +95,7 @@ namespace FestivalApp.Model.DAL
             Band band = new Band();
             band.ID = !Convert.IsDBNull(row["ID"]) ? row["ID"].ToString() : null;
             band.Name = !Convert.IsDBNull(row["Name"]) ? row["Name"].ToString() : string.Empty;
-            band.PictureURL = !Convert.IsDBNull(row["PictureURL"]) ? row["PictureURL"].ToString() : null;
+            band.Picture = !Convert.IsDBNull(row["Picture"]) ? (byte[])row["Picture"] : null;
             band.Description = !Convert.IsDBNull(row["Description"]) ? row["Description"].ToString() : string.Empty;
             band.Twitter = !Convert.IsDBNull(row["Twitter"]) ? row["Twitter"].ToString() : string.Empty;
             band.Facebook = !Convert.IsDBNull(row["Facebook"]) ? row["Facebook"].ToString() : string.Empty;
@@ -98,23 +105,25 @@ namespace FestivalApp.Model.DAL
             return band;
         }
 
-        public void AddBand(Band band)
+        public int AddBand(Band band) 
         {
             try
             {
-                string sql = "INSERT INTO [Bands] ([Name], [PictureURL], [Description], [Twitter], [Facebook])";
-                sql += " VALUES (@Name, @PictureURL, @Description, @Twitter, @Facebook)";
+                string sql = "INSERT INTO [Bands] ([Name], [Picture], [Description], [Twitter], [Facebook])";
+                sql += " VALUES (@Name, @Picture, @Description, @Twitter, @Facebook); SELECT CAST(scope_identity() AS int)";
 
-                Database.ModifyData(sql,
+                DbParameter pictureParam = band.Picture == null ? Database.CreateParameter("@Picture", DBNull.Value) : Database.CreateParameter("@Picture", band.Picture);
+                pictureParam.DbType = DbType.Binary;
+
+                int bandID = Database.ModifyDataScalar(sql,
                     Database.CreateParameter("@Name", band.Name),
-                    Database.CreateParameter("@PictureURL", band.PictureURL),
+                    pictureParam,
                     Database.CreateParameter("@Description", band.Description),
                     Database.CreateParameter("@Twitter", band.Twitter),
                     Database.CreateParameter("@Facebook", band.Facebook)
                 );
 
-                // Refresh data to retrieve ID of newly added item
-                Bands = GetBands();
+                return bandID;
             }
             catch (Exception)
             {
@@ -126,13 +135,16 @@ namespace FestivalApp.Model.DAL
         {
             try
             {
-                string sql = "UPDATE [Bands] SET [Name] = @Name, [PictureURL] = @PictureURL, [Description] = @Description, [Twitter] = @Twitter, [Facebook] = @Facebook";
+                string sql = "UPDATE [Bands] SET [Name] = @Name, [Picture] = @Picture, [Description] = @Description, [Twitter] = @Twitter, [Facebook] = @Facebook";
                 sql += " WHERE [ID] = @ID";
+
+                DbParameter pictureParam = band.Picture == null ? Database.CreateParameter("@Picture", DBNull.Value) : Database.CreateParameter("@Picture", band.Picture);
+                pictureParam.DbType = DbType.Binary;
 
                 Database.ModifyData(sql,
                     Database.CreateParameter("@ID", band.ID),
                     Database.CreateParameter("@Name", band.Name),
-                    Database.CreateParameter("@PictureURL", band.PictureURL),
+                    pictureParam,
                     Database.CreateParameter("@Description", band.Description),
                     Database.CreateParameter("@Twitter", band.Twitter),
                     Database.CreateParameter("@Facebook", band.Facebook)
@@ -143,6 +155,11 @@ namespace FestivalApp.Model.DAL
             {
                 throw;
             }
+        }
+
+        public void SetGenresForBand(Band band, Genre[] genres)
+        {
+
         }
 
         public void RefreshData()
