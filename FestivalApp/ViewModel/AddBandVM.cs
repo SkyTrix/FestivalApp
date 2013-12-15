@@ -86,7 +86,7 @@ namespace FestivalApp.ViewModel
             try
             {
                 int bandID = BandManager.Instance.AddBand(Band);
-                Band.ID = bandID.ToString();
+                Band.ID = bandID;
 
                 List<Genre> genres = new List<Genre>();
                 foreach (CheckBox box in GenreCheckBoxes)

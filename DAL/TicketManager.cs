@@ -72,7 +72,7 @@ namespace DAL
         private static Ticket CreateTicket(IDataRecord row)
         {
             Ticket ticket = new Ticket();
-            ticket.ID = !Convert.IsDBNull(row["ID"]) ? row["ID"].ToString() : null;
+            ticket.ID = !Convert.IsDBNull(row["ID"]) ? (int)row["ID"] : -1;
             ticket.TicketHolder = !Convert.IsDBNull(row["TicketHolder"]) ? row["TicketHolder"].ToString() : string.Empty;
             ticket.TicketHolderEmail = !Convert.IsDBNull(row["TicketHolderEmail"]) ? row["TicketHolderEmail"].ToString() : string.Empty;
             ticket.TicketType = !Convert.IsDBNull(row["Type"]) ? TicketTypeManager.GetTicketTypeByID(row["Type"].ToString()) : null;
