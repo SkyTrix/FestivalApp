@@ -1,4 +1,6 @@
 ﻿using DAL;
+using FestivalApp.View;
+using GalaSoft.MvvmLight.Command;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -6,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace FestivalApp.ViewModel
 {
@@ -68,6 +71,86 @@ namespace FestivalApp.ViewModel
         public string Name
         {
             get { return "Ticketing"; }
+        }
+
+        public ICommand AddTicketTypeCommand
+        {
+            get { return new RelayCommand(AddTicketType); }
+        }
+
+        private void AddTicketType()
+        {
+            TicketTypeWindow window = new TicketTypeWindow();
+            window.DataContext = new AddTicketTypeVM();
+            if (window.ShowDialog() == true)
+            {
+                // Force reload of ticket type UI
+                TicketTypes = null;
+            }
+        }
+
+        public ICommand EditTicketTypeCommand
+        {
+            get { return new RelayCommand(EditTicketType, CanEditTicketType); }
+        }
+
+        private bool CanEditTicketType()
+        {
+            return SelectedTicketTypeVM != null && SelectedTicketTypeVM.TicketType != null;
+        }
+
+        private void EditTicketType()
+        {
+            TicketTypeWindow window = new TicketTypeWindow();
+            EditTicketTypeVM viewModel = new EditTicketTypeVM();
+            viewModel.TicketType = SelectedTicketTypeVM.TicketType.Copy();
+            window.DataContext = viewModel;
+            window.Title = "Ticket type wijzigen";
+            if (window.ShowDialog() == true)
+            {
+                // Force reload of ticket type UI
+                TicketTypes = null;
+            }
+        }
+
+        public ICommand AddReservationCommand
+        {
+            get { return new RelayCommand(AddReservation); }
+        }
+
+        private void AddReservation()
+        {
+            ReservationWindow window = new ReservationWindow();
+            window.DataContext = new AddReservationVM();
+            if (window.ShowDialog() == true)
+            {
+                // Force reload of ticket type UI
+                TicketTypes = null;
+            }
+        }
+
+        public ICommand EditReservationCommand
+        {
+            get { return new RelayCommand(EditReservation, CanEditReservation); }
+        }
+
+        private bool CanEditReservation()
+        {
+            return SelectedTicket != null;
+        }
+
+        private void EditReservation()
+        {
+            ReservationWindow window = new ReservationWindow();
+            EditReservationVM viewModel = new EditReservationVM();
+            viewModel.Ticket = SelectedTicket.Copy();
+            window.DataContext = viewModel;
+            window.Title = "Reservatie wijzigen";
+            if (window.ShowDialog() == true)
+            {
+                // Force reload of ticket type UI
+                TicketTypes = null;
+            }
         }
     }
 }

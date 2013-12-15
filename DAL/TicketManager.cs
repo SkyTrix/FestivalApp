@@ -103,7 +103,7 @@ namespace DAL
             }
         }
 
-        public void EditTicketType(Ticket ticket)
+        public void EditTicket(Ticket ticket)
         {
             try
             {
@@ -125,6 +125,11 @@ namespace DAL
             {
                 throw;
             }
+        }
+
+        public void RefreshData()
+        {
+            Tickets = GetTickets();
         }
     }
 }
