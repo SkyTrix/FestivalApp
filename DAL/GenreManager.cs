@@ -125,7 +125,7 @@ namespace DAL
         private static Genre CreateGenre(IDataRecord row)
         {
             Genre genre = new Genre();
-            genre.ID = !Convert.IsDBNull(row["ID"]) ? row["ID"].ToString() : null;
+            genre.ID = !Convert.IsDBNull(row["ID"]) ? (int)row["ID"] : -1;
             genre.Name = !Convert.IsDBNull(row["Name"]) ? row["Name"].ToString() : string.Empty;
 
             return genre;

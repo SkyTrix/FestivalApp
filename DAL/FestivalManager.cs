@@ -123,7 +123,7 @@ namespace DAL
         private static Festival CreateFestival(IDataRecord row)
         {
             Festival festival = new Festival();
-            festival.ID = !Convert.IsDBNull(row["ID"]) ? row["ID"].ToString() : null;
+            festival.ID = !Convert.IsDBNull(row["ID"]) ? (int)row["ID"] : -1;
             festival.Name = !Convert.IsDBNull(row["Name"]) ? row["Name"].ToString() : string.Empty;
             festival.StartDate = !Convert.IsDBNull(row["StartDate"]) ? (DateTime)row["StartDate"] : DateTime.Now;
             festival.EndDate = !Convert.IsDBNull(row["EndDate"]) ? (DateTime)row["EndDate"] : DateTime.Now;

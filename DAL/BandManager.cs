@@ -93,7 +93,7 @@ namespace DAL
         private static Band CreateBand(IDataRecord row)
         {
             Band band = new Band();
-            band.ID = !Convert.IsDBNull(row["ID"]) ? row["ID"].ToString() : null;
+            band.ID = !Convert.IsDBNull(row["ID"]) ? (int)row["ID"] : -1;
             band.Name = !Convert.IsDBNull(row["Name"]) ? row["Name"].ToString() : string.Empty;
             band.Picture = !Convert.IsDBNull(row["Picture"]) ? (byte[])row["Picture"] : null;
             band.Description = !Convert.IsDBNull(row["Description"]) ? row["Description"].ToString() : string.Empty;

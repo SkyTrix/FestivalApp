@@ -78,7 +78,7 @@ namespace DAL
             }
         }
 
-        public static int CountTicketsRemainingForTicketType(string id)
+        public static int CountTicketsRemainingForTicketType(int id)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace DAL
         private static TicketType CreateTicketType(IDataRecord row)
         {
             TicketType ticketType = new TicketType();
-            ticketType.ID = !Convert.IsDBNull(row["ID"]) ? row["ID"].ToString() : null;
+            ticketType.ID = !Convert.IsDBNull(row["ID"]) ? (int)row["ID"] : -1;
             ticketType.Name = !Convert.IsDBNull(row["Name"]) ? row["Name"].ToString() : string.Empty;
             ticketType.Price = !Convert.IsDBNull(row["Price"]) ? Convert.ToDouble(row["Price"]) : 0;
             ticketType.AvailableTickets = !Convert.IsDBNull(row["AvailableTickets"]) ? (int)row["AvailableTickets"] : 0;
