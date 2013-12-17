@@ -68,6 +68,7 @@
             </ListView.View>
         </ListView>
 
+        <Button Command="{Binding GenerateTicketsCommand}" Content="Tickets genereren" HorizontalAlignment="Left" Height="24" Margin="8,0,0,0" Grid.Column="1" Grid.Row="2" VerticalAlignment="Top" Width="120"/>
         <Button Command="{Binding EditReservationCommand}" Content="Wijzig" HorizontalAlignment="Right" Height="24" Margin="0,0,116,0" Grid.Column="1" Grid.Row="2" VerticalAlignment="Top" Width="100"/>
         <Button Command="{Binding AddReservationCommand}" Content="Toevoegen" HorizontalAlignment="Right" Height="24" Margin="0,0,8,0" Grid.Column="1" Grid.Row="2" VerticalAlignment="Top" Width="100"/>
     </Grid>
