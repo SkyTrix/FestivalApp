@@ -8,6 +8,7 @@ using Ookii.Dialogs.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -220,14 +221,14 @@ namespace FestivalApp.ViewModel
                         run4.PrependChild<RunProperties>(prop4);
                         bookmarks["TicketHolderEmail"].Parent.InsertAfter<Run>(run4, bookmarks["TicketHolderEmail"]);
 
-                        Run run5 = new Run(new Text("Aantal tickets: " + ticket.Amount));
+                        Run run5 = new Run(new Text("Aantal personen: " + ticket.Amount));
                         RunProperties prop5 = new RunProperties();
                         FontSize size5 = new FontSize() { Val = "28" };
                         prop5.Append(size5);
                         run5.PrependChild<RunProperties>(prop5);
                         bookmarks["Amount"].Parent.InsertAfter<Run>(run5, bookmarks["Amount"]);
 
-                        Run run6 = new Run(new Text(ticket.TicketType.Price.ToString("C2")));
+                        Run run6 = new Run(new Text((ticket.TicketType.Price * ticket.Amount).ToString("C2")));
                         RunProperties prop6 = new RunProperties();
                         FontSize size6 = new FontSize() { Val = "28" };
                         prop6.Append(size6);
@@ -236,6 +237,12 @@ namespace FestivalApp.ViewModel
 
                         newdoc.Close();
                     }
+
+                    // open the selected folder in explorer
+                    Process process = new Process();
+                    process.StartInfo.FileName = "explorer.exe";
+                    process.StartInfo.Arguments = ofd.SelectedPath;
+                    process.Start();
                 }
             }
             catch (Exception)
