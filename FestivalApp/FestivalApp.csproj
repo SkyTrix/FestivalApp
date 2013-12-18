@@ -81,12 +81,17 @@
     <Compile Include="ViewModel\AddReservationVM.cs" />
     <Compile Include="ViewModel\AddTicketTypeVM.cs" />
     <Compile Include="ViewModel\EditBandVM.cs" />
+    <Compile Include="ViewModel\EditContactPersonTypeVM.cs" />
     <Compile Include="ViewModel\EditGenreVM.cs" />
     <Compile Include="ViewModel\EditReservationVM.cs" />
     <Compile Include="ViewModel\EditStageVM.cs" />
     <Compile Include="ViewModel\EditTicketTypeVM.cs" />
     <Compile Include="ViewModel\TicketTypeVM.cs" />
+    <Compile Include="View\Converters\EmptyStringToStringConverter.cs" />
     <Compile Include="View\Converters\RemainingTicketsToColorConverter.cs" />
+    <Compile Include="View\EditContactPersonTypeWindow.xaml.cs">
+      <DependentUpon>EditContactPersonTypeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EditGenreWindow.xaml.cs">
       <DependentUpon>EditGenreWindow.xaml</DependentUpon>
     </Compile>
@@ -138,6 +143,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ContactsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditContactPersonTypeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

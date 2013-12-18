@@ -1,7 +1,7 @@
 ﻿<Window x:Class="FestivalApp.View.ContactsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Contactpersoon toevoegen" Height="514" Width="300" ResizeMode="NoResize" ShowInTaskbar="True" WindowStartupLocation="CenterScreen" SizeToContent="Height">
+        Title="Contactpersoon toevoegen" Width="300" ResizeMode="NoResize" ShowInTaskbar="True" WindowStartupLocation="CenterScreen" SizeToContent="Height">
     <Grid>
         <StackPanel Margin="8">
             <Label Content="Naam:" FontWeight="Bold" Padding="0,0,0,3"/>
