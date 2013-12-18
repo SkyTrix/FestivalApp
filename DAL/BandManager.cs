@@ -62,15 +62,13 @@ namespace DAL
             try
             {
                 string query = "SELECT [ID], [Name], [Picture], [Description], [Twitter], [Facebook] FROM [Bands] WHERE ID = @ID";
-                DbParameter idPar = Database.CreateParameter("@ID", id);
 
-                DbDataReader reader = Database.GetData(query, idPar);
-
+                DbDataReader reader = Database.GetData(query,
+                    Database.CreateParameter("@ID", id)
+                );
                 ObservableCollection<Band> bands = GetResults(reader);
-                if (bands.Count > 0)
-                    return bands[0];
 
-                return null;
+                return bands.FirstOrDefault();
             }
             catch (Exception)
             {
@@ -155,11 +153,6 @@ namespace DAL
             {
                 throw;
             }
-        }
-
-        public void SetGenresForBand(Band band, Genre[] genres)
-        {
-
         }
 
         public void RefreshData()
