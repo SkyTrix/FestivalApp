@@ -122,6 +122,7 @@ namespace DAL
                     Database.CreateParameter("@Stage", item.Stage.ID),
                     Database.CreateParameter("@Band", item.Band.ID)
                 );
+
                 LineUpItems = GetLineUpItems();
             }
             catch (Exception)
@@ -135,9 +136,11 @@ namespace DAL
             try
             {
                 string sql = "DELETE FROM [LineUp] WHERE [ID] = @ID";
+
                 Database.ModifyData(sql,
                     Database.CreateParameter("@ID", item.ID)
                 );
+
                 LineUpItems = GetLineUpItems();
             }
             catch (Exception)

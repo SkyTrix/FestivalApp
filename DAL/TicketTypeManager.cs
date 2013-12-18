@@ -57,20 +57,19 @@ namespace DAL
             }
         }
 
-        public static TicketType GetTicketTypeByID(string id)
+        public static TicketType GetTicketTypeByID(int id)
         {
             try
             {
                 string query = "SELECT [ID], [Name], [Price], [AvailableTickets] FROM [TicketTypes] WHERE ID = @ID";
-                DbParameter idPar = Database.CreateParameter("@ID", id);
 
-                DbDataReader reader = Database.GetData(query, idPar);
+                DbDataReader reader = Database.GetData(query,
+                    Database.CreateParameter("@ID", id)
+                );
 
                 ObservableCollection<TicketType> ticketTypes = GetResults(reader);
-                if (ticketTypes.Count > 0)
-                    return ticketTypes[0];
 
-                return null;
+                return ticketTypes.FirstOrDefault();
             }
             catch (Exception)
             {
@@ -96,7 +95,7 @@ namespace DAL
             }
             catch (Exception)
             {
-                return -1;
+                return 0;
             }
         }
 
