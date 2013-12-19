@@ -101,8 +101,13 @@ namespace DAL
                 if (reader.HasRows)
                 {
                     reader.Read();
-                    return (int)reader["COUNT"] > 0;
+                    bool usedInContactPersons = (int)reader["COUNT"] > 0;
+                    reader.Close();
+
+                    return usedInContactPersons;
                 }
+
+                reader.Close();
 
                 return false;
             }

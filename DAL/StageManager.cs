@@ -101,8 +101,13 @@ namespace DAL
                 if (reader.HasRows)
                 {
                     reader.Read();
-                    return (int)reader["COUNT"] > 0;
+                    bool usedInLineUp = (int)reader["COUNT"] > 0;
+                    reader.Close();
+
+                    return usedInLineUp;
                 }
+
+                reader.Close();
 
                 return false;
             }
