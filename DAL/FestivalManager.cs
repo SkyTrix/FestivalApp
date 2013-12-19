@@ -61,8 +61,13 @@ namespace DAL
                 if (reader.HasRows)
                 {
                     reader.Read();
-                    return CreateFestival(reader);
+                    Festival festival = CreateFestival(reader);
+                    reader.Close();
+
+                    return festival;
                 }
+
+                reader.Close();
 
                 return null;
             }

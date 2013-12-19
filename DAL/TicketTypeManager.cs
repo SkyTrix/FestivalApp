@@ -88,8 +88,13 @@ namespace DAL
                 if (reader.HasRows)
                 {
                     reader.Read();
-                    return (int)reader["RemainingTickets"];
+                    int count = (int)reader["RemainingTickets"];
+                    reader.Close();
+
+                    return count;
                 }
+
+                reader.Close();
 
                 return 0;
             }
