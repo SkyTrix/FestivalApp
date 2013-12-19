@@ -23,8 +23,12 @@
             {
                 <img width="200" src="data:image;base64,@System.Convert.ToBase64String(item.Picture)" />
             }
+            else
+            {
+                <img width="200" src="~/Content/Images/noimage.png" />
+            }
         </td>
-        <td>
+        <td class="bandTitle">
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>

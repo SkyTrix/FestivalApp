@@ -754,3 +754,29 @@ tr.pager td {
             margin: 0;
         }
 }
+
+@media only screen and (max-width: 760px) {
+
+	table, thead, tbody, th, td, tr {
+		display: block;
+	}
+
+    tr {
+        margin-bottom: 20px;
+    }
+
+	tr th {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+
+	td {
+		border: none;
+		position: relative;
+	}
+
+    .bandTitle {
+        font-weight: bold;
+    }
+}
