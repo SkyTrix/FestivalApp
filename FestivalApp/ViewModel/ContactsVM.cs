@@ -69,7 +69,7 @@ namespace FestivalApp.ViewModel
             set { _selectedContactPerson = value; OnPropertyChanged("SelectedContactPerson"); }
         }
 
-        private string _searchQuery;
+        private string _searchQuery = string.Empty;
         public string SearchQuery
         {
             get { return _searchQuery; }
@@ -95,6 +95,8 @@ namespace FestivalApp.ViewModel
         }
 
         private bool _addingContact = false;
+        private bool _editingContact = false;
+        private bool _deletingContact = false;
 
         public ContactsVM()
         {
@@ -113,17 +115,43 @@ namespace FestivalApp.ViewModel
         {
             if (e.PropertyName.Equals("ContactPersons"))
             {
-                // Show new contact if we added one, previously selected one if we didn't add one
-                var selected = _addingContact ? ContactPersonManager.Instance.ContactPersons.Last() : SelectedContactPerson;
+                if (_addingContact)
+                {
+                    // If the added contact doesn't conform to current filter, remove filter so we can select newly added item
+                    if (!ContactPersonManager.ContactPersonConformsToFilter(ContactPersonManager.Instance.ContactPersons.Last(), SearchQuery))
+                        _searchQuery = string.Empty;
+                }
+                else if (_editingContact)
+                {
+                    // If the edited contact doesn't conform to current filter, remove filter so we can select newly added item
+                    if (!ContactPersonManager.ContactPersonConformsToFilter(ContactPersonManager.Instance.ContactPersons.ToList().Find(x => x.ID == SelectedContactPerson.ID), SearchQuery))
+                        _searchQuery = string.Empty;
+                }
+
+                // Show new contact if we added one, previously selected one if we edited one, first in filter if we deleted one
+                var selected =_addingContact ? ContactPersonManager.Instance.ContactPersons.Last() : SelectedContactPerson;
                 UpdateFilteredContactPersons();
-                SelectedContactPerson = selected;
+                SelectedContactPerson = _deletingContact ? FilteredContactPersons.FirstOrDefault() : selected;
+                
+                // Reflect changed filter in UI
+                OnPropertyChanged("SearchQuery");
+                
+                // Reset booleans, actions are complete
                 _addingContact = false;
+                _editingContact = false;
+                _deletingContact = false;
+
+                // Force check if selected contactperson type is used and update UI
+                SelectedContactPersonType = SelectedContactPersonType;
             }
         }
 
         private void UpdateFilteredContactPersons()
         {
             FilteredContactPersons = ContactPersonManager.GetFilteredContactPersons(SearchQuery);
+            
+            if(SelectedContactPerson == null && !_addingContact && !_deletingContact && !_editingContact)
+                SelectedContactPerson = FilteredContactPersons.FirstOrDefault();
         }
 
         public ICommand AddContactPersonTypeCommand
@@ -174,12 +202,77 @@ namespace FestivalApp.ViewModel
 
         private bool CanDeleteContactPersonType()
         {
-            return SelectedContactPersonType != null && !_selectedContactPersonTypeUsedInContactPersons; // fix
+            return SelectedContactPersonType != null && !_selectedContactPersonTypeUsedInContactPersons;
         }
 
         private void DeleteContactPersonType()
         {
-            ContactPersonTypeManager.Instance.DeleteContactPersonType(SelectedContactPersonType);
+            try
+            {
+                ContactPersonTypeManager.Instance.DeleteContactPersonType(SelectedContactPersonType);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        public ICommand AddContactPersonCommand
+        {
+            get { return new RelayCommand(AddContactPerson); }
+        }
+
+        private void AddContactPerson()
+        {
+            _addingContact = true;
+
+            ContactPersonWindow window = new ContactPersonWindow();
+            window.DataContext = new AddContactPersonVM();
+            window.ShowDialog();
+        }
+
+        public ICommand EditContactPersonCommand
+        {
+            get { return new RelayCommand(EditContactPerson, CanEditContactPerson); }
+        }
+
+        private bool CanEditContactPerson()
+        {
+            return SelectedContactPerson != null;
+        }
+
+        private void EditContactPerson()
+        {
+            _editingContact = true;
+
+            ContactPersonWindow window = new ContactPersonWindow();
+            EditContactPersonVM viewModel = new EditContactPersonVM();
+            viewModel.ContactPerson = SelectedContactPerson.Copy();
+            window.DataContext = viewModel;
+            window.Title = "Contactpersoon wijzigen";
+            window.ShowDialog();
+        }
+
+        public ICommand DeleteContactPersonCommand
+        {
+            get { return new RelayCommand(DeleteContactPerson, CanDeleteContactPerson); }
+        }
+
+        private bool CanDeleteContactPerson()
+        {
+            return SelectedContactPerson != null;
+        }
+
+        private void DeleteContactPerson()
+        {
+            try
+            {
+                _deletingContact = true;
+
+                ContactPersonManager.Instance.DeleteContactPerson(SelectedContactPerson);
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

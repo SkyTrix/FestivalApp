@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace FestivalApp.ViewModel
 {
-    class AddTicketTypeVM : ObservableObject
+    class AddContactPersonVM : ObservableObject
     {
         private bool? _dialogResult;
         public bool? DialogResult
@@ -19,11 +19,24 @@ namespace FestivalApp.ViewModel
             set { _dialogResult = value; OnPropertyChanged("DialogResult"); }
         }
 
-        private TicketType _ticketType = new TicketType();
-        public TicketType TicketType
+        private ContactPerson _contactPerson = new ContactPerson();
+        public ContactPerson ContactPerson
         {
-            get { return _ticketType; }
-            set { _ticketType = value; OnPropertyChanged("TicketType"); }
+            get { return _contactPerson; }
+            set { _contactPerson = value; OnPropertyChanged("ContactPerson"); }
+        }
+
+        private ContactPersonTypeManager _contactPersonTypeManager;
+        public ContactPersonTypeManager ContactPersonTypeManager
+        {
+            get
+            {
+                if (_contactPersonTypeManager == null)
+                    _contactPersonTypeManager = ContactPersonTypeManager.Instance;
+
+                return _contactPersonTypeManager;
+            }
+            set { _contactPersonTypeManager = value; OnPropertyChanged("ContactPersonTypeManager"); }
         }
 
         public ICommand CancelCommand
@@ -45,8 +58,7 @@ namespace FestivalApp.ViewModel
         {
             try
             {
-                TicketTypeManager.Instance.AddTicketType(TicketType);
-
+                ContactPersonManager.Instance.AddContactPerson(ContactPerson);
                 DialogResult = true;
             }
             catch (Exception)

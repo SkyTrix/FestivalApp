@@ -78,10 +78,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModel\AddBandVM.cs" />
+    <Compile Include="ViewModel\AddContactPersonVM.cs" />
     <Compile Include="ViewModel\AddReservationVM.cs" />
     <Compile Include="ViewModel\AddTicketTypeVM.cs" />
     <Compile Include="ViewModel\EditBandVM.cs" />
     <Compile Include="ViewModel\EditContactPersonTypeVM.cs" />
+    <Compile Include="ViewModel\EditContactPersonVM.cs" />
     <Compile Include="ViewModel\EditGenreVM.cs" />
     <Compile Include="ViewModel\EditReservationVM.cs" />
     <Compile Include="ViewModel\EditStageVM.cs" />
@@ -110,8 +112,8 @@
     <Compile Include="View\BandWindow.xaml.cs">
       <DependentUpon>BandWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ContactsWindow.xaml.cs">
-      <DependentUpon>ContactsWindow.xaml</DependentUpon>
+    <Compile Include="View\ContactPersonWindow.xaml.cs">
+      <DependentUpon>ContactPersonWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Converters\ByteArrayToImageConverter.cs" />
     <Compile Include="View\Converters\NumerableToCommaSeparatedStringConverter.cs" />
@@ -139,7 +141,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ContactsWindow.xaml">
+    <Page Include="View\ContactPersonWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
