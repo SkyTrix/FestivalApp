@@ -91,15 +91,15 @@ namespace DAL
         {
             try
             {
-                string sql = "INSERT INTO [ContactPersons] ([Name], [Company], [JobRole], [Address], [PostcalCode], [City], [Email], [Phone], [Cellphone])";
-                sql += " VALUES (@Name, @Picture, @Description, @Twitter, @Facebook)";
+                string sql = "INSERT INTO [ContactPersons] ([Name], [Company], [JobRole], [Address], [PostalCode], [City], [Email], [Phone], [Cellphone])";
+                sql += " VALUES (@Name, @Company, @JobRole, @Address, @PostalCode, @City, @Email, @Phone, @Cellphone)";
 
                 Database.ModifyData(sql,
                     Database.CreateParameter("@Name", contactPerson.Name),
                     Database.CreateParameter("@Company", contactPerson.Company),
                     Database.CreateParameter("@JobRole", contactPerson.JobRole.ID),
                     Database.CreateParameter("@Address", contactPerson.Address),
-                    Database.CreateParameter("@PostcalCode", contactPerson.PostalCode),
+                    Database.CreateParameter("@PostalCode", contactPerson.PostalCode),
                     Database.CreateParameter("@City", contactPerson.City),
                     Database.CreateParameter("@Email", contactPerson.Email),
                     Database.CreateParameter("@Phone", contactPerson.Phone),
@@ -118,15 +118,16 @@ namespace DAL
         {
             try
             {
-                string sql = "UPDATE [ContactPersons] SET [Name] = @Name, [Company] = @Company, [JobRole] = @JobRole, [Address] = @Address, [PostcalCode] = @PostalCode, [City] = @City, [Email] = @Email, [Phone] = @Phone, [Cellphone] = @Cellphone";
+                string sql = "UPDATE [ContactPersons] SET [Name] = @Name, [Company] = @Company, [JobRole] = @JobRole, [Address] = @Address, [PostalCode] = @PostalCode, [City] = @City, [Email] = @Email, [Phone] = @Phone, [Cellphone] = @Cellphone";
                 sql += " WHERE [ID] = @ID";
 
                 Database.ModifyData(sql,
+                    Database.CreateParameter("@ID", contactPerson.ID),
                     Database.CreateParameter("@Name", contactPerson.Name),
                     Database.CreateParameter("@Company", contactPerson.Company),
                     Database.CreateParameter("@JobRole", contactPerson.JobRole.ID),
                     Database.CreateParameter("@Address", contactPerson.Address),
-                    Database.CreateParameter("@PostcalCode", contactPerson.PostalCode),
+                    Database.CreateParameter("@PostalCode", contactPerson.PostalCode),
                     Database.CreateParameter("@City", contactPerson.City),
                     Database.CreateParameter("@Email", contactPerson.Email),
                     Database.CreateParameter("@Phone", contactPerson.Phone),
