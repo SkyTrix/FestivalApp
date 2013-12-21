@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace FestivalApp.ViewModel
 {
-    class AddTicketTypeVM : ObservableObject
+    class EditContactPersonTypeVM : ObservableObject
     {
         private bool? _dialogResult;
         public bool? DialogResult
@@ -19,11 +19,11 @@ namespace FestivalApp.ViewModel
             set { _dialogResult = value; OnPropertyChanged("DialogResult"); }
         }
 
-        private TicketType _ticketType = new TicketType();
-        public TicketType TicketType
+        private ContactPersonType _contactPersonType;
+        public ContactPersonType ContactPersonType
         {
-            get { return _ticketType; }
-            set { _ticketType = value; OnPropertyChanged("TicketType"); }
+            get { return _contactPersonType; }
+            set { _contactPersonType = value; OnPropertyChanged("ContactPersonType"); }
         }
 
         public ICommand CancelCommand
@@ -45,7 +45,10 @@ namespace FestivalApp.ViewModel
         {
             try
             {
-                TicketTypeManager.Instance.AddTicketType(TicketType);
+                ContactPersonTypeManager.Instance.EditContactPersonType(ContactPersonType);
+
+                // We also have to refresh the contactpersons for the changes to be visible
+                ContactPersonManager.Instance.RefreshData();
 
                 DialogResult = true;
             }

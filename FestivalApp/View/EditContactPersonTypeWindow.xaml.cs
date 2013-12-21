@@ -15,13 +15,20 @@ using System.Windows.Shapes;
 namespace FestivalApp.View
 {
     /// <summary>
-    /// Interaction logic for ContactsWindow.xaml
+    /// Interaction logic for EditContactPersonTypeWindow.xaml
     /// </summary>
-    public partial class ContactsWindow : Window
+    public partial class EditContactPersonTypeWindow : Window
     {
-        public ContactsWindow()
+        public EditContactPersonTypeWindow()
         {
             InitializeComponent();
+            this.Loaded += EditContactPersonTypeWindow_Loaded;
+        }
+
+        void EditContactPersonTypeWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            txtName.Focus();
+            txtName.SelectAll();
         }
     }
 }

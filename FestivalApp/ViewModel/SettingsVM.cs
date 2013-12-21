@@ -120,7 +120,7 @@ namespace FestivalApp.ViewModel
 
         private bool CanAddStage()
         {
-            return Stage != null && Stage.Length > 2;
+            return Stage != null && Stage.Length > 0;
         }
 
         private void AddStage()

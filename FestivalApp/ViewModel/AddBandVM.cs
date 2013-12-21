@@ -99,14 +99,12 @@ namespace FestivalApp.ViewModel
 
                 GenreManager.Instance.SetGenresForBand(Band, genres);
                 BandManager.Instance.RefreshData();
+
+                DialogResult = true;
             }
             catch (Exception)
             {
-
-            }
-            finally
-            {
-                DialogResult = true;
+                DialogResult = false;
             }
         }
 

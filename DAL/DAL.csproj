@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BandManager.cs" />
+    <Compile Include="ContactPersonManager.cs" />
+    <Compile Include="ContactPersonTypeManager.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="FestivalManager.cs" />
     <Compile Include="GenreManager.cs" />

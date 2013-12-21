@@ -62,15 +62,13 @@ namespace DAL
             try
             {
                 string query = "SELECT [ID], [Name] FROM Stages WHERE ID = @ID";
-                DbParameter idPar = Database.CreateParameter("@ID", id);
 
-                DbDataReader reader = Database.GetData(query, idPar);
-
+                DbDataReader reader = Database.GetData(query,
+                    Database.CreateParameter("@ID", id)
+                );
                 ObservableCollection<Stage> stages = GetResults(reader);
-                if (stages.Count > 0)
-                    return stages[0];
 
-                return null;
+                return stages.FirstOrDefault();
             }
             catch (Exception)
             {
@@ -94,15 +92,22 @@ namespace DAL
         {
             try
             {
-                string query = "SELECT COUNT(*) AS COUNT FROM LineUp WHERE Stage = @ID";
-                DbParameter idPar = Database.CreateParameter("@ID", stage.ID);
-                DbDataReader reader = Database.GetData(query, idPar);
+                string query = "SELECT COUNT(*) AS [COUNT] FROM [LineUp] WHERE [Stage] = @ID";
+
+                DbDataReader reader = Database.GetData(query,
+                    Database.CreateParameter("@ID", stage.ID)
+                );
 
                 if (reader.HasRows)
                 {
                     reader.Read();
-                    return (int)reader["COUNT"] > 0;
+                    bool usedInLineUp = (int)reader["COUNT"] > 0;
+                    reader.Close();
+
+                    return usedInLineUp;
                 }
+
+                reader.Close();
 
                 return false;
             }
@@ -152,6 +157,7 @@ namespace DAL
                     Database.CreateParameter("@ID", stage.ID),
                     Database.CreateParameter("@Name", stage.Name)
                 );
+
                 Stages = GetStages();
             }
             catch (Exception)
@@ -169,6 +175,7 @@ namespace DAL
                 Database.ModifyData(sql,
                     Database.CreateParameter("@ID", stage.ID)
                 );
+
                 Stages = GetStages();
             }
             catch (Exception)

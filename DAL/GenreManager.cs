@@ -64,8 +64,9 @@ namespace DAL
                 ObservableCollection<Genre> list = new ObservableCollection<Genre>();
 
                 string query = "SELECT [ID], [Name] FROM [Genres] JOIN [Band_Genre] ON [Genres].[ID] = [Band_Genre].[GenreID] WHERE [Band_Genre].[BandID] = @BandID";
-                DbParameter idParam = Database.CreateParameter("@BandID", band.ID);
-                DbDataReader reader = Database.GetData(query, idParam);
+                DbDataReader reader = Database.GetData(query,
+                    Database.CreateParameter("@BandID", band.ID)
+                );
 
                 return GetResults(reader);
             }

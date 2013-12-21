@@ -132,9 +132,9 @@ namespace FestivalApp.ViewModel
             try
             {
                 // Startup with some default selected values
-                SelectedFestivalDate = FestivalManager.Instance.Festival.FestivalDates[0];
-                SelectedStage = StageManager.Instance.Stages[0];
-                SelectedBand = BandManager.Instance.Bands[0];
+                SelectedFestivalDate = FestivalManager.Instance.Festival.FestivalDates.FirstOrDefault();
+                SelectedStage = StageManager.Instance.Stages.FirstOrDefault();
+                SelectedBand = BandManager.Instance.Bands.FirstOrDefault();
 
                 // Observe changes to bands so we can keep the selected item selected after updating
                 BandManager.Instance.PropertyChanged += BandManager_PropertyChanged;

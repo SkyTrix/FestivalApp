@@ -27,19 +27,6 @@ namespace FestivalApp.ViewModel
             set { _genre = value; OnPropertyChanged("Genre"); }
         }
 
-        private GenreManager _genreManager;
-        public GenreManager GenreManager
-        {
-            get
-            {
-                if (_genreManager == null)
-                    _genreManager = GenreManager.Instance;
-
-                return _genreManager;
-            }
-            set { _genreManager = value; OnPropertyChanged("GenreManager"); }
-        }
-
         public ICommand CancelCommand
         {
             get { return new RelayCommand(Cancel); }
@@ -68,6 +55,7 @@ namespace FestivalApp.ViewModel
             }
             catch (Exception)
             {
+                DialogResult = false;
             }
         }
     }

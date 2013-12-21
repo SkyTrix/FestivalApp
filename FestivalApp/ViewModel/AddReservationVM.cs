@@ -64,6 +64,7 @@ namespace FestivalApp.ViewModel
             }
             catch (Exception)
             {
+                DialogResult = false;
             }
         }
     }
