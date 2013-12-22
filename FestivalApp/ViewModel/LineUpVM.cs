@@ -42,6 +42,21 @@ namespace FestivalApp.ViewModel
             set { _lineUpManager = value; OnPropertyChanged("LineUpManager"); }
         }
 
+        private ObservableCollection<LineUpItem> _filteredLineUpItems;
+        public ObservableCollection<LineUpItem> FilteredLineUpItems
+        {
+            get
+            {
+                if (_filteredLineUpItems == null)
+                {
+                    UpdateLineUpFilter();
+                }
+
+                return _filteredLineUpItems;
+            }
+            set { _filteredLineUpItems = value; OnPropertyChanged("FilteredLineUpItems"); }
+        }
+
         private LineUpItem _selectedLineUpItem;
         public LineUpItem SelectedLineUpItem
         {
@@ -56,11 +71,24 @@ namespace FestivalApp.ViewModel
             set { _selectedFestivalDate = value; OnPropertyChanged("SelectedFestivalDate"); }
         }
 
-        private DateTime _selectedFilterFestivalDate;
-        public DateTime SelectedFilterFestivalDate
+        public ObservableCollection<object> FilterFestivalDates
+        {
+            get
+            {
+                object[] dates = Array.ConvertAll(FestivalManager.Festival.FestivalDates.ToArray(), x => (object)x);
+                ObservableCollection<object> festivalDates = new ObservableCollection<object>(dates);
+
+                festivalDates.Insert(0, "All");
+
+                return festivalDates;
+            }
+        }
+
+        private object _selectedFilterFestivalDate;
+        public object SelectedFilterFestivalDate
         {
             get { return _selectedFilterFestivalDate; }
-            set { _selectedFilterFestivalDate = value; OnPropertyChanged("SelectedFilterFestivalDate"); }
+            set { _selectedFilterFestivalDate = value; OnPropertyChanged("SelectedFilterFestivalDate"); UpdateLineUpFilter(); }
         }
 
         private StageManager _stageManager;
@@ -76,6 +104,22 @@ namespace FestivalApp.ViewModel
             set { _stageManager = value; OnPropertyChanged("StageManager"); }
         }
 
+        private ObservableCollection<Stage> _filterStages;
+        public ObservableCollection<Stage> FilterStages
+        {
+            get
+            {
+                if (_filterStages == null)
+                {
+                    _filterStages = new ObservableCollection<Stage>(StageManager.Instance.Stages);
+                    _filterStages.Insert(0, new Stage { ID = -2, Name = "All" });
+                }
+
+                return _filterStages;
+            }
+            set { _filterStages = value; OnPropertyChanged("FilterStages"); }
+        }
+
         private Stage _selectedStage;
         public Stage SelectedStage
         {
@@ -87,7 +131,7 @@ namespace FestivalApp.ViewModel
         public Stage SelectedFilterStage
         {
             get { return _selectedFilterStage; }
-            set { _selectedFilterStage = value; OnPropertyChanged("SelectedFilterStage"); }
+            set { _selectedFilterStage = value; OnPropertyChanged("SelectedFilterStage"); UpdateLineUpFilter(); }
         }
 
         private BandManager _bandManager;
@@ -107,8 +151,7 @@ namespace FestivalApp.ViewModel
         public Band SelectedBand
         {
             get { return _selectedBand; }
-            set
-            { _selectedBand = value; OnPropertyChanged("SelectedBand"); }
+            set { _selectedBand = value; OnPropertyChanged("SelectedBand"); }
         }
 
         private string _startTime = string.Empty;
@@ -126,6 +169,7 @@ namespace FestivalApp.ViewModel
         }
 
         private bool _addingBand = false;
+        private bool _addingLineUpItem = false;
 
         public LineUpVM()
         {
@@ -135,9 +179,17 @@ namespace FestivalApp.ViewModel
                 SelectedFestivalDate = FestivalManager.Instance.Festival.FestivalDates.FirstOrDefault();
                 SelectedStage = StageManager.Instance.Stages.FirstOrDefault();
                 SelectedBand = BandManager.Instance.Bands.FirstOrDefault();
+                SelectedFilterFestivalDate = "All";
+                SelectedFilterStage = FilterStages.ToList().Find(x => x.ID == -2);
 
                 // Observe changes to bands so we can keep the selected item selected after updating
                 BandManager.Instance.PropertyChanged += BandManager_PropertyChanged;
+
+                // Observe lineup changes
+                LineUpManager.Instance.PropertyChanged += LineUpManager_PropertyChanged;
+
+                // Observe stage changes
+                StageManager.Instance.PropertyChanged += StageManager_PropertyChanged;
             }
             catch (Exception)
             {
@@ -153,6 +205,76 @@ namespace FestivalApp.ViewModel
                 OnPropertyChanged("BandManager");
                 SelectedBand = selected;
                 _addingBand = false;
+            }
+        }
+
+        void LineUpManager_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "LineUpItems")
+            {
+                UpdateLineUpFilter();
+
+                if (_addingLineUpItem)
+                {
+                    LineUpItem newItem = LineUpManager.LineUpItems.Last();
+
+                    if(SelectedFilterStage != null)
+                    {
+                        if (newItem.Stage.ID != SelectedFilterStage.ID && SelectedFilterStage.ID != -2)
+                        {
+                            SelectedFilterStage = FilterStages.ToList().Find(x => x.ID == newItem.Stage.ID);
+                        }
+                    }
+
+                    if (SelectedFilterFestivalDate != null && !SelectedFilterFestivalDate.Equals("All"))
+                    {
+                        if (newItem.Date != (DateTime)SelectedFilterFestivalDate)
+                        {
+                            SelectedFilterFestivalDate = newItem.Date;
+                        }
+                    }
+
+                    _addingLineUpItem = false;
+                }
+            }
+        }
+
+        void StageManager_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Stages")
+            {
+                // Force refresh filter stages
+                FilterStages = null;
+
+                // If selected stage no longer exists, select first one
+                if (StageManager.Instance.Stages.ToList().Find(x => x.ID == SelectedStage.ID) == null)
+                    SelectedStage = StageManager.Instance.Stages.FirstOrDefault();
+
+                // If selected filter stage no longer exists, select "All"
+                if (StageManager.Instance.Stages.ToList().Find(x => x.ID == SelectedFilterStage.ID) == null)
+                    SelectedFilterStage = FilterStages.ToList().Find(x => x.ID == -2);
+            }
+        }
+
+        private void UpdateLineUpFilter()
+        {
+            DateTime? filterDate = SelectedFilterFestivalDate as DateTime?;
+
+            if (filterDate != null && SelectedFilterStage != null && SelectedFilterStage.ID != -2)
+            {
+                FilteredLineUpItems = new ObservableCollection<LineUpItem>(LineUpManager.LineUpItems.ToList().FindAll(x => x.Stage.ID == SelectedFilterStage.ID && x.Date.Equals(SelectedFilterFestivalDate)));
+            }
+            else if (filterDate != null)
+            {
+                FilteredLineUpItems = new ObservableCollection<LineUpItem>(LineUpManager.LineUpItems.ToList().FindAll(x => x.Date.Equals(SelectedFilterFestivalDate)));
+            }
+            else if (SelectedFilterStage != null && SelectedFilterStage.ID != -2)
+            {
+                FilteredLineUpItems = new ObservableCollection<LineUpItem>(LineUpManager.LineUpItems.ToList().FindAll(x => x.Stage.ID == SelectedFilterStage.ID));
+            }
+            else
+            {
+                FilteredLineUpItems = new ObservableCollection<LineUpItem>(LineUpManager.LineUpItems);
             }
         }
 
@@ -173,6 +295,8 @@ namespace FestivalApp.ViewModel
 
         private void AddLineUpItem()
         {
+            _addingLineUpItem = true;
+
             LineUpItem item = new LineUpItem();
             item.Date = SelectedFestivalDate;
             item.StartTime = StartTime;

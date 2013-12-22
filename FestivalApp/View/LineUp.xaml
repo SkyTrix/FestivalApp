@@ -44,7 +44,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" TextWrapping="Wrap" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,0,4" Text="Datum filter:"/>
-                <ComboBox Grid.Column="1" Margin="4,4,4,8" VerticalContentAlignment="Center" ItemsSource="{Binding FestivalManager.Festival.FestivalDates}" SelectedItem="{Binding SelectedFilterFestivalDate}" ItemStringFormat="{}{0:dd/MM/yyyy}"/>
+                <ComboBox Grid.Column="1" Margin="4,4,4,8" VerticalContentAlignment="Center" ItemsSource="{Binding FilterFestivalDates}" SelectedItem="{Binding SelectedFilterFestivalDate}" ItemStringFormat="{}{0:dd/MM/yyyy}"/>
             </Grid>
 
             <Grid Grid.Column="1">
@@ -53,10 +53,10 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" TextWrapping="Wrap" FontWeight="Bold" VerticalAlignment="Center" Text="Stage filter:" Margin="4,0,0,4"/>
-                <ComboBox Grid.Column="1" Margin="4,4,0,8" VerticalContentAlignment="Center" ItemsSource="{Binding StageManager.Stages}" SelectedItem="{Binding SelectedFilterStage}" DisplayMemberPath="Name"/>
+                <ComboBox Grid.Column="1" Margin="4,4,0,8" VerticalContentAlignment="Center" ItemsSource="{Binding FilterStages}" SelectedItem="{Binding SelectedFilterStage}" SelectedValue="{Binding SelectedFilterStage.ID}" SelectedValuePath="ID" DisplayMemberPath="Name"/>
             </Grid>
 
-            <ListView x:Name="lstOverzicht" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding LineUpManager.LineUpItems}" SelectedItem="{Binding SelectedLineUpItem}" vh:GridViewSort.AutoSort="True">
+            <ListView x:Name="lstOverzicht" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding FilteredLineUpItems}" SelectedItem="{Binding SelectedLineUpItem}" vh:GridViewSort.AutoSort="True">
                 <ListView.View>
                     <GridView AllowsColumnReorder="False">
                         <GridViewColumn Header="Datum" Width="80" DisplayMemberBinding="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}" vh:GridViewSort.PropertyName="Date"/>
