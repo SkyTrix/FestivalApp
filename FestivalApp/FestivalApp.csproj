@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="GalaSoft.MvvmLight.Extras.WPF45, Version=4.1.24.16411, Culture=neutral, PublicKeyToken=0e27b6f8be9b2ef7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WPF45\GalaSoft.MvvmLight.Extras.WPF45.dll</HintPath>
@@ -45,6 +46,9 @@
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=59d6d24383174ac4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WPF45\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Ookii.Dialogs.Wpf">
+      <HintPath>..\..\..\..\Downloads\Ookii.Dialogs\Ookii.Dialogs.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -74,11 +78,22 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModel\AddBandVM.cs" />
+    <Compile Include="ViewModel\AddContactPersonVM.cs" />
+    <Compile Include="ViewModel\AddReservationVM.cs" />
+    <Compile Include="ViewModel\AddTicketTypeVM.cs" />
     <Compile Include="ViewModel\EditBandVM.cs" />
+    <Compile Include="ViewModel\EditContactPersonTypeVM.cs" />
+    <Compile Include="ViewModel\EditContactPersonVM.cs" />
     <Compile Include="ViewModel\EditGenreVM.cs" />
+    <Compile Include="ViewModel\EditReservationVM.cs" />
     <Compile Include="ViewModel\EditStageVM.cs" />
+    <Compile Include="ViewModel\EditTicketTypeVM.cs" />
     <Compile Include="ViewModel\TicketTypeVM.cs" />
+    <Compile Include="View\Converters\EmptyStringToStringConverter.cs" />
     <Compile Include="View\Converters\RemainingTicketsToColorConverter.cs" />
+    <Compile Include="View\EditContactPersonTypeWindow.xaml.cs">
+      <DependentUpon>EditContactPersonTypeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EditGenreWindow.xaml.cs">
       <DependentUpon>EditGenreWindow.xaml</DependentUpon>
     </Compile>
@@ -97,8 +112,8 @@
     <Compile Include="View\BandWindow.xaml.cs">
       <DependentUpon>BandWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ContactsWindow.xaml.cs">
-      <DependentUpon>ContactsWindow.xaml</DependentUpon>
+    <Compile Include="View\ContactPersonWindow.xaml.cs">
+      <DependentUpon>ContactPersonWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Converters\ByteArrayToImageConverter.cs" />
     <Compile Include="View\Converters\NumerableToCommaSeparatedStringConverter.cs" />
@@ -114,12 +129,10 @@
     <Compile Include="View\Ticketing.xaml.cs">
       <DependentUpon>Ticketing.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TicketWindow.xaml.cs">
-      <DependentUpon>TicketWindow.xaml</DependentUpon>
+    <Compile Include="View\TicketTypeWindow.xaml.cs">
+      <DependentUpon>TicketTypeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Window1.xaml.cs">
-      <DependentUpon>Window1.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="View\ViewHelpers\GridViewSort.cs" />
     <Page Include="View\BandWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -128,7 +141,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ContactsWindow.xaml">
+    <Page Include="View\ContactPersonWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditContactPersonTypeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -178,11 +195,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TicketWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Window1.xaml">
+    <Page Include="View\TicketTypeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -204,6 +217,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -220,7 +234,7 @@
       <Name>DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
-      <Project>{eff689af-dbab-4c57-851d-9c7f6cf5ba06}</Project>
+      <Project>{013b545f-e8fb-4bc6-8fa8-f38285268223}</Project>
       <Name>Models</Name>
     </ProjectReference>
   </ItemGroup>

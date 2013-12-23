@@ -170,6 +170,14 @@ namespace DAL
             return new ObservableCollection<ContactPerson>(filteredContactPersons); ;
         }
 
+        public static bool ContactPersonConformsToFilter(ContactPerson contactPerson, string filter)
+        {
+            if (contactPerson == null || filter == null)
+                return false;
+
+            return contactPerson.Name.IndexOf(filter, StringComparison.CurrentCultureIgnoreCase) >= 0;
+        }
+
         public void RefreshData()
         {
             ContactPersons = GetContactPersons();

@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace FestivalApp.View
 {
     /// <summary>
-    /// Interaction logic for ContactsWindow.xaml
+    /// Interaction logic for TicketTypeWindow.xaml
     /// </summary>
-    public partial class ContactsWindow : Window
+    public partial class TicketTypeWindow : Window
     {
-        public ContactsWindow()
+        public TicketTypeWindow()
         {
             InitializeComponent();
         }

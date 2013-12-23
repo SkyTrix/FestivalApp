@@ -6,12 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace FestivalApp.ViewModel
 {
-    class EditGenreVM : ObservableObject
+    class EditReservationVM : ObservableObject
     {
         private bool? _dialogResult;
         public bool? DialogResult
@@ -20,11 +19,24 @@ namespace FestivalApp.ViewModel
             set { _dialogResult = value; OnPropertyChanged("DialogResult"); }
         }
 
-        private Genre _genre;
-        public Genre Genre
+        private Ticket _ticket = new Ticket();
+        public Ticket Ticket
         {
-            get { return _genre; }
-            set { _genre = value; OnPropertyChanged("Genre"); }
+            get { return _ticket; }
+            set { _ticket = value; OnPropertyChanged("Ticket"); }
+        }
+
+        private TicketTypeManager _ticketTypeManager;
+        public TicketTypeManager TicketTypeManager
+        {
+            get
+            {
+                if (_ticketTypeManager == null)
+                    _ticketTypeManager = TicketTypeManager.Instance;
+
+                return _ticketTypeManager;
+            }
+            set { _ticketTypeManager = value; OnPropertyChanged("TicketTypeManager"); }
         }
 
         public ICommand CancelCommand
@@ -46,10 +58,7 @@ namespace FestivalApp.ViewModel
         {
             try
             {
-                GenreManager.Instance.EditGenre(Genre);
-
-                // We also have to refresh the bands for the changes to be visible
-                BandManager.Instance.RefreshData();
+                TicketManager.Instance.EditTicket(Ticket);
 
                 DialogResult = true;
             }

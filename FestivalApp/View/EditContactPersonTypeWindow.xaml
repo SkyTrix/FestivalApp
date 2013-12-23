@@ -1,17 +1,17 @@
-﻿<Window x:Class="FestivalApp.View.EditGenreWindow"
+﻿<Window x:Class="FestivalApp.View.EditContactPersonTypeWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:FestivalApp.ViewModel"
         xmlns:vh="clr-namespace:FestivalApp.View.ViewHelpers"
         vh:DialogCloser.DialogResult="{Binding DialogResult}"
-        Title="Genre wijzigen" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="Height">
+        Title="Contactpersoon type wijzigen" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="Height">
     <Window.DataContext>
-        <vm:EditGenreVM/>
+        <vm:EditContactPersonTypeVM/>
     </Window.DataContext>
     <Grid>
         <StackPanel Margin="8">
             <Label Content="Naam:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBox x:Name="txtName" MinHeight="24" Text="{Binding Genre.Name, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center">
+            <TextBox x:Name="txtName" MinHeight="24" Text="{Binding ContactPersonType.Name, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center">
                 <TextBox.InputBindings>
                     <KeyBinding Command="{Binding SaveCommand}" Key="Enter"/>
                 </TextBox.InputBindings>
