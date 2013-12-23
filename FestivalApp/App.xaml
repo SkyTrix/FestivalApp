@@ -3,6 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="View/MainWindow.xaml">
     <Application.Resources>
+        <ControlTemplate x:Key="TextBoxErrorTemplate">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel.ToolTip>
+                    <ToolTip>
+                        <TextBlock Foreground="Red" Text="{Binding [0].ErrorContent}"/>
+                    </ToolTip>
+                </StackPanel.ToolTip>
+                <AdornedElementPlaceholder/>
+                <TextBlock Margin="5,0,2,0" FontSize="16" FontWeight="Bold" Foreground="Red" Text="*" VerticalAlignment="Center"/>
+            </StackPanel>
+        </ControlTemplate>
+        <Style x:Key="TextBoxError" TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="Margin" Value="0,0,12,0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         </Style>

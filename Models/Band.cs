@@ -12,14 +12,22 @@ namespace Models
     {
         public int ID { get; set; }
 
+        [Required(ErrorMessage = "De naam is verplicht")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "Minimum 2 karakters, maximum 50")]
         public string Name { get; set; }
 
         public byte[] Picture { get; set; }
 
+        [Required(ErrorMessage = "De omschrijving is verplicht")]
+        [StringLength(255, MinimumLength = 20, ErrorMessage = "Minimum 20 karakters, maximum 255")]
         public string Description { get; set; }
 
+        [StringLength(16, MinimumLength = 0, ErrorMessage = "Een Twitter gebruikersnaam heeft maximum 15 tekens")]
+        [RegularExpression(@"^([A-Za-z0-9_]+)$", ErrorMessage = "De Twitter gebruikersnaam mag geen spaties bevatten")]
         public string Twitter { get; set; }
 
+        [StringLength(56, MinimumLength = 0, ErrorMessage = "Een Facebook gebruikersnaam heeft maximum 56 tekens")]
+        [RegularExpression(@"^[a-zA-Z0-9.]{0,56}$", ErrorMessage = "De Facebook gebruikersnaam mag geen spaties bevatten")]
         public string Facebook { get; set; }
 
         public ObservableCollection<Genre> Genres { get; set; }

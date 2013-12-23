@@ -10,6 +10,7 @@
     <UserControl.Resources>
         <c:NumerableToCommaSeparatedStringConverter x:Key="NumerableToCommaSeparatedStringConverter"/>
         <c:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter"/>
+        <c:StringToPrefixedStringConverter x:Key="StringToPrefixedStringConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -121,9 +122,9 @@
                 <Image Stretch="Uniform" StretchDirection="DownOnly" AllowDrop="False" Source="{Binding SelectedBand.Picture, Converter={StaticResource ByteArrayToImageConverter}}"></Image>
             </Border>
             <Label Content="Twitter:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding SelectedBand.Twitter}"/></TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding SelectedBand.Twitter, Converter={StaticResource StringToPrefixedStringConverter}, ConverterParameter='@'}"/></TextBlock>
             <Label Content="Facebook:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding SelectedBand.Facebook}"/></TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding SelectedBand.Facebook, Converter={StaticResource StringToPrefixedStringConverter}, ConverterParameter='http://facebook.com/'}"/></TextBlock>
             <Label Content="Genre:" FontWeight="Bold" Padding="0,5,0,3"/>
             <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding SelectedBand.Genres, Converter={StaticResource NumerableToCommaSeparatedStringConverter}}"/></TextBlock>
         </StackPanel>

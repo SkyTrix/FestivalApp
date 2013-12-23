@@ -91,6 +91,7 @@
     <Compile Include="ViewModel\TicketTypeVM.cs" />
     <Compile Include="View\Converters\EmptyStringToStringConverter.cs" />
     <Compile Include="View\Converters\RemainingTicketsToColorConverter.cs" />
+    <Compile Include="View\Converters\StringToPrefixedStringConverter.cs" />
     <Compile Include="View\EditContactPersonTypeWindow.xaml.cs">
       <DependentUpon>EditContactPersonTypeWindow.xaml</DependentUpon>
     </Compile>
