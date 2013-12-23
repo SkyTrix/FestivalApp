@@ -1,80 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
 namespace Models
 {
-    public class ContactPerson
+    public class ContactPerson : IDataErrorInfo
     {
-        private int _id;
-        public int ID
+        public int ID { get; set; }
+
+        public string Name { get; set; }
+
+        public string Company { get; set; }
+
+        public ContactPersonType JobRole { get; set; }
+
+        public string Address { get; set; }
+
+        public string PostalCode { get; set; }
+
+        public string City { get; set; }
+
+        public string Email { get; set; }
+
+        public string Phone { get; set; }
+
+        public string Cellphone { get; set; }
+
+        public string Error
         {
-            get { return _id; }
-            set { _id = value; }
+            get { return "Het object is niet valid"; }
         }
 
-        private string _name;
-        public string Name
+        public string this[string columnName]
         {
-            get { return _name; }
-            set { _name = value; }
+            get
+            {
+                try
+                {
+                    object value = this.GetType().GetProperty(columnName).GetValue(this);
+                    Validator.ValidateProperty(value, new ValidationContext(this, null, null)
+                    {
+                        MemberName = columnName
+                    });
+                }
+                catch (ValidationException ex)
+                {
+                    return ex.Message;
+                }
+                return String.Empty;
+            }
         }
 
-        private string _company;
-        public string Company
+        public bool IsValid()
         {
-            get { return _company; }
-            set { _company = value; }
-        }
-
-        private ContactPersonType _jobRole;
-        public ContactPersonType JobRole
-        {
-            get { return _jobRole; }
-            set { _jobRole = value; }
-        }
-
-        private string _address;
-        public string Address
-        {
-            get { return _address; }
-            set { _address = value; }
-        }
-
-        private string _postalCode;
-        public string PostalCode
-        {
-            get { return _postalCode; }
-            set { _postalCode = value; }
-        }
-
-        private string _city;
-        public string City
-        {
-            get { return _city; }
-            set { _city = value; }
-        }
-
-        private string _email;
-        public string Email
-        {
-            get { return _email; }
-            set { _email = value; }
-        }
-
-        private string _phone;
-        public string Phone
-        {
-            get { return _phone; }
-            set { _phone = value; }
-        }
-
-        private string _cellphone;
-        public string Cellphone
-        {
-            get { return _cellphone; }
-            set { _cellphone = value; }
+            return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);
         }
     }
 }

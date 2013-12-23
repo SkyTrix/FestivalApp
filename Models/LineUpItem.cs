@@ -1,52 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
 namespace Models
 {
-    public class LineUpItem
+    public class LineUpItem : IDataErrorInfo
     {
-        private int _id;
-        public int ID
+        public int ID { get; set; }
+
+        public DateTime Date { get; set; }
+
+        public string StartTime { get; set; }
+
+        public string EndTime { get; set; }
+
+        public Stage Stage { get; set; }
+
+        public Band Band { get; set; }
+
+        public string Error
         {
-            get { return _id; }
-            set { _id = value; }
+            get { return "Het object is niet valid"; }
         }
 
-        private DateTime _date;
-        public DateTime Date
+        public string this[string columnName]
         {
-            get { return _date; }
-            set { _date = value; }
+            get
+            {
+                try
+                {
+                    object value = this.GetType().GetProperty(columnName).GetValue(this);
+                    Validator.ValidateProperty(value, new ValidationContext(this, null, null)
+                    {
+                        MemberName = columnName
+                    });
+                }
+                catch (ValidationException ex)
+                {
+                    return ex.Message;
+                }
+                return String.Empty;
+            }
         }
 
-        private string _startTime;
-        public string StartTime
+        public bool IsValid()
         {
-            get { return _startTime; }
-            set { _startTime = value; }
-        }
-
-        private string _endTime;
-        public string EndTime
-        {
-            get { return _endTime; }
-            set { _endTime = value; }
-        }
-
-        private Stage _stage;
-        public Stage Stage
-        {
-            get { return _stage; }
-            set { _stage = value; }
-        }
-
-        private Band _band;
-        public Band Band
-        {
-            get { return _band; }
-            set { _band = value; }
+            return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);
         }
     }
 }

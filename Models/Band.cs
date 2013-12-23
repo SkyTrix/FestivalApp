@@ -1,65 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
 namespace Models
 {
-    public class Band
+    public class Band : IDataErrorInfo
     {
-        private int _id;
-        public int ID
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
+        public int ID { get; set; }
 
-        private string _name;
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
+        public string Name { get; set; }
 
-        private byte[] _picture;
-        public byte[] Picture
-        {
-            get { return _picture; }
-            set { _picture = value; }
-        }
+        public byte[] Picture { get; set; }
 
-        private string _description;
-        public string Description
-        {
-            get { return _description; }
-            set { _description = value; }
-        }
+        public string Description { get; set; }
 
-        private string _twitter;
-        public string Twitter
-        {
-            get { return _twitter; }
-            set { _twitter = value; }
-        }
+        public string Twitter { get; set; }
 
-        private string _facebook;
-        public string Facebook
-        {
-            get { return _facebook; }
-            set { _facebook = value; }
-        }
+        public string Facebook { get; set; }
 
-        private ObservableCollection<Genre> _genres;
-        public ObservableCollection<Genre> Genres
-        {
-            get { return _genres; }
-            set { _genres = value; }
-        }
+        public ObservableCollection<Genre> Genres { get; set; }
 
         public override string ToString()
         {
             return this.Name;
+        }
+
+        public string Error
+        {
+            get { return "Het object is niet valid"; }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                try
+                {
+                    object value = this.GetType().GetProperty(columnName).GetValue(this);
+                    Validator.ValidateProperty(value, new ValidationContext(this, null, null)
+                    {
+                        MemberName = columnName
+                    });
+                }
+                catch (ValidationException ex)
+                {
+                    return ex.Message;
+                }
+                return String.Empty;
+            }
+        }
+
+        public bool IsValid()
+        {
+            return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);
         }
     }
 }
