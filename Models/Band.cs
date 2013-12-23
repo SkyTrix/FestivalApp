@@ -23,11 +23,11 @@ namespace Models
         public string Description { get; set; }
 
         [StringLength(16, MinimumLength = 0, ErrorMessage = "Een Twitter gebruikersnaam heeft maximum 15 tekens")]
-        [RegularExpression(@"^([A-Za-z0-9_]+)$", ErrorMessage = "De Twitter gebruikersnaam mag geen spaties bevatten")]
+        [RegularExpression(@"^[A-Za-z0-9_]+$", ErrorMessage = "De Twitter gebruikersnaam mag geen spaties of een '@' teken bevatten")]
         public string Twitter { get; set; }
 
         [StringLength(56, MinimumLength = 0, ErrorMessage = "Een Facebook gebruikersnaam heeft maximum 56 tekens")]
-        [RegularExpression(@"^[a-zA-Z0-9.]{0,56}$", ErrorMessage = "De Facebook gebruikersnaam mag geen spaties bevatten")]
+        [RegularExpression(@"^[a-zA-Z0-9./-]+$", ErrorMessage = "De Facebook gebruikersnaam mag geen spaties bevatten")]
         public string Facebook { get; set; }
 
         public ObservableCollection<Genre> Genres { get; set; }
