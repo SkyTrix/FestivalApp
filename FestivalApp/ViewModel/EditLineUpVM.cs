@@ -20,7 +20,7 @@ namespace FestivalApp.ViewModel
             set { _dialogResult = value; OnPropertyChanged("DialogResult"); }
         }
         
-        private LineUpItem _lineUpItem;
+        private LineUpItem _lineUpItem = new LineUpItem();
         public LineUpItem LineUpItem
         {
             get { return _lineUpItem; }
@@ -76,7 +76,7 @@ namespace FestivalApp.ViewModel
 
         public ICommand SaveCommand
         {
-            get { return new RelayCommand(Save); }
+            get { return new RelayCommand(Save, LineUpItem.IsValid); }
         }
 
         private void Cancel()

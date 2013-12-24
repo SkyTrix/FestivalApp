@@ -191,7 +191,9 @@ namespace FestivalApp.ViewModel
         private void EditContactPersonType()
         {
             EditContactPersonTypeWindow window = new EditContactPersonTypeWindow();
-            ((EditContactPersonTypeVM)window.DataContext).ContactPersonType = SelectedContactPersonType.Copy();
+            EditContactPersonTypeVM viewModel = new EditContactPersonTypeVM();
+            viewModel.ContactPersonType = SelectedContactPersonType.Copy();
+            window.DataContext = viewModel;
             window.ShowDialog();
         }
 

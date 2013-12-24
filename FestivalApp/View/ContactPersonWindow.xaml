@@ -4,6 +4,9 @@
         xmlns:vh="clr-namespace:FestivalApp.View.ViewHelpers"
         vh:DialogCloser.DialogResult="{Binding DialogResult}"
         Title="Contactpersoon toevoegen" Width="300" ResizeMode="NoResize" ShowInTaskbar="True" WindowStartupLocation="CenterScreen" SizeToContent="Height">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding CancelCommand}" Key="Escape"/>
+    </Window.InputBindings>
     <Grid>
         <StackPanel Margin="8">
             <Label Content="Naam:" FontWeight="Bold" Padding="0,0,0,3"/>

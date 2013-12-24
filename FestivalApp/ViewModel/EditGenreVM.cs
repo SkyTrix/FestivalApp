@@ -20,7 +20,7 @@ namespace FestivalApp.ViewModel
             set { _dialogResult = value; OnPropertyChanged("DialogResult"); }
         }
 
-        private Genre _genre;
+        private Genre _genre = new Genre();
         public Genre Genre
         {
             get { return _genre; }
@@ -34,7 +34,7 @@ namespace FestivalApp.ViewModel
 
         public ICommand SaveCommand
         {
-            get { return new RelayCommand(Save); }
+            get { return new RelayCommand(Save, Genre.IsValid); }
         }
 
         private void Cancel()

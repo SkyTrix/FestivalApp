@@ -7,6 +7,9 @@
         xmlns:c="clr-namespace:FestivalApp.View.Converters"
         vh:DialogCloser.DialogResult="{Binding DialogResult}"
         Title="Nieuwe band" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="Height">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding CancelCommand}" Key="Escape"/>
+    </Window.InputBindings>
     <Window.Resources>
         <c:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter"/>
     </Window.Resources>

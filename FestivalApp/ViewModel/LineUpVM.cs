@@ -57,18 +57,18 @@ namespace FestivalApp.ViewModel
             set { _filteredLineUpItems = value; OnPropertyChanged("FilteredLineUpItems"); }
         }
 
+        private LineUpItem _lineUpItem = new LineUpItem();
+        public LineUpItem LineUpItem
+        {
+            get { return _lineUpItem; }
+            set { _lineUpItem = value; OnPropertyChanged("LineUpItem"); }
+        }
+
         private LineUpItem _selectedLineUpItem;
         public LineUpItem SelectedLineUpItem
         {
             get { return _selectedLineUpItem; }
             set { _selectedLineUpItem = value; OnPropertyChanged("SelectedLineUpItem"); }
-        }
-
-        private DateTime _selectedFestivalDate;
-        public DateTime SelectedFestivalDate
-        {
-            get { return _selectedFestivalDate; }
-            set { _selectedFestivalDate = value; OnPropertyChanged("SelectedFestivalDate"); }
         }
 
         public ObservableCollection<object> FilterFestivalDates
@@ -120,13 +120,6 @@ namespace FestivalApp.ViewModel
             set { _filterStages = value; OnPropertyChanged("FilterStages"); }
         }
 
-        private Stage _selectedStage;
-        public Stage SelectedStage
-        {
-            get { return _selectedStage; }
-            set { _selectedStage = value; OnPropertyChanged("SelectedStage"); }
-        }
-
         private Stage _selectedFilterStage;
         public Stage SelectedFilterStage
         {
@@ -147,27 +140,6 @@ namespace FestivalApp.ViewModel
             set { _bandManager = value; OnPropertyChanged("BandManager"); }
         }
 
-        private Band _selectedBand;
-        public Band SelectedBand
-        {
-            get { return _selectedBand; }
-            set { _selectedBand = value; OnPropertyChanged("SelectedBand"); }
-        }
-
-        private string _startTime = string.Empty;
-        public string StartTime
-        {
-            get { return _startTime; }
-            set { _startTime = value; OnPropertyChanged("StartTime"); }
-        }
-
-        private string _endTime = string.Empty;
-        public string EndTime
-        {
-            get { return _endTime; }
-            set { _endTime = value; OnPropertyChanged("EndTime"); }
-        }
-
         private bool _addingBand = false;
         private bool _addingLineUpItem = false;
 
@@ -176,9 +148,11 @@ namespace FestivalApp.ViewModel
             try
             {
                 // Startup with some default selected values
-                SelectedFestivalDate = FestivalManager.Instance.Festival.FestivalDates.FirstOrDefault();
-                SelectedStage = StageManager.Instance.Stages.FirstOrDefault();
-                SelectedBand = BandManager.Instance.Bands.FirstOrDefault();
+                LineUpItem.Date = FestivalManager.Instance.Festival.FestivalDates.FirstOrDefault();
+                LineUpItem.Stage = StageManager.Instance.Stages.FirstOrDefault();
+                LineUpItem.Band = BandManager.Instance.Bands.FirstOrDefault();
+                LineUpItem.StartTime = "18:00";
+                LineUpItem.EndTime = "18:45";
                 SelectedFilterFestivalDate = "All";
                 SelectedFilterStage = FilterStages.ToList().Find(x => x.ID == -2);
 
@@ -201,9 +175,10 @@ namespace FestivalApp.ViewModel
             if (e.PropertyName == "Bands")
             {
                 // Show new band if we added one, previously selected one if we didn't add one
-                var selected = _addingBand ? BandManager.Bands.Last() : SelectedBand;
+                var selected = _addingBand ? BandManager.Bands.Last() : LineUpItem.Band;
                 OnPropertyChanged("BandManager");
-                SelectedBand = selected;
+                LineUpItem.Band = selected;
+                OnPropertyChanged("LineUpItem");
                 _addingBand = false;
             }
         }
@@ -247,11 +222,11 @@ namespace FestivalApp.ViewModel
                 FilterStages = null;
 
                 // If selected stage no longer exists, select first one
-                if (StageManager.Instance.Stages.ToList().Find(x => x.ID == SelectedStage.ID) == null)
-                    SelectedStage = StageManager.Instance.Stages.FirstOrDefault();
+                if (LineUpItem.Stage == null || StageManager.Instance.Stages.ToList().Find(x => x.ID == LineUpItem.Stage.ID) == null)
+                    LineUpItem.Stage = StageManager.Instance.Stages.FirstOrDefault();
 
                 // If selected filter stage no longer exists, select "All"
-                if (StageManager.Instance.Stages.ToList().Find(x => x.ID == SelectedFilterStage.ID) == null)
+                if (SelectedFilterStage != null && StageManager.Instance.Stages.ToList().Find(x => x.ID == SelectedFilterStage.ID) == null)
                     SelectedFilterStage = FilterStages.ToList().Find(x => x.ID == -2);
             }
         }
@@ -285,28 +260,16 @@ namespace FestivalApp.ViewModel
 
         public ICommand AddLineUpItemCommand
         {
-            get { return new RelayCommand(AddLineUpItem, CanAddLineUpItem); }
-        }
-
-        private bool CanAddLineUpItem()
-        {
-            return SelectedFestivalDate != null && SelectedStage != null && SelectedBand != null && StartTime.Length == 5 && EndTime.Length == 5;
+            get { return new RelayCommand(AddLineUpItem, LineUpItem.IsValid); }
         }
 
         private void AddLineUpItem()
         {
             _addingLineUpItem = true;
 
-            LineUpItem item = new LineUpItem();
-            item.Date = SelectedFestivalDate;
-            item.StartTime = StartTime;
-            item.EndTime = EndTime;
-            item.Band = SelectedBand;
-            item.Stage = SelectedStage;
-
             try
             {
-                LineUpManager.Instance.AddLineUpItem(item);
+                LineUpManager.Instance.AddLineUpItem(LineUpItem);
             }
             catch (Exception)
             {
@@ -331,7 +294,9 @@ namespace FestivalApp.ViewModel
         private void EditLineUpItem()
         {
             EditLineUpWindow window = new EditLineUpWindow();
-            ((EditLineUpVM)window.DataContext).LineUpItem = SelectedLineUpItem.Copy();
+            EditLineUpVM viewModel = new EditLineUpVM();
+            viewModel.LineUpItem = SelectedLineUpItem.Copy();
+            window.DataContext = viewModel;
             window.ShowDialog();
         }
 
@@ -367,14 +332,14 @@ namespace FestivalApp.ViewModel
 
         private bool CanEditBand()
         {
-            return SelectedBand != null;
+            return LineUpItem.Band != null;
         }
 
         private void EditBand()
         {
             BandWindow window = new BandWindow();
             EditBandVM viewModel = new EditBandVM();
-            viewModel.Band = SelectedBand.Copy();
+            viewModel.Band = LineUpItem.Band.Copy();
             window.DataContext = viewModel;
             window.Title = "Band wijzigen";
             window.ShowDialog();

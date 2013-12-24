@@ -150,7 +150,9 @@ namespace FestivalApp.ViewModel
         private void EditStage()
         {
             EditStageWindow window = new EditStageWindow();
-            ((EditStageVM)window.DataContext).Stage = SelectedStage.Copy();
+            EditStageVM viewModel = new EditStageVM();
+            viewModel.Stage = SelectedStage.Copy();
+            window.DataContext = viewModel;
             window.ShowDialog();
         }
 
@@ -212,7 +214,9 @@ namespace FestivalApp.ViewModel
         private void EditGenre()
         {
             EditGenreWindow window = new EditGenreWindow();
-            ((EditGenreVM)window.DataContext).Genre = SelectedGenre.Copy();
+            EditGenreVM viewModel = new EditGenreVM();
+            viewModel.Genre = SelectedGenre.Copy();
+            window.DataContext = viewModel;
             window.ShowDialog();
         }
 

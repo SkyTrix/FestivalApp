@@ -5,14 +5,17 @@
         xmlns:vh="clr-namespace:FestivalApp.View.ViewHelpers"
         vh:DialogCloser.DialogResult="{Binding DialogResult}"
         Title="Ticket type toevoegen" Width="300" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterScreen" SizeToContent="Height">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding CancelCommand}" Key="Escape"/>
+    </Window.InputBindings>
     <Grid>
         <StackPanel Margin="8">
             <Label Content="Naam:" FontWeight="Bold" Padding="0,0,0,3"/>
-            <TextBox Text="{Binding TicketType.Name}" MinHeight="24" VerticalContentAlignment="Center"/>
+            <TextBox Text="{Binding TicketType.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}" MinHeight="24" VerticalContentAlignment="Center"/>
             <Label Content="Prijs:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBox Text="{Binding TicketType.Price}" MinHeight="24" VerticalContentAlignment="Center"/>
+            <TextBox Text="{Binding TicketType.Price, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}" MinHeight="24" VerticalContentAlignment="Center"/>
             <Label Content="Aantal tickets:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBox Text="{Binding TicketType.AvailableTickets}" MinHeight="24" VerticalContentAlignment="Center"/>
+            <TextBox Text="{Binding TicketType.AvailableTickets, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}" MinHeight="24" VerticalContentAlignment="Center"/>
             <Grid Margin="0,15,0,0">
                 <Button Command="{Binding CancelCommand}" Content="Annuleren" HorizontalAlignment="Right" Height="24" Margin="0,0,108,0" Width="100"/>
                 <Button Command="{Binding SaveCommand}" Content="Opslaan" HorizontalAlignment="Right" Height="24" Margin="0,0,0,0" Width="100"/>
