@@ -14,7 +14,7 @@
                 <TextBlock Margin="5,0,2,0" FontSize="16" FontWeight="Bold" Foreground="Red" Text="*" VerticalAlignment="Center"/>
             </StackPanel>
         </ControlTemplate>
-        <Style x:Key="TextBoxError" TargetType="{x:Type TextBox}">
+        <Style x:Key="TextBoxError" TargetType="{x:Type Control}">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
                     <Setter Property="Margin" Value="0,0,12,0"/>

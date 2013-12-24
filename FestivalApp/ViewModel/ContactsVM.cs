@@ -118,13 +118,13 @@ namespace FestivalApp.ViewModel
                 if (_addingContact)
                 {
                     // If the added contact doesn't conform to current filter, remove filter so we can select newly added item
-                    if (!ContactPersonManager.ContactPersonConformsToFilter(ContactPersonManager.Instance.ContactPersons.Last(), SearchQuery))
+                    if (!ContactPersonManager.ContactPersonConformsToFilter(ContactPersonManager.Instance.ContactPersons.Last(), SearchQuery.Trim()))
                         _searchQuery = string.Empty;
                 }
                 else if (_editingContact)
                 {
                     // If the edited contact doesn't conform to current filter, remove filter so we can select newly added item
-                    if (!ContactPersonManager.ContactPersonConformsToFilter(ContactPersonManager.Instance.ContactPersons.ToList().Find(x => x.ID == SelectedContactPerson.ID), SearchQuery))
+                    if (!ContactPersonManager.ContactPersonConformsToFilter(ContactPersonManager.Instance.ContactPersons.ToList().Find(x => x.ID == SelectedContactPerson.ID), SearchQuery.Trim()))
                         _searchQuery = string.Empty;
                 }
 
@@ -148,7 +148,7 @@ namespace FestivalApp.ViewModel
 
         private void UpdateFilteredContactPersons()
         {
-            FilteredContactPersons = ContactPersonManager.GetFilteredContactPersons(SearchQuery);
+            FilteredContactPersons = ContactPersonManager.GetFilteredContactPersons(SearchQuery.Trim());
             
             if(SelectedContactPerson == null && !_addingContact && !_deletingContact && !_editingContact)
                 SelectedContactPerson = FilteredContactPersons.FirstOrDefault();
