@@ -23,7 +23,7 @@ namespace Models
         public string Description { get; set; }
 
         private string _twitter = string.Empty;
-        [StringLength(16, MinimumLength = 0, ErrorMessage = "Een Twitter gebruikersnaam heeft maximum 15 tekens")]
+        [StringLength(15, MinimumLength = 0, ErrorMessage = "Een Twitter gebruikersnaam heeft maximum 15 tekens")]
         [RegularExpression(@"^[A-Za-z0-9_]+$", ErrorMessage = "De Twitter gebruikersnaam mag geen spaties of een '@' teken bevatten")]
         public string Twitter
         {

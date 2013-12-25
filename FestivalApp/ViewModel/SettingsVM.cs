@@ -184,7 +184,7 @@ namespace FestivalApp.ViewModel
 
         private bool CanAddGenre()
         {
-            return Genre != null && Genre.Length > 2;
+            return Genre != null && Genre.Length > 0;
         }
 
         private void AddGenre()

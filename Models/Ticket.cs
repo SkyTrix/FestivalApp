@@ -16,7 +16,7 @@ namespace Models
         public string TicketHolder { get; set; }
 
         [Required(ErrorMessage = "Het e-mail adres is verplicht")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Dit is geen geldig e-mail adres")]
         public string TicketHolderEmail { get; set; }
 
         [Required(ErrorMessage = "Het ticket type is verplicht")]

@@ -15,7 +15,7 @@ namespace Models
         public DateTime Date { get; set; }
 
         [Required(ErrorMessage = "De starttijd is verplicht")]
-        [RegularExpression(@"([01][0-9]|2[0-3]):[0-5][0-9]", ErrorMessage="Tijdstip moet voldoen aan het formaat 'HH:MM'")]
+        [RegularExpression(@"([01][0-9]|2[0-3]):[0-5][0-9]", ErrorMessage = "Tijdstip moet voldoen aan het formaat 'HH:MM'")]
         public string StartTime { get; set; }
 
         [Required(ErrorMessage = "De eindtijd is verplicht")]
