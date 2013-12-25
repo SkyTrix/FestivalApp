@@ -14,11 +14,26 @@ namespace Models
 
         public byte[] Picture { get; set; }
 
+        public string PictureURL
+        {
+            get { return "http://localhost/bandimage/get/" + ID; }
+        }
+
         public string Description { get; set; }
 
-        public string Twitter { get; set; }
+        private string _twitter;
+        public string Twitter
+        {
+            get { return string.IsNullOrEmpty(_twitter) ? null : "@" + _twitter; }
+            set { _twitter = value; }
+        }
 
-        public string Facebook { get; set; }
+        private string _facebook;
+        public string Facebook
+        {
+            get { return string.IsNullOrEmpty(_facebook) ? null : "http://facebook.com/" + _facebook; }
+            set { _facebook = value; }
+        }
 
         public ObservableCollection<Genre> Genres { get; set; }
 
