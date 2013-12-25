@@ -20,7 +20,7 @@ namespace FestivalApp.ViewModel
             set { _dialogResult = value; OnPropertyChanged("DialogResult"); }
         }
 
-        private Stage _stage;
+        private Stage _stage = new Stage();
         public Stage Stage
         {
             get { return _stage; }
@@ -47,7 +47,7 @@ namespace FestivalApp.ViewModel
 
         public ICommand SaveCommand
         {
-            get { return new RelayCommand(Save); }
+            get { return new RelayCommand(Save, Stage.IsValid); }
         }
 
         private void Cancel()

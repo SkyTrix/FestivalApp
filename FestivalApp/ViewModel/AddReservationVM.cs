@@ -46,7 +46,7 @@ namespace FestivalApp.ViewModel
 
         public ICommand SaveCommand
         {
-            get { return new RelayCommand(Save); }
+            get { return new RelayCommand(Save, Ticket.IsValid); }
         }
 
         private void Cancel()

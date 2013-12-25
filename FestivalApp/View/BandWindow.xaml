@@ -7,15 +7,18 @@
         xmlns:c="clr-namespace:FestivalApp.View.Converters"
         vh:DialogCloser.DialogResult="{Binding DialogResult}"
         Title="Nieuwe band" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="Height">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding CancelCommand}" Key="Escape"/>
+    </Window.InputBindings>
     <Window.Resources>
         <c:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter"/>
     </Window.Resources>
     <Grid>
         <StackPanel Margin="8">
             <Label Content="Naam:" FontWeight="Bold" Padding="0,0,0,3"/>
-            <TextBox MinHeight="24" VerticalContentAlignment="Center" Text="{Binding Band.Name, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox MinHeight="24" VerticalContentAlignment="Center" Text="{Binding Band.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}"/>
             <Label Content="Omschrijving:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBox MinLines="3" TextWrapping="Wrap" MinHeight="50" Text="{Binding Band.Description, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox MinLines="3" TextWrapping="Wrap" MinHeight="50" Text="{Binding Band.Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}"/>
             <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
                 <Label Content="Foto:" FontWeight="Bold" Padding="0,0,0,3"/>
                 <Button Command="{Binding ChooseImageCommand}" Content="Foto selecteren" Margin="8,0,0,0" Padding="5,1"/>
@@ -31,9 +34,10 @@
                 </Image>
             </Border>
             <Label Content="Twitter:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBox MinHeight="24" VerticalContentAlignment="Center" Text="{Binding Band.Twitter, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox MinHeight="24" VerticalContentAlignment="Center" Text="{Binding Band.Twitter, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}"/>
             <Label Content="Facebook:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBox MinHeight="24" VerticalContentAlignment="Center" Text="{Binding Band.Facebook, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox MinHeight="24" VerticalContentAlignment="Center" Text="{Binding Band.Facebook, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}"/>
+            <TextBlock FontSize="11" Text="{Binding Band.Facebook, UpdateSourceTrigger=PropertyChanged, StringFormat='http://facebook.com/{0}'}"/>
             <Label Content="Genre(s):" FontWeight="Bold" Padding="0,5,0,3"/>
             <ItemsControl ItemsSource="{Binding GenreCheckBoxes, UpdateSourceTrigger=PropertyChanged}">                
                 <ItemsControl.ItemsPanel>

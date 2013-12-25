@@ -11,13 +11,20 @@ namespace Models
     {
         public int ID { get; set; }
 
+        [Required(ErrorMessage = "De naam is verplicht")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Minimum 3 karakters, maximum 50")]
         public string TicketHolder { get; set; }
 
+        [Required(ErrorMessage = "Het e-mail adres is verplicht")]
+        [EmailAddress(ErrorMessage = "Dit is geen geldig e-mail adres")]
         public string TicketHolderEmail { get; set; }
 
+        [Required(ErrorMessage = "Het ticket type is verplicht")]
         public TicketType TicketType { get; set; }
 
-        public int Amount { get; set; }
+        [Required(ErrorMessage = "Het aantal is verplicht")]
+        [RegularExpression(@"^([1-9][0-9]*)$", ErrorMessage = "Het aantal moet een positief getal zijn en niet 0")]
+        public string Amount { get; set; }
 
         public string Error
         {

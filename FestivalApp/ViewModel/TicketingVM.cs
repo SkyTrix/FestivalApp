@@ -228,7 +228,7 @@ namespace FestivalApp.ViewModel
                         run5.PrependChild<RunProperties>(prop5);
                         bookmarks["Amount"].Parent.InsertAfter<Run>(run5, bookmarks["Amount"]);
 
-                        Run run6 = new Run(new Text((ticket.TicketType.Price * ticket.Amount).ToString("C2")));
+                        Run run6 = new Run(new Text((ticket.TicketType.Price * Int32.Parse(ticket.Amount)).ToString("C2")));
                         RunProperties prop6 = new RunProperties();
                         FontSize size6 = new FontSize() { Val = "28" };
                         prop6.Append(size6);

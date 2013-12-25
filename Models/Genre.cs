@@ -11,6 +11,8 @@ namespace Models
     {
         public int ID { get; set; }
 
+        [Required(ErrorMessage = "De naam is verplicht")]
+        [StringLength(50, ErrorMessage = "Maximum 50 karakters")]
         public string Name { get; set; }
 
         public override string ToString()

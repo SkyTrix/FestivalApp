@@ -17,6 +17,8 @@ namespace Models
             set { _id = value; }
         }
 
+        [Required(ErrorMessage = "De naam is verplicht")]
+        [StringLength(50, ErrorMessage = "Maximum 50 karakters")]
         private string _name;
         public string Name
         {

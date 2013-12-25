@@ -19,7 +19,7 @@ namespace FestivalApp.ViewModel
             set { _dialogResult = value; OnPropertyChanged("DialogResult"); }
         }
 
-        private ContactPersonType _contactPersonType;
+        private ContactPersonType _contactPersonType = new ContactPersonType();
         public ContactPersonType ContactPersonType
         {
             get { return _contactPersonType; }
@@ -33,7 +33,7 @@ namespace FestivalApp.ViewModel
 
         public ICommand SaveCommand
         {
-            get { return new RelayCommand(Save); }
+            get { return new RelayCommand(Save, ContactPersonType.IsValid); }
         }
 
         private void Cancel()

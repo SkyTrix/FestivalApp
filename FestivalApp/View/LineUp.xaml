@@ -10,6 +10,7 @@
     <UserControl.Resources>
         <c:NumerableToCommaSeparatedStringConverter x:Key="NumerableToCommaSeparatedStringConverter"/>
         <c:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter"/>
+        <c:StringToPrefixedStringConverter x:Key="StringToPrefixedStringConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -73,21 +74,21 @@
             <Label Content="Datum:" FontWeight="Bold" Padding="0,0,0,3"/>
             <ComboBox MinHeight="24" VerticalContentAlignment="Center"
                       ItemsSource="{Binding FestivalManager.Festival.FestivalDates}"
-                      SelectedItem="{Binding SelectedFestivalDate}"
+                      SelectedItem="{Binding LineUpItem.Date, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}"
                       ItemStringFormat="{}{0:dd/MM/yyyy}"/>
             <Label Content="Stage:" FontWeight="Bold" Padding="0,5,0,3"/>
             <ComboBox MinHeight="24" VerticalContentAlignment="Center"
                       ItemsSource="{Binding StageManager.Stages}"
-                      SelectedItem="{Binding SelectedStage}"
+                      SelectedItem="{Binding LineUpItem.Stage, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}"
                       SelectedValuePath="ID"
-                      SelectedValue="{Binding SelectedStage.ID}"
+                      SelectedValue="{Binding LineUpItem.Stage.ID}"
                       DisplayMemberPath="Name"/>
             <Label Content="Band:" FontWeight="Bold" Padding="0,5,0,3"/>
             <ComboBox MinHeight="24" VerticalContentAlignment="Center"
                       ItemsSource="{Binding BandManager.Bands}"
-                      SelectedItem="{Binding SelectedBand}"
+                      SelectedItem="{Binding LineUpItem.Band, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}"
                       SelectedValuePath="ID"
-                      SelectedValue="{Binding SelectedBand.ID}"
+                      SelectedValue="{Binding LineUpItem.Band.ID}"
                       DisplayMemberPath="Name"/>
             <Label Content="Van - Tot:" FontWeight="Bold" Padding="0,5,0,3"/>
             <Grid>
@@ -99,8 +100,8 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="24"/>
                 </Grid.RowDefinitions>
-                <TextBox MinHeight="24" Text="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <TextBox MinHeight="24" Text="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <TextBox MinHeight="24" Text="{Binding LineUpItem.StartTime, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <TextBox MinHeight="24" Text="{Binding LineUpItem.EndTime, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 <TextBlock Grid.Column="1" Margin="0,0,0,0" TextWrapping="Wrap" Foreground="Black" TextAlignment="Center" VerticalAlignment="Center" FontSize="13.333"><Run Language="nl-be" Text="-"/></TextBlock>
             </Grid>
             <Button Content="Toevoegen aan line-up" Margin="0,10,0,0" Height="24" Command="{Binding AddLineUpItemCommand}"/>
@@ -110,22 +111,22 @@
             <Label Content="Band:" FontWeight="Bold" Padding="0,0,0,3"/>
             <ComboBox MinHeight="24" VerticalContentAlignment="Center"
                       ItemsSource="{Binding BandManager.Bands}"
-                      SelectedItem="{Binding SelectedBand}"
+                      SelectedItem="{Binding LineUpItem.Band}"
                       SelectedValuePath="ID"
-                      SelectedValue="{Binding SelectedBand.ID}"
+                      SelectedValue="{Binding LineUpItem.Band.ID}"
                       DisplayMemberPath="Name"/>
             <Label Content="Omschrijving:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding SelectedBand.Description}"/></TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding LineUpItem.Band.Description}"/></TextBlock>
             <Label Content="Foto:" FontWeight="Bold" Padding="0,5,0,3"/>
             <Border Margin="0,8,0,0" MinHeight="50" MaxHeight="300" BorderThickness="1" BorderBrush="Black">
-                <Image Stretch="Uniform" StretchDirection="DownOnly" AllowDrop="False" Source="{Binding SelectedBand.Picture, Converter={StaticResource ByteArrayToImageConverter}}"></Image>
+                <Image Stretch="Uniform" StretchDirection="DownOnly" AllowDrop="False" Source="{Binding LineUpItem.Band.Picture, Converter={StaticResource ByteArrayToImageConverter}}"></Image>
             </Border>
             <Label Content="Twitter:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding SelectedBand.Twitter}"/></TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding LineUpItem.Band.Twitter, Converter={StaticResource StringToPrefixedStringConverter}, ConverterParameter='@'}"/></TextBlock>
             <Label Content="Facebook:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding SelectedBand.Facebook}"/></TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding LineUpItem.Band.Facebook, Converter={StaticResource StringToPrefixedStringConverter}, ConverterParameter='http://facebook.com/'}"/></TextBlock>
             <Label Content="Genre:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding SelectedBand.Genres, Converter={StaticResource NumerableToCommaSeparatedStringConverter}}"/></TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding LineUpItem.Band.Genres, Converter={StaticResource NumerableToCommaSeparatedStringConverter}}"/></TextBlock>
         </StackPanel>
 
         <Button Content="Wijzig" HorizontalAlignment="Right" Height="24" Margin="0,0,116,0" Grid.Row="2" VerticalAlignment="Top" Width="100" Command="{Binding EditLineUpItemCommand}"/>

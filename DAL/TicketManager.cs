@@ -76,7 +76,7 @@ namespace DAL
             ticket.TicketHolder = !Convert.IsDBNull(row["TicketHolder"]) ? row["TicketHolder"].ToString() : string.Empty;
             ticket.TicketHolderEmail = !Convert.IsDBNull(row["TicketHolderEmail"]) ? row["TicketHolderEmail"].ToString() : string.Empty;
             ticket.TicketType = !Convert.IsDBNull(row["Type"]) ? TicketTypeManager.GetTicketTypeByID((int)row["Type"]) : null;
-            ticket.Amount = !Convert.IsDBNull(row["Amount"]) ? (int)row["Amount"] : 0;
+            ticket.Amount = !Convert.IsDBNull(row["Amount"]) ? row["Amount"].ToString() : string.Empty;
 
             return ticket;
         }
