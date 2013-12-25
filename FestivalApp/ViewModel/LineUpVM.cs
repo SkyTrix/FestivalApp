@@ -273,6 +273,7 @@ namespace FestivalApp.ViewModel
             }
             catch (Exception)
             {
+                _addingLineUpItem = false;
             }
         }
 
@@ -322,7 +323,10 @@ namespace FestivalApp.ViewModel
 
             BandWindow window = new BandWindow();
             window.DataContext = new AddBandVM();
-            window.ShowDialog();
+            if (window.ShowDialog() == false)
+            {
+                _addingBand = false;
+            }
         }
 
         public ICommand EditBandCommand

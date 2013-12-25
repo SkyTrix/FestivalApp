@@ -229,7 +229,10 @@ namespace FestivalApp.ViewModel
 
             ContactPersonWindow window = new ContactPersonWindow();
             window.DataContext = new AddContactPersonVM();
-            window.ShowDialog();
+            if (window.ShowDialog() == false)
+            {
+                _addingContact = false;
+            }
         }
 
         public ICommand EditContactPersonCommand
@@ -251,7 +254,10 @@ namespace FestivalApp.ViewModel
             viewModel.ContactPerson = SelectedContactPerson.Copy();
             window.DataContext = viewModel;
             window.Title = "Contactpersoon wijzigen";
-            window.ShowDialog();
+            if (window.ShowDialog() == false)
+            {
+                _editingContact = false;
+            }
         }
 
         public ICommand DeleteContactPersonCommand
@@ -274,6 +280,7 @@ namespace FestivalApp.ViewModel
             }
             catch (Exception)
             {
+                _deletingContact = false;
             }
         }
     }
