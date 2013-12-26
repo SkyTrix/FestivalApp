@@ -74,7 +74,7 @@ namespace FestivalStoreApp
                     // Search genres
                     foreach (Genre genre in item.Band.Genres)
                     {
-                        if (genre.Name.ToLower().Contains(query))
+                        if (genre.Name.ToLower().Contains(query) && !all.Contains(item))
                         {
                             all.Add(item);
                             items.Add(item);
@@ -82,7 +82,7 @@ namespace FestivalStoreApp
                     }
 
                     // Search band name
-                    if (item.Band.Name.ToLower().Contains(query))
+                    if (item.Band.Name.ToLower().Contains(query) && !all.Contains(item))
                     {
                         all.Add(item);
                         items.Add(item);

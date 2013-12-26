@@ -84,41 +84,39 @@ namespace FestivalStoreApp.DataModel
 
         public static async Task LoadRemoteDataAsync()
         {
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Accept.Add(new
-            System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
-
-            HttpResponseMessage response = await client.GetAsync("http://localhost/api/lineup");
-            if (response.IsSuccessStatusCode)
+            try
             {
-                Stream stream = await response.Content.ReadAsStreamAsync();
-                DataContractSerializer dxml = new DataContractSerializer(typeof(List<LineUpItem>));
-                List<LineUpItem> list = dxml.ReadObject(stream) as List<LineUpItem>;
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Accept.Add(new
+                System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
 
-                // Convert lineup items into groups of lineupitems
-                foreach (LineUpItem item in list)
+                HttpResponseMessage response = await client.GetAsync("http://localhost/api/lineup");
+                if (response.IsSuccessStatusCode)
                 {
-                    LineUpDataGroup group = null;
+                    Stream stream = await response.Content.ReadAsStreamAsync();
+                    DataContractSerializer dxml = new DataContractSerializer(typeof(List<LineUpItem>));
+                    List<LineUpItem> list = dxml.ReadObject(stream) as List<LineUpItem>;
 
-                    group = _lineUpDataSource.AllGroups.FirstOrDefault(c => c.UniqueId.Equals(item.Stage.ID.ToString()));
-
-                    if (group == null)
+                    // Convert lineup items into groups of lineupitems
+                    foreach (LineUpItem item in list)
                     {
-                        group = new LineUpDataGroup() { UniqueId = item.Stage.ID.ToString(), Title = item.Stage.Name };
-                        _lineUpDataSource.AllGroups.Add(group);
+                        LineUpDataGroup group = null;
+
+                        group = _lineUpDataSource.AllGroups.FirstOrDefault(c => c.UniqueId.Equals(item.Stage.ID.ToString()));
+
+                        if (group == null)
+                        {
+                            group = new LineUpDataGroup() { UniqueId = item.Stage.ID.ToString(), Title = item.Stage.Name };
+                            _lineUpDataSource.AllGroups.Add(group);
+                        }
+
+                        group.Items.Add(item);
                     }
-
-                    LineUpItem dub = new LineUpItem();
-                    dub.Band = item.Band;
-                    dub.Stage = item.Stage;
-                    dub.Date = item.Date;
-                    dub.ID = item.ID + 100;
-                    dub.StartTime = item.StartTime;
-                    dub.EndTime = item.EndTime;
-                    group.Items.Add(dub);
-
-                    group.Items.Add(item);
                 }
+            }
+            catch (Exception)
+            {
+                
             }
         }
     }
