@@ -14,13 +14,24 @@ namespace API.Controllers
         // GET api/lineup
         public IEnumerable<LineUpItem> Get()
         {
-            return LineUpManager.Instance.LineUpItems;
+            IEnumerable<LineUpItem> items = LineUpManager.Instance.LineUpItems;
+            foreach (LineUpItem item in items)
+            {
+                // Do not add pictures to the feed, client will lazily load them
+                item.Band.Picture = null;
+            }
+
+            return items;
         }
 
         // GET api/lineup/5
         public LineUpItem Get(int id)
         {
-            return LineUpManager.Instance.LineUpItems.ToList().Find(x => x.ID == id);
+            LineUpItem item = LineUpManager.Instance.LineUpItems.ToList().Find(x => x.ID == id);
+            if (item != null)
+                item.Band.Picture = null;
+
+            return item;
         }
 
         // POST api/lineup
