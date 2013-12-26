@@ -28,6 +28,23 @@ namespace Models
         [Required(ErrorMessage = "De band is verplicht")]
         public Band Band { get; set; }
 
+        public static DateTime DateAndTimeStringToDateTime(DateTime date, string timeString)
+        {
+            DateTime dateAndTime = new DateTime(date.Ticks);
+
+            try
+            {
+                string[] timeComponents = timeString.Split(':');
+                dateAndTime = date.AddHours(Convert.ToDouble(timeComponents[0]));
+                dateAndTime = dateAndTime.AddMinutes(Convert.ToDouble(timeComponents[1]));
+            }
+            catch (Exception)
+            {
+            }
+
+            return dateAndTime;
+        }
+
         public string Error
         {
             get { return "Het object is niet valid"; }

@@ -140,6 +140,13 @@ namespace FestivalApp.ViewModel
             set { _bandManager = value; OnPropertyChanged("BandManager"); }
         }
 
+        private string _lineUpError;
+        public string LineUpError
+        {
+            get { return _lineUpError; }
+            set { _lineUpError = value; OnPropertyChanged("LineUpError"); }
+        }
+
         private bool _addingBand = false;
         private bool _addingLineUpItem = false;
 
@@ -265,6 +272,25 @@ namespace FestivalApp.ViewModel
 
         private void AddLineUpItem()
         {
+            // Check if end time is later than start time
+            DateTime startTime = LineUpItem.DateAndTimeStringToDateTime(LineUpItem.Date, LineUpItem.StartTime);
+            DateTime endTime = LineUpItem.DateAndTimeStringToDateTime(LineUpItem.Date, LineUpItem.EndTime);
+            if (endTime <= startTime)
+            {
+                LineUpError = "Fout bij toevoegen: eindtijd moet later zijn dan starttijd.";
+                return;
+            }
+
+            // Check if lineupitem overlaps with existing ones on the same stage
+            if (LineUpManager.LineUpItemOverlapsWithExistingItems(LineUpItem))
+            {
+                LineUpError = "Fout bij toevoegen: tijdsslot overlapt met een reeds toegevoegd tijdsslot op deze stage.";
+                return;
+            }
+
+            // Remove possible error message
+            LineUpError = string.Empty;
+
             _addingLineUpItem = true;
 
             try

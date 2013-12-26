@@ -85,6 +85,25 @@ namespace DAL
             return lineUpItem;
         }
 
+        public bool LineUpItemOverlapsWithExistingItems(LineUpItem item)
+        {
+            DateTime startTime = LineUpItem.DateAndTimeStringToDateTime(item.Date, item.StartTime);
+            DateTime endTime = LineUpItem.DateAndTimeStringToDateTime(item.Date, item.EndTime);
+
+            foreach (LineUpItem lineUpItem in LineUpItems.ToList().FindAll(x => x.Stage.ID == item.Stage.ID))
+            {
+                DateTime start = LineUpItem.DateAndTimeStringToDateTime(lineUpItem.Date, lineUpItem.StartTime);
+                DateTime end = LineUpItem.DateAndTimeStringToDateTime(lineUpItem.Date, lineUpItem.EndTime);
+
+                if ((startTime <= end) && (endTime >= start))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public void AddLineUpItem(LineUpItem item)
         {
             try

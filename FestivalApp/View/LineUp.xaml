@@ -105,6 +105,7 @@
                 <TextBlock Grid.Column="1" Margin="0,0,0,0" TextWrapping="Wrap" Foreground="Black" TextAlignment="Center" VerticalAlignment="Center" FontSize="13.333"><Run Language="nl-be" Text="-"/></TextBlock>
             </Grid>
             <Button Content="Toevoegen aan line-up" Margin="0,10,0,0" Height="24" Command="{Binding AddLineUpItemCommand}"/>
+            <TextBlock Text="{Binding LineUpError, UpdateSourceTrigger=PropertyChanged}" Foreground="Red" TextWrapping="Wrap" Margin="0,8,0,0" />
         </StackPanel>
 
         <StackPanel Grid.Column="2" Margin="8" Grid.Row="1">
