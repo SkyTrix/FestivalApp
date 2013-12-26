@@ -21,7 +21,7 @@ namespace API.Controllers
                 item.Band.Picture = null;
             }
 
-            return items;
+            return items.OrderBy(x => x.Date);
         }
 
         // GET api/lineup/5
