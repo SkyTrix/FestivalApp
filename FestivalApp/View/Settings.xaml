@@ -44,10 +44,10 @@
             <TextBox Grid.Column="1" Margin="0,8,0,0" TextWrapping="Wrap" VerticalContentAlignment="Center" Text="{Binding FestivalManager.Festival.Name}"/>
             
             <TextBlock Margin="0,4,0,0" Grid.Row="1" TextWrapping="Wrap" FontWeight="Bold" VerticalAlignment="Center" Text="Start festival:"/>
-            <DatePicker Grid.Column="1" Grid.Row="1" Margin="0,8,0,0" VerticalContentAlignment="Center" SelectedDate="{Binding FestivalManager.Festival.StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <DatePicker Grid.Column="1" Grid.Row="1" Margin="0,8,0,0" VerticalContentAlignment="Center" SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
            
             <TextBlock Margin="0,4,0,0" Grid.Row="2" TextWrapping="Wrap" FontWeight="Bold" VerticalAlignment="Center" Text="Einde festival:"/>
-            <DatePicker Grid.Column="1" Grid.Row="2" Margin="0,8,0,0" VerticalContentAlignment="Center" SelectedDate="{Binding FestivalManager.Festival.EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <DatePicker DisplayDateStart="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="2" Margin="0,8,0,0" VerticalContentAlignment="Center" SelectedDate="{Binding EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         
         <Label Content="Stages" Grid.Column="1" Grid.Row="0" Margin="8,0,8,0" FontSize="16" Padding="0" VerticalContentAlignment="Center" FontWeight="Bold"/>

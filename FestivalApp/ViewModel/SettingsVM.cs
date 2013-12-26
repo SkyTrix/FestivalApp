@@ -27,6 +27,49 @@ namespace FestivalApp.ViewModel
             set { _festivalManager = value; OnPropertyChanged("FestivalManager"); }
         }
 
+        private DateTime _startDate;
+        public DateTime StartDate
+        {
+            get
+            {
+                if (_startDate.Ticks == 0)
+                    _startDate = FestivalManager.Festival.StartDate;
+
+                return _startDate;
+            }
+            set
+            {
+                _startDate = value;
+                if (_endDate.CompareTo(value) < 0)
+                {
+                    _endDate = value;
+                    FestivalManager.Festival.EndDate = _endDate;
+                    OnPropertyChanged("EndDate");
+                }
+
+                FestivalManager.Festival.StartDate = _startDate;
+                OnPropertyChanged("StartDate");
+            }
+        }
+
+        private DateTime _endDate;
+        public DateTime EndDate
+        {
+            get
+            {
+                if (_endDate.Ticks == 0)
+                    _endDate = FestivalManager.Festival.EndDate;
+
+                return _endDate;
+            }
+            set
+            {
+                _endDate = value.CompareTo(_startDate) < 0 ? _startDate : value;
+                FestivalManager.Festival.EndDate = _endDate;
+                OnPropertyChanged("EndDate");
+            }
+        }
+
         private StageManager _stageManager;
         public StageManager StageManager
         {
