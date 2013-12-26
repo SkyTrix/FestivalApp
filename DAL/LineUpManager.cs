@@ -43,7 +43,9 @@ namespace DAL
         }
         #endregion
 
-        private ObservableCollection<LineUpItem> GetLineUpItems()
+        // Do not use this method in WPF app
+        // Only to be used when direct access to data from db is needed (website, API)
+        public static ObservableCollection<LineUpItem> GetLineUpItems()
         {
             try
             {

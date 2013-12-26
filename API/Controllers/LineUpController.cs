@@ -14,7 +14,7 @@ namespace API.Controllers
         // GET api/lineup
         public IEnumerable<LineUpItem> Get()
         {
-            IEnumerable<LineUpItem> items = LineUpManager.Instance.LineUpItems;
+            IEnumerable<LineUpItem> items = LineUpManager.GetLineUpItems();
             foreach (LineUpItem item in items)
             {
                 // Do not add pictures to the feed, client will lazily load them

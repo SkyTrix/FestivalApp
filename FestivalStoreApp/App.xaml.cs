@@ -52,18 +52,6 @@ namespace FestivalStoreApp
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
-            //HttpClient client = new HttpClient();
-            //client.DefaultRequestHeaders.Accept.Add(new
-            //System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
-
-            //HttpResponseMessage response = await client.GetAsync("http://localhost/api/lineup");
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    Stream stream = await response.Content.ReadAsStreamAsync();
-            //    DataContractSerializer dxml = new DataContractSerializer(typeof(List<LineUpItem>));
-            //    List<LineUpItem> list = dxml.ReadObject(stream) as List<LineUpItem>;
-            //}
-
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
 
@@ -88,7 +76,7 @@ namespace FestivalStoreApp
                     }
                 }
 
-                // Load recipe data
+                // Load lineup data
                 await LineUpDataSource.LoadRemoteDataAsync();
 
                 // Register handler for SuggestionsRequested events from the search pane
