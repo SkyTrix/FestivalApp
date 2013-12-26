@@ -1707,12 +1707,17 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="60" Height="60">
-                <Image Source="{Binding Image}" Stretch="UniformToFill"/>
+            <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="100">
+                <Image Source="{Binding Band.PictureURL}" Stretch="UniformToFill"/>
             </Border>
             <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                <TextBlock Text="{Binding Title}" Style="{StaticResource ItemTextStyle}" MaxHeight="40"/>
-                <TextBlock Text="{Binding Subtitle}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap"/>
+                <TextBlock Text="{Binding Band.Name}" Style="{StaticResource TitleTextStyle}" MaxHeight="40"/>
+                <TextBlock Text="{Binding Date, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:dd/MM/yyyy}'}" Style="{StaticResource BodyTextStyle}" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding StartTime}" Style="{StaticResource BodyTextStyle}" />
+                    <TextBlock Text="-" Style="{StaticResource BodyTextStyle}" Margin="4,0,4,0" />
+                    <TextBlock Text="{Binding EndTime}" Style="{StaticResource BodyTextStyle}" />
+                </StackPanel>
             </StackPanel>
         </Grid>
     </DataTemplate>

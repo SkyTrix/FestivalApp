@@ -72,12 +72,6 @@
             IsSwipeEnabled="false"
             IsItemClickEnabled="True"
             ItemClick="ItemView_ItemClick">
-
-            <ListView.Header>
-                <StackPanel>
-                    <TextBlock Text="hey" Margin="10,0,18,20" Style="{StaticResource TitleTextStyle}" MaxHeight="60"/>
-                </StackPanel>
-            </ListView.Header>
         </ListView>
 
         <!-- Back button and page title -->
