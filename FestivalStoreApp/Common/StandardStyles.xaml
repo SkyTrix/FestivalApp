@@ -1724,18 +1724,21 @@
 
     <!-- Grid-appropriate 300 by 70 pixel item template as seen in the SearchResultsPage -->
     <DataTemplate x:Key="StandardSmallIcon300x70ItemTemplate">
-        <Grid Width="294" Margin="6">
+        <Grid Width="225" Margin="6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Margin="0,0,0,10" Width="40" Height="40">
-                <Image Source="{Binding Image}" Stretch="UniformToFill"/>
+            <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Margin="0,0,0,10" Width="60" Height="50">
+                <Image Source="{Binding Band.PictureURL}" Stretch="UniformToFill"/>
             </Border>
-            <StackPanel Grid.Column="1" Margin="10,-10,0,0">
-                <TextBlock Text="{Binding Title}" Style="{StaticResource BodyTextStyle}" TextWrapping="NoWrap"/>
-                <TextBlock Text="{Binding Subtitle}" Style="{StaticResource BodyTextStyle}" Foreground="{StaticResource ApplicationSecondaryForegroundThemeBrush}" TextWrapping="NoWrap"/>
-                <TextBlock Text="{Binding Description}" Style="{StaticResource BodyTextStyle}" Foreground="{StaticResource ApplicationSecondaryForegroundThemeBrush}" TextWrapping="NoWrap"/>
+            <StackPanel Grid.Column="1" Margin="10,-8,0,0">
+                <TextBlock Text="{Binding Band.Name}" Style="{StaticResource BodyTextStyle}" TextWrapping="NoWrap"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding StartTime}" Style="{StaticResource BodyTextStyle}" />
+                    <TextBlock Text="-" Style="{StaticResource BodyTextStyle}" Margin="4,0,4,0" />
+                    <TextBlock Text="{Binding EndTime}" Style="{StaticResource BodyTextStyle}" />
+                </StackPanel>
             </StackPanel>
         </Grid>
     </DataTemplate>
