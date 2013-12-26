@@ -44,7 +44,7 @@
                 AutomationProperties.AutomationId="ItemGridView"
                 AutomationProperties.Name="Grouped Items"
                 Grid.RowSpan="2"
-                Padding="116,137,40,46"
+                Padding="116,0,40,46"
                 ItemsSource="{Binding Source={StaticResource groupedItemsViewSource}}"
                 ItemTemplate="{StaticResource Standard250x250ItemTemplate}"
                 SelectionMode="None"
