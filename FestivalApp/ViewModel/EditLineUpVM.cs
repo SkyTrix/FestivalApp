@@ -69,6 +69,13 @@ namespace FestivalApp.ViewModel
             set { _stageManager = value; OnPropertyChanged("StageManager"); }
         }
 
+        private string _lineUpError;
+        public string LineUpError
+        {
+            get { return _lineUpError; }
+            set { _lineUpError = value; OnPropertyChanged("LineUpError"); }
+        }
+
         public ICommand CancelCommand
         {
             get { return new RelayCommand(Cancel); }
@@ -86,6 +93,25 @@ namespace FestivalApp.ViewModel
 
         private void Save()
         {
+            // Check if end time is later than start time
+            DateTime startTime = LineUpItem.DateAndTimeStringToDateTime(LineUpItem.Date, LineUpItem.StartTime);
+            DateTime endTime = LineUpItem.DateAndTimeStringToDateTime(LineUpItem.Date, LineUpItem.EndTime);
+            if (endTime <= startTime)
+            {
+                LineUpError = "Fout bij wijzigen: eindtijd moet later zijn dan starttijd.";
+                return;
+            }
+
+            // Check if lineupitem overlaps with existing ones on the same stage
+            if (LineUpManager.Instance.LineUpItemOverlapsWithExistingItems(LineUpItem))
+            {
+                LineUpError = "Fout bij wijzigen: tijdsslot overlapt met een reeds toegevoegd tijdsslot op deze stage.";
+                return;
+            }
+
+            // Remove possible error message
+            LineUpError = null;
+
             try
             {
                 LineUpManager.Instance.EditLineUpItem(LineUpItem);

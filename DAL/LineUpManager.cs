@@ -92,6 +92,9 @@ namespace DAL
 
             foreach (LineUpItem lineUpItem in LineUpItems.ToList().FindAll(x => x.Stage.ID == item.Stage.ID))
             {
+                if (item.ID == lineUpItem.ID)
+                    continue;
+
                 DateTime start = LineUpItem.DateAndTimeStringToDateTime(lineUpItem.Date, lineUpItem.StartTime);
                 DateTime end = LineUpItem.DateAndTimeStringToDateTime(lineUpItem.Date, lineUpItem.EndTime);
 

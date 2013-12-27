@@ -37,6 +37,17 @@
                 <TextBox MinHeight="24" Text="{Binding LineUpItem.EndTime, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                 <TextBlock Grid.Column="1" Margin="0,0,0,0" TextWrapping="Wrap" Foreground="Black" TextAlignment="Center" VerticalAlignment="Center" FontSize="13.333"><Run Language="nl-be" Text="-"/></TextBlock>
             </Grid>
+            <TextBlock Text="{Binding LineUpError, UpdateSourceTrigger=PropertyChanged}" Foreground="Red" TextWrapping="Wrap" Margin="0,8,0,0">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding LineUpError}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
             <Grid Margin="0,15,0,0">
                 <Button Content="Annuleren" Command="{Binding CancelCommand}" HorizontalAlignment="Right" Height="24" Margin="0,0,108,0" Width="100"/>
                 <Button Content="Opslaan" Command="{Binding SaveCommand}" HorizontalAlignment="Right" Height="24" Margin="0,0,0,0" Width="100"/>
