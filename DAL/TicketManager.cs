@@ -42,7 +42,9 @@ namespace DAL
         }   
         #endregion
 
-        private ObservableCollection<Ticket> GetTickets()
+        // Do not use this method in WPF app
+        // Only to be used when direct access to data from db is needed (website, API)
+        public static ObservableCollection<Ticket> GetTickets()
         {
             try
             {
@@ -76,7 +78,7 @@ namespace DAL
             ticket.TicketHolder = !Convert.IsDBNull(row["TicketHolder"]) ? row["TicketHolder"].ToString() : string.Empty;
             ticket.TicketHolderEmail = !Convert.IsDBNull(row["TicketHolderEmail"]) ? row["TicketHolderEmail"].ToString() : string.Empty;
             ticket.TicketType = !Convert.IsDBNull(row["Type"]) ? TicketTypeManager.GetTicketTypeByID((int)row["Type"]) : null;
-            ticket.Amount = !Convert.IsDBNull(row["Amount"]) ? (int)row["Amount"] : 0;
+            ticket.Amount = !Convert.IsDBNull(row["Amount"]) ? row["Amount"].ToString() : string.Empty;
 
             return ticket;
         }

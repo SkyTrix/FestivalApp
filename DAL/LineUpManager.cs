@@ -43,7 +43,9 @@ namespace DAL
         }
         #endregion
 
-        private ObservableCollection<LineUpItem> GetLineUpItems()
+        // Do not use this method in WPF app
+        // Only to be used when direct access to data from db is needed (website, API)
+        public static ObservableCollection<LineUpItem> GetLineUpItems()
         {
             try
             {
@@ -81,6 +83,28 @@ namespace DAL
             lineUpItem.Band = BandManager.GetBandByID(row["Band"].ToString());
 
             return lineUpItem;
+        }
+
+        public bool LineUpItemOverlapsWithExistingItems(LineUpItem item)
+        {
+            DateTime startTime = LineUpItem.DateAndTimeStringToDateTime(item.Date, item.StartTime);
+            DateTime endTime = LineUpItem.DateAndTimeStringToDateTime(item.Date, item.EndTime);
+
+            foreach (LineUpItem lineUpItem in LineUpItems.ToList().FindAll(x => x.Stage.ID == item.Stage.ID))
+            {
+                if (item.ID == lineUpItem.ID)
+                    continue;
+
+                DateTime start = LineUpItem.DateAndTimeStringToDateTime(lineUpItem.Date, lineUpItem.StartTime);
+                DateTime end = LineUpItem.DateAndTimeStringToDateTime(lineUpItem.Date, lineUpItem.EndTime);
+
+                if ((startTime <= end) && (endTime >= start))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public void AddLineUpItem(LineUpItem item)
