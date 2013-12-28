@@ -16,7 +16,6 @@ using FestivalWebsite.Models;
 namespace FestivalWebsite.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
     public class AccountController : Controller
     {
         //
