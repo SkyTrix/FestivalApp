@@ -191,11 +191,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Comparers\LineUpStartTimeComparer.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BandController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LineUpController.cs" />
     <Compile Include="Controllers\RssController.cs" />
     <Compile Include="Controllers\RssResult.cs" />
+    <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -317,10 +320,11 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Band\Index.cshtml" />
     <Content Include="Views\Band\Details.cshtml" />
+    <Content Include="Views\Ticket\Reservations.cshtml" />
+    <Content Include="Views\LineUp\Index.cshtml" />
+    <Content Include="Views\LineUp\Details.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

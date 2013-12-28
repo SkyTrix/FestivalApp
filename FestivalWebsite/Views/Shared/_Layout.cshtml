@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using DAL
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -12,7 +13,7 @@
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
+                    <p class="site-title">@Html.ActionLink(FestivalManager.Instance.Festival.Name, "Index", "LineUp")</p>
                 </div>
                 <div class="float-right">
                     <section id="login">
@@ -20,9 +21,12 @@
                     </section>
                     <nav>
                         <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                            <li>@Html.ActionLink("Line up", "Index", "LineUp")</li>
+                            <li>@Html.ActionLink("Tickets", "Index", "Ticket")</li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li>@Html.ActionLink("Reservations", "Reservations", "Ticket")</li>
+                            }
                             <li>@Html.ActionLink("RSS", "Index", "Rss", null, new { target = "_blank" })</li>
                         </ul>
                     </nav>

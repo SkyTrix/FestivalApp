@@ -60,6 +60,25 @@ namespace DAL
             }
         }
 
+        public static LineUpItem GetLineUpItemByID(string id)
+        {
+            try
+            {
+                string query = "SELECT [ID], [Date], [StartTime], [EndTime], [Stage], [Band] FROM [LineUp] WHERE ID = @ID";
+
+                DbDataReader reader = Database.GetData(query,
+                    Database.CreateParameter("@ID", id)
+                );
+                ObservableCollection<LineUpItem> items = GetResults(reader);
+
+                return items.FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         private static ObservableCollection<LineUpItem> GetResults(DbDataReader reader)
         {
             ObservableCollection<LineUpItem> list = new ObservableCollection<LineUpItem>();

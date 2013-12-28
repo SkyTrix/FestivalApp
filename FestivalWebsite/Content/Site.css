@@ -534,6 +534,11 @@ table {
     border: 0 none;
 }
 
+#lineup tbody > tr:first-child {
+    vertical-align: top;
+    height: 30px;
+}
+
 th {
     font-size: 1.2em;
     text-align: left;
@@ -757,21 +762,21 @@ tr.pager td {
 
 @media only screen and (max-width: 760px) {
 
-	table, thead, tbody, th, td, tr {
+	table.wide, table.wide thead, table.wide tbody, table.wide th, table.wide td, table.wide tr {
 		display: block;
 	}
 
-    tr {
+    table.wide tr {
         margin-bottom: 20px;
     }
 
-	tr th {
+	table.wide tr th {
 		position: absolute;
 		top: -9999px;
 		left: -9999px;
 	}
 
-	td {
+	table.wide td {
 		border: none;
 		position: relative;
 	}

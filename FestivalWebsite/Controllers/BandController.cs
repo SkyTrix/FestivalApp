@@ -15,15 +15,20 @@ namespace FestivalWebsite.Controllers
 
         public ActionResult Index()
         {
-            IEnumerable<Band> bands = BandManager.Instance.Bands;
+            IEnumerable<Band> bands = BandManager.GetBands();
             return View(bands);
         }
 
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            Band band = BandManager.Instance.Bands.Where(x => x.ID == id).FirstOrDefault();
-            if (band == null)
+            if (id == null)
                 return HttpNotFound();
+
+            Band band = BandManager.GetBandByID(id.ToString());
+            if (band == null)
+            {
+                return HttpNotFound();
+            }
 
             return View(band);
         }

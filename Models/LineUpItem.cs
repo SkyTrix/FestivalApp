@@ -12,6 +12,7 @@ namespace Models
         public int ID { get; set; }
 
         [Required(ErrorMessage = "De datum is verplicht")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Date { get; set; }
 
         [Required(ErrorMessage = "De starttijd is verplicht")]

@@ -200,12 +200,12 @@ namespace FestivalApp.ViewModel
                         run.PrependChild<RunProperties>(prop);
                         bookmarks["TicketNumber"].Parent.InsertAfter<Run>(run, bookmarks["TicketNumber"]);
 
-                        Run run2 = new Run(new Text(ticket.TicketType.Name));
+                        Run run2 = new Run(new Text(FestivalManager.Instance.Festival.Name));
                         RunProperties prop2 = new RunProperties();
                         FontSize size2 = new FontSize() { Val = "72" };
                         prop2.Append(size2);
                         run2.PrependChild<RunProperties>(prop2);
-                        bookmarks["TicketType"].Parent.InsertAfter<Run>(run2, bookmarks["TicketType"]);
+                        bookmarks["FestivalName"].Parent.InsertAfter<Run>(run2, bookmarks["FestivalName"]);
 
                         Run run3 = new Run(new Text(ticket.TicketHolder));
                         RunProperties prop3 = new RunProperties();
@@ -228,12 +228,25 @@ namespace FestivalApp.ViewModel
                         run5.PrependChild<RunProperties>(prop5);
                         bookmarks["Amount"].Parent.InsertAfter<Run>(run5, bookmarks["Amount"]);
 
-                        Run run6 = new Run(new Text((ticket.TicketType.Price * ticket.Amount).ToString("C2")));
+                        Run run6 = new Run(new Text((ticket.TicketType.Price * Int32.Parse(ticket.Amount)).ToString("C2")));
                         RunProperties prop6 = new RunProperties();
                         FontSize size6 = new FontSize() { Val = "28" };
                         prop6.Append(size6);
                         run6.PrependChild<RunProperties>(prop6);
                         bookmarks["Price"].Parent.InsertAfter<Run>(run6, bookmarks["Price"]);
+
+                        Run run7 = new Run();
+                        RunProperties runProperties = new RunProperties();
+                        Bold bold = new Bold();
+                        FontSize size7 = new FontSize() { Val = "32" };
+                        runProperties.Append(bold);
+                        runProperties.Append(size7);
+                        Text text = new Text();
+                        text.Text = ticket.TicketType.Name;
+                        run7.Append(runProperties);
+                        run7.Append(text);
+
+                        bookmarks["TicketType"].Parent.InsertAfter<Run>(run7, bookmarks["TicketType"]);
 
                         newdoc.Close();
                     }
