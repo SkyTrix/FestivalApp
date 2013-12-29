@@ -1,4 +1,64 @@
-﻿@model IEnumerable<Models.Ticket>
+﻿@model FestivalWebsite.ViewModels.ReservationsOverviewVM
+
+@{
+    ViewBag.Title = "Reservations";
+}
+
+<h2>Ticket types</h2>
+
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Price
+        </th>
+        <th class="medium">
+            Available
+        </th>
+        <th>
+            Sold
+        </th>
+        <th class="wide">
+            Remaining
+        </th>
+        <th>
+            Revenue
+        </th>
+    </tr>
+
+@foreach (var item in Model.TicketTypes)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TicketType.Name)
+        </td>
+        <td>
+            @String.Format("{0:c}", item.TicketType.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TicketType.AvailableTickets)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SoldTickets)
+        </td>
+        <td>
+            @{
+                string style = "";
+                if (item.RemainingTickets < 1000) { style = "color: red;"; }
+            }
+            <span style="@style">@Html.DisplayFor(modelItem => item.RemainingTickets)</span>
+        </td>
+        <td>
+            @String.Format("{0:c}", item.Revenue)
+        </td>
+    </tr>
+}
+
+</table>
+
+<p><strong>Total revenue: </strong>@string.Format("{0:c}", Model.TotalRevenue)</p>
 
 <h2>Reservations</h2>
 
@@ -13,12 +73,16 @@
         <th>
             Ticket
         </th>
-        <th>
+        <th class="medium">
             Amount
+        </th>
+        <th>
+            Cost
         </th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Tickets)
+{
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.TicketHolder)
@@ -31,6 +95,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @String.Format("{0:c}", int.Parse(item.Amount) * item.TicketType.Price)
         </td>
     </tr>
 }
