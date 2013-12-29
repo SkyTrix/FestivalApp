@@ -41,7 +41,9 @@ namespace DAL
         }
         #endregion
 
-        private static Festival GetFestival()
+        // Do not use this method in WPF app
+        // Only to be used when direct access to data from db is needed (website, API)
+        public static Festival GetFestival()
         {
             if (GetFestivalFromDB() == null)
             {

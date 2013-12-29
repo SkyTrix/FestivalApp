@@ -55,7 +55,7 @@ namespace FestivalWebsite.Controllers
         {
             WebSecurity.Logout();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "LineUp");
         }
 
         //
@@ -97,7 +97,7 @@ namespace FestivalWebsite.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "LineUp");
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -353,7 +353,7 @@ namespace FestivalWebsite.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "LineUp");
             }
         }
 

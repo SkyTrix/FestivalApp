@@ -13,7 +13,7 @@
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p class="site-title">@Html.ActionLink(FestivalManager.Instance.Festival.Name, "Index", "LineUp")</p>
+                    <p class="site-title">@Html.ActionLink(FestivalManager.GetFestival().Name, "Index", "LineUp")</p>
                 </div>
                 <div class="float-right">
                     <section id="login">

@@ -470,6 +470,22 @@ textarea {
         margin-right: 4px;
     }
 
+    #filterButton {
+        padding: 1px 6px 1px 6px;
+        margin: 2px;
+        font-weight: normal;
+        font-size: 1.1em;
+    }
+
+    .filterlabel {
+        display: inline;
+        font-size: 1.1em;
+    }
+
+    #lineupfilter {
+        margin: 10px 0px 10px 0px;
+    }
+
 /* info and errors */
 .message-info {
     border: 1px solid;
@@ -769,6 +785,10 @@ tr.pager td {
     table.wide tr {
         margin-bottom: 20px;
     }
+
+        table.wide tr:first-child {
+            margin-bottom: -20px;
+        }
 
 	table.wide tr th {
 		position: absolute;
