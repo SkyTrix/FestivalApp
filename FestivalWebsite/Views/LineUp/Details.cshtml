@@ -1,39 +1,83 @@
-﻿@model Models.LineUpItem
+﻿@using FestivalWebsite.App_Code
+@model Models.LineUpItem
 
-<h2>Details</h2>
+@{
+    ViewBag.Title = "Line up - " + Model.Band.Name;
+}
+
+<h2>@Model.Band.Name</h2>
 
 <fieldset>
-    <legend>LineUpItem</legend>
+    <legend>@Model.Band.Name</legend>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Date)
-    </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Date)
     </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.StartTime)
-    </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.StartTime)
+        @Html.DisplayFor(model => model.StartTime) - @Html.DisplayFor(model => model.EndTime)
     </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.EndTime)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.EndTime)
-    </div>
+    @if(Model.Band.Picture != null)
+    {
+        <img width="300" src="data:image;base64,@System.Convert.ToBase64String(Model.Band.Picture)" style="margin-top:8px" />
+    }
+    else
+    {
+        <img width="300" src="~/Content/Images/noimage.png" style="margin-top:8px" />
+    }
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Error)
+         Stage:
     </div>
+
     <div class="display-field">
-        @Html.DisplayFor(model => model.Error)
+        @Html.DisplayFor(model => model.Stage.Name)
     </div>
+
+    <br />
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Band.Description):
+    </div>
+
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Band.Description)
+    </div>
+
+    <br />
+
+    <div class="display-label">
+         Genre:
+    </div>
+
+    <div class="display-field">
+        @Html.NumerableToCommaSeparatedString(Model.Band.Genres)
+    </div>
+
+    @if(!string.IsNullOrEmpty(Model.Band.Facebook))
+    {
+    <br />
+
+    <div class="display-label">
+          @Html.DisplayNameFor(model => model.Band.Twitter):
+    </div>
+
+    <div class="display-field">
+        <a href="http://twitter.com/@Model.Band.Twitter">@@@Model.Band.Twitter</a>
+    </div>
+    }
+
+    @if(!string.IsNullOrEmpty(Model.Band.Facebook))
+    {
+    <br />
+
+    <div class="display-label">
+          @Html.DisplayNameFor(model => model.Band.Facebook):
+    </div>
+
+    <div class="display-field">
+        <a href="http://facebook.com/@Model.Band.Facebook">http://facebook.com/@Model.Band.Facebook</a>
+    </div>
+    }
 </fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

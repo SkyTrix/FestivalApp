@@ -1,9 +1,12 @@
 ﻿@using DAL
+@{
+    var siteName = FestivalManager.GetFestival().Name;
+}
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+        <title>@ViewBag.Title - @siteName</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
@@ -13,7 +16,7 @@
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p class="site-title">@Html.ActionLink(FestivalManager.GetFestival().Name, "Index", "LineUp")</p>
+                    <p class="site-title">@Html.ActionLink(siteName, "Index", "LineUp")</p>
                 </div>
                 <div class="float-right">
                     <section id="login">

@@ -562,6 +562,14 @@ th {
     padding-left: 0;
 }
 
+    th.medium {
+        width: 90px;
+    }
+
+    th.wide {
+        width: 110px;
+    }
+
     th a {
         display: block;
         position: relative;

@@ -46,14 +46,14 @@ namespace FestivalWebsite.Controllers
                     break;
             }
 
-            // Make sure selected date exists
+            // Make sure selected date exists, don't trust user
             if (!string.IsNullOrEmpty(date) && festivalDates.ToList().FindAll(x => x.ToShortDateString().Equals(date)).Count != 0)
             {
                 lineUpItems = lineUpItems.ToList().FindAll(x => x.Date.ToShortDateString() == date);
                 ViewBag.SelectedDate = date;
             }
 
-            // Make sure selected date exists
+            // Make sure selected date exists, don't trust user
             if (!string.IsNullOrEmpty(stage) && stages.ToList().Find(x => x.ID.ToString() == stage) != null)
             {
                 lineUpItems = lineUpItems.ToList().FindAll(x => x.Stage.ID.ToString() == stage);
@@ -63,7 +63,7 @@ namespace FestivalWebsite.Controllers
             // Add error message if there are no results
             if (lineUpItems.ToList().Count == 0)
             {
-                ViewBag.Error = "There are no results for your selection";
+                ViewBag.Error = "There are no results for your selection.";
             }
 
             List<SelectListItem> dates = new List<SelectListItem>();
