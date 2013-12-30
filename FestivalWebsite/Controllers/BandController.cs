@@ -19,6 +19,9 @@ namespace FestivalWebsite.Controllers
             return View(bands);
         }
 
+        //
+        // GET: /Band/Details
+
         public ActionResult Details(int? id)
         {
             if (id == null)

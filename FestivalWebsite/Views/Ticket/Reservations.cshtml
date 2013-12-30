@@ -46,7 +46,7 @@
         <td>
             @{
                 string style = "";
-                if (item.RemainingTickets < 1000) { style = "color: red;"; }
+                if (item.RemainingTickets < 1000) { style = "color: orange;"; }
             }
             <span style="@style">@Html.DisplayFor(modelItem => item.RemainingTickets)</span>
         </td>

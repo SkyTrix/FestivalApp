@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Thanks";
+}
+
+<h2>Thanks</h2>
+<p>
+    @if(TempData["Error"] != null)
+    {
+        @TempData["Error"]
+    }
+    else
+    {
+        <text>Thank you for your order. We will email you your tickets as soon as they're processed.</text>
+    }
+</p>

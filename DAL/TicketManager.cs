@@ -83,7 +83,7 @@ namespace DAL
             return ticket;
         }
 
-        public void AddTicket(Ticket ticket)
+        public static void InsertTicket(Ticket ticket)
         {
             try
             {
@@ -95,6 +95,18 @@ namespace DAL
                     Database.CreateParameter("@Type", ticket.TicketType.ID),
                     Database.CreateParameter("@Amount", ticket.Amount)
                 );
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void AddTicket(Ticket ticket)
+        {
+            try
+            {
+                InsertTicket(ticket);
 
                 // Refresh data to retrieve ID of newly added item
                 Tickets = GetTickets();

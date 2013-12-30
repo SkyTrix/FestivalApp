@@ -186,7 +186,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Customer.cs" />
     <Compile Include="ViewModels\ReservationsOverviewVM.cs" />
+    <Compile Include="ViewModels\TicketOrderVM.cs" />
+    <Compile Include="ViewModels\TicketTypeAmountVM.cs" />
     <Compile Include="ViewModels\TicketTypeVM.cs" />
     <Content Include="App_Code\HtmlHelpers.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
@@ -326,6 +329,10 @@
     <Content Include="Views\Ticket\Reservations.cshtml" />
     <Content Include="Views\LineUp\Index.cshtml" />
     <Content Include="Views\LineUp\Details.cshtml" />
+    <Content Include="Views\Ticket\Index.cshtml" />
+    <Content Include="Views\Ticket\Amount.cshtml" />
+    <Content Include="Views\Ticket\Confirm.cshtml" />
+    <Content Include="Views\Ticket\Thanks.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
