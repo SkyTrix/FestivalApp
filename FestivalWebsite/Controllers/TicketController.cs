@@ -48,7 +48,7 @@ namespace FestivalWebsite.Controllers
                     if (!selection.Equals("false", StringComparison.CurrentCultureIgnoreCase))
                     {
                         int id = 0;
-                        if(int.TryParse(selection, out id))
+                        if (int.TryParse(selection, out id))
                         {
                             selectedTicketIDs.Add(id);
                         }
@@ -114,6 +114,11 @@ namespace FestivalWebsite.Controllers
                         ModelState.AddModelError("TicketError", "You can't order more tickets than there are available.");
                     }
                 }
+            }
+
+            if (!(ModelState.IsValidField("FirstName") && ModelState.IsValidField("LastName") && ModelState.IsValidField("Email")))
+            {
+                ModelState.AddModelError("TicketError", "Please fill in all fields.");
             }
 
             ViewBag.Customer = customer;
@@ -206,7 +211,7 @@ namespace FestivalWebsite.Controllers
 
             double totalRevenue = 0;
 
-            foreach(Ticket ticket in tickets)
+            foreach (Ticket ticket in tickets)
             {
                 totalRevenue += ticket.TicketType.Price * double.Parse(ticket.Amount);
             }

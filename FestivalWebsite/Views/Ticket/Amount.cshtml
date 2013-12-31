@@ -39,9 +39,6 @@
         <tr>
             <td>
                 @Html.HiddenFor(modelItem => Model[i].TicketType.ID)
-                @Html.HiddenFor(modelItem => Model[i].TicketType.Name)
-                @Html.HiddenFor(modelItem => Model[i].TicketType.Price)
-                @Html.HiddenFor(modelItem => Model[i].TicketType.AvailableTickets)
                 @Html.DisplayFor(modelItem => Model[i].TicketType.Name)
             </td>
             <td>
@@ -94,5 +91,5 @@
 }
 
 @section Scripts {
-    @*@Scripts.Render("~/bundles/jqueryval")*@
+    @Scripts.Render("~/bundles/jqueryval")
 }
