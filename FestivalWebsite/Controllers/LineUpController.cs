@@ -21,7 +21,7 @@ namespace FestivalWebsite.Controllers
             IEnumerable<Stage> stages = StageManager.GetStages();
 
             ViewBag.BandSort = sortOrder == "Band" ? "Band_desc" : "Band";
-            ViewBag.DateSort = sortOrder == "Date" ? "Date_desc" : "Date";
+            ViewBag.DateSort = sortOrder == "Date_desc" ? "Date" : "Date_desc";
             ViewBag.StageSort = sortOrder == "Stage" ? "Stage_desc" : "Stage";
 
             switch (sortOrder)

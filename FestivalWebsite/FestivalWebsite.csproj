@@ -199,7 +199,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Comparers\LineUpStartTimeComparer.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\BandController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LineUpController.cs" />
     <Compile Include="Controllers\RssController.cs" />
@@ -324,8 +323,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Band\Index.cshtml" />
-    <Content Include="Views\Band\Details.cshtml" />
     <Content Include="Views\Ticket\Reservations.cshtml" />
     <Content Include="Views\LineUp\Index.cshtml" />
     <Content Include="Views\LineUp\Details.cshtml" />
