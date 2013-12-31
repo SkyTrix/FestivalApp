@@ -39,6 +39,13 @@ namespace FestivalApp.ViewModel
             set { _ticketTypeManager = value; OnPropertyChanged("TicketTypeManager"); }
         }
 
+        private string _reservationError;
+        public string ReservationError
+        {
+            get { return _reservationError; }
+            set { _reservationError = value; OnPropertyChanged("ReservationError"); }
+        }
+
         public ICommand CancelCommand
         {
             get { return new RelayCommand(Cancel); }
@@ -56,6 +63,16 @@ namespace FestivalApp.ViewModel
 
         private void Save()
         {
+            // Check if more tickets are reserved than there are available
+            if (int.Parse(Ticket.Amount) > TicketTypeManager.CountTicketsRemainingForTicketType(Ticket.TicketType.ID))
+            {
+                ReservationError = "Fout bij toevoegen: er kunnen niet meer tickets gereserveerd worden dan er nog beschikbaar zijn.";
+                return;
+            }
+
+            // Remove possible error message
+            ReservationError = null;
+
             try
             {
                 TicketManager.Instance.AddTicket(Ticket);
