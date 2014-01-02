@@ -28,21 +28,27 @@ namespace FestivalWebsite.Controllers
             {
                 case "Band":
                     lineUpItems = lineUpItems.OrderBy(x => x.Band.Name);
+                    ViewBag.BandSortDirection = "asc";
                     break;
                 case "Band_desc":
                     lineUpItems = lineUpItems.OrderByDescending(x => x.Band.Name);
+                    ViewBag.BandSortDirection = "desc";
                     break;
                 case "Date_desc":
                     lineUpItems = lineUpItems.OrderByDescending(x => x.Date).ThenBy(x => x, new LineUpStartTimeComparer());
+                    ViewBag.DateSortDirection = "desc";
                     break;
                 case "Stage":
                     lineUpItems = lineUpItems.OrderBy(x => x.Stage.Name).ThenBy(x => x, new LineUpStartTimeComparer());
+                    ViewBag.StageSortDirection = "asc";
                     break;
                 case "Stage_desc":
                     lineUpItems = lineUpItems.OrderByDescending(x => x.Stage.Name).ThenBy(x => x, new LineUpStartTimeComparer());
+                    ViewBag.StageSortDirection = "desc";
                     break;
                 default:
                     lineUpItems = lineUpItems.OrderBy(x => x.Date).ThenBy(x => x, new LineUpStartTimeComparer());
+                    ViewBag.DateSortDirection = "asc";
                     break;
             }
 

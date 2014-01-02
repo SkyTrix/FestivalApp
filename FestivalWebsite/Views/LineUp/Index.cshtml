@@ -4,7 +4,9 @@
     ViewBag.Title = "Line up";
 }
 
-<h2>Line up</h2>
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+</hgroup>
 
 <div id="lineupfilter">
 @using(Html.BeginForm("Index", "LineUp", FormMethod.Get))
@@ -20,16 +22,16 @@
     <table class="wide" id="lineup">
         <tr>
             <th>Picture</th>
-            <th>
+            <th class="@ViewBag.BandSortDirection">
                 @Html.ActionLink("Band", "Index", new { sortOrder = ViewBag.BandSort, Date = ViewBag.SelectedDate, Stage = ViewBag.SelectedStage })
             </th>
-            <th>
+            <th class="@ViewBag.DateSortDirection">
                 @Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSort, Date = ViewBag.SelectedDate, Stage = ViewBag.SelectedStage })
             </th>
             <th>
                 @Html.ActionLink("Time", "Index", new { sortOrder = ViewBag.DateSort, Date = ViewBag.SelectedDate, Stage = ViewBag.SelectedStage })
             </th>
-            <th>
+            <th class="@ViewBag.StageSortDirection">
                 @Html.ActionLink("Stage", "Index", new { sortOrder = ViewBag.StageSort, Date = ViewBag.SelectedDate, Stage = ViewBag.SelectedStage })
             </th>
             <th></th>
