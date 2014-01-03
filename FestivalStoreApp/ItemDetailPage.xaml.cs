@@ -46,7 +46,6 @@ namespace FestivalStoreApp
                 navigationParameter = pageState["SelectedItem"];
             }
 
-            // TODO: Create an appropriate data model for your problem domain to replace the sample data
             var item = LineUpDataSource.GetItem((String)navigationParameter);
             LineUpDataGroup group = LineUpDataSource.GetGroup(item.Stage.ID.ToString());
             this.DefaultViewModel["Group"] = group;

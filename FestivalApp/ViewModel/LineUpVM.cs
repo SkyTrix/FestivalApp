@@ -75,6 +75,7 @@ namespace FestivalApp.ViewModel
         {
             get
             {
+                // Create a collection of all festival dates
                 object[] dates = Array.ConvertAll(FestivalManager.Festival.FestivalDates.ToArray(), x => (object)x);
                 ObservableCollection<object> festivalDates = new ObservableCollection<object>(dates);
 
@@ -202,6 +203,7 @@ namespace FestivalApp.ViewModel
 
                     if(SelectedFilterStage != null)
                     {
+                        // Change stage filter of newly added lineup item doesn't conform to it
                         if (newItem.Stage.ID != SelectedFilterStage.ID && SelectedFilterStage.ID != -2)
                         {
                             SelectedFilterStage = FilterStages.ToList().Find(x => x.ID == newItem.Stage.ID);
@@ -210,6 +212,7 @@ namespace FestivalApp.ViewModel
 
                     if (SelectedFilterFestivalDate != null && !SelectedFilterFestivalDate.Equals("All"))
                     {
+                        // Change date filter of newly added lineup item doesn't conform to it
                         if (newItem.Date != (DateTime)SelectedFilterFestivalDate)
                         {
                             SelectedFilterFestivalDate = newItem.Date;

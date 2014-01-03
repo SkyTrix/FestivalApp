@@ -39,6 +39,7 @@ namespace FestivalApp.ViewModel
             }
             set
             {
+                // Make sure end date can't be earlier than start date
                 _startDate = value;
                 if (_endDate.CompareTo(value) < 0)
                 {

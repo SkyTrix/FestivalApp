@@ -49,8 +49,6 @@ namespace FestivalStoreApp.DataModel
 
     public sealed class LineUpDataSource
     {
-        //public event EventHandler RecipesLoaded;
-
         private static LineUpDataSource _lineUpDataSource = new LineUpDataSource();
 
         private ObservableCollection<LineUpDataGroup> _allGroups = new ObservableCollection<LineUpDataGroup>();
@@ -86,6 +84,7 @@ namespace FestivalStoreApp.DataModel
         {
             try
             {
+                // Fetch lineup items
                 HttpClient client = new HttpClient();
                 client.DefaultRequestHeaders.Accept.Add(new
                 System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
