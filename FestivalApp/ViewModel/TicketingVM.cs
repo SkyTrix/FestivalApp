@@ -173,11 +173,13 @@ namespace FestivalApp.ViewModel
         {
             try
             {
+                // Let user choose a folder
                 VistaFolderBrowserDialog ofd = new VistaFolderBrowserDialog();
                 ofd.Description = "Waar wenst u de tickets op te slaan?";
                 ofd.UseDescriptionForTitle = true;
                 if (ofd.ShowDialog() == true)
                 {
+                    // Create all tickets in docx format
                     foreach (Ticket ticket in TicketManager.Tickets)
                     {
                         string filename = ofd.SelectedPath + Path.DirectorySeparatorChar + ticket.ID + "_" + ticket.TicketHolder + ".docx";

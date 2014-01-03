@@ -55,6 +55,7 @@ namespace FestivalApp.ViewModel
                 {
                     _genreCheckBoxes = new ObservableCollection<CheckBox>();
 
+                    // Create a checkbox for each genre, check it if band is linked to genre
                     ObservableCollection<Genre> genres = GenreManager.GetGenresForBand(Band);
                     foreach (Genre genre in GenreManager.Genres)
                     {
@@ -95,6 +96,7 @@ namespace FestivalApp.ViewModel
         {
             try
             {
+                // Create a list of checked checkboxes
                 List<Genre> genres = new List<Genre>();
                 foreach (CheckBox box in GenreCheckBoxes)
                 {
@@ -131,6 +133,7 @@ namespace FestivalApp.ViewModel
 
             string allPictureExtensions = "";
 
+            // Create a filter for all extensions
             foreach (var c in codecs)
             {
                 string codecName = c.CodecName.Substring(8).Replace("Codec", "Files").Trim();
