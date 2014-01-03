@@ -4,7 +4,9 @@
     ViewBag.Title = "Reservations";
 }
 
-<h2>Ticket types</h2>
+<hgroup class="title">
+    <h1>Ticket types</h1>
+</hgroup>
 
 <table>
     <tr>
@@ -60,7 +62,7 @@
 
 <p><strong>Total revenue: </strong>@string.Format("{0:c}", Model.TotalRevenue)</p>
 
-<h2>Reservations</h2>
+<h1>Reservations</h1>
 
 <table>
     <tr>
@@ -77,7 +79,7 @@
             Amount
         </th>
         <th>
-            Cost
+            Revenue
         </th>
     </tr>
 

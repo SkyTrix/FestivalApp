@@ -1,15 +1,15 @@
 ﻿html {
-    background-color: #e2e2e2;
+    background-color: #f7f8f8;
     margin: 0;
     padding: 0;
 }
 
 body {
-    background-color: #fff;
-    border-top: solid 10px #000;
-    color: #333;
-    font-size: .85em;
-    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.85em;
+    color: #666;
+    background-color: #f7f8f8;
+    border-top: 5px #0072c6 solid;
     margin: 0;
     padding: 0;
 }
@@ -25,10 +25,6 @@ a {
     a:link, a:visited,
     a:active, a:hover {
         color: #333;
-    }
-
-    a:hover {
-        background-color: #c7d1d6;
     }
 
 header, footer, hgroup,
@@ -60,17 +56,17 @@ mark {
 
 h1, h2, h3,
 h4, h5, h6 {
-    color: #000;
+    color: #0072c6;
     margin-bottom: 0;
     padding-bottom: 0;
 }
 
 h1 {
-    font-size: 2em;
+    font-size: 1.75em;
 }
 
 h2 {
-    font-size: 1.75em;
+    font-size: 1.5em;
 }
 
 h3 {
@@ -99,19 +95,14 @@ h5, h6 {
 }
 
 #body {
-    background-color: #efeeef;
+    background-color: #f7f8f8;
     clear: both;
     padding-bottom: 35px;
 }
 
     .main-content {
-        background: url("../Images/accent.png") no-repeat;
         padding-left: 10px;
-        padding-top: 30px;
-    }
-
-    .featured + .main-content {
-        background: url("../Images/heroAccent.png") no-repeat;
+        padding-top: 20px;
     }
 
 header .content-wrapper {
@@ -120,9 +111,8 @@ header .content-wrapper {
 
 footer {
     clear: both;
-    background-color: #e2e2e2;
-    font-size: .8em;
-    height: 100px;
+    font-size: .9em;
+    height: 50px;
 }
 
 
@@ -130,14 +120,15 @@ footer {
 ----------------------------------------------------------*/
 .site-title {
     color: #c8c8c8;
-    font-family: Rockwell, Consolas, "Courier New", Courier, monospace;
-    font-size: 2.3em;
+    font-size: 2em;
+    text-transform: uppercase;
+    font-weight: bold;
     margin: 0;
 }
 
 .site-title a, .site-title a:hover, .site-title a:active {
     background: none;
-    color: #c8c8c8;
+    color: #0072c6;
     outline: none;
     text-decoration: none;
 }
@@ -153,14 +144,20 @@ footer {
 }
 
     #login a {
-        background-color: #d3dce0;
+        background-color: #0072c6;
         margin-left: 10px;
         margin-right: 3px;
-        padding: 2px 3px;
+        padding: 2px 5px;
         text-decoration: none;
+        color: white;
+    }
+
+    #login a:hover {
+	background-color: #666;
     }
 
     #login a.username {
+        color: #333;
         background: none;
         margin: 0;
         padding: 0;
@@ -180,7 +177,7 @@ footer {
 /* menu
 ----------------------------------------------------------*/
 ul#menu {
-    font-size: 1.3em;
+    font-size: 1.2em;
     font-weight: 600;
     margin: 0 0 5px;
     padding: 0;
@@ -200,7 +197,7 @@ ul#menu {
         }
 
         ul#menu li a:hover {
-            color: #333;
+            color: #0072c6;
             text-decoration: none;
         }
 
@@ -369,7 +366,7 @@ aside {
 }
 
     #socialLoginForm h2 {
-        margin-bottom:  5px;
+        margin-bottom: 5px;
     }
 
 #socialLoginList button {
@@ -416,7 +413,7 @@ fieldset {
 
 label {
     display: block;
-    font-size: 1.2em;
+    font-size: 1.1em;
     font-weight: 600;
 }
 
@@ -428,7 +425,6 @@ input, textarea {
     border: 1px solid #e2e2e2;
     background: #fff;
     color: #333;
-    font-size: 1.2em;
     margin: 5px 0 6px 0;
     padding: 5px;
     width: 300px;
@@ -440,7 +436,7 @@ textarea {
 }
 
     input:focus, textarea:focus {
-        border: 1px solid #7ac0da;
+        border: 1px solid #0072c6;
     }
 
     input[type="checkbox"] {
@@ -455,9 +451,9 @@ textarea {
         background-color: #d3dce0;
         border: 1px solid #787878;
         cursor: pointer;
-        font-size: 1.2em;
+        font-size: 1.1em;
         font-weight: 600;
-        padding: 7px;
+        padding: 5px 7px 5px 7px;
         margin-right: 8px;
         width: auto;
     }
@@ -516,6 +512,7 @@ textarea {
 .field-validation-error {
     color: #e80c4d;
     font-weight: bold;
+    margin-left: 5px;
 }
 
 .field-validation-valid {
@@ -557,6 +554,7 @@ table {
 
 th {
     font-size: 1.2em;
+    font-weight: 600;
     text-align: left;
     border: none 0px;
     padding-left: 0;
@@ -571,19 +569,18 @@ th {
     }
 
     th a {
-        display: block;
         position: relative;
     }
 
     th a:link, th a:visited, th a:active, th a:hover {
-        color: #333;
+        color: #666;
         font-weight: 600;
         text-decoration: none;
         padding: 0;
     }
 
     th a:hover {
-        color: #000;
+        color: #0072c6;
     }
 
     th.asc a, th.desc a {
@@ -593,7 +590,7 @@ th {
     th.asc a:after, th.desc a:after {
         display: block;
         position: absolute;
-        right: 0em;
+        right: -1.5em;
         top: 0;
         font-size: 0.75em;
     }
@@ -662,7 +659,7 @@ tr.pager td {
         }
 
         #login a:hover {
-            color: #333;
+            color: #0072c6;
         }
 
     /* menu */
@@ -784,7 +781,7 @@ tr.pager td {
         }
 }
 
-@media only screen and (max-width: 760px) {
+@media only screen and (max-width: 690px) {
 
 	table.wide, table.wide thead, table.wide tbody, table.wide th, table.wide td, table.wide tr {
 		display: block;
