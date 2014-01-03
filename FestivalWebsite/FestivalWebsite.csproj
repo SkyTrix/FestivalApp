@@ -186,6 +186,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="ViewModels\ReservationsOverviewVM.cs" />
     <Compile Include="ViewModels\TicketOrderVM.cs" />
@@ -326,6 +327,7 @@
     <Content Include="Views\Ticket\Amount.cshtml" />
     <Content Include="Views\Ticket\Confirm.cshtml" />
     <Content Include="Views\Ticket\Thanks.cshtml" />
+    <Content Include="Views\Shared\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
