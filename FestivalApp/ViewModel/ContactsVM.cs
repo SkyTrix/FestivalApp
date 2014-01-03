@@ -161,7 +161,7 @@ namespace FestivalApp.ViewModel
 
         private bool CanAddContactPersonType()
         {
-            return ContactPersonType != null && ContactPersonType.Length > 2;
+            return ContactPersonType != null && ContactPersonType.Length > 0;
         }
 
         private void AddContactPersonType()
