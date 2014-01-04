@@ -63,7 +63,13 @@ namespace FestivalApp.ViewModel
 
         private void SaveFestival()
         {
-            FestivalManager.Instance.SaveFestival();
+            try
+            {
+                FestivalManager.Instance.SaveFestival();
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }
