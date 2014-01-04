@@ -1,0 +1,41 @@
+﻿<Window x:Class="FestivalApp.View.ContactPersonWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vh="clr-namespace:FestivalApp.View.ViewHelpers"
+        vh:DialogCloser.DialogResult="{Binding DialogResult}"
+        Title="Contactpersoon toevoegen" Width="300" ResizeMode="NoResize" ShowInTaskbar="True" WindowStartupLocation="CenterScreen" SizeToContent="Height">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding CancelCommand}" Key="Escape"/>
+    </Window.InputBindings>
+    <Grid>
+        <StackPanel Margin="8">
+            <Label Content="Naam:" FontWeight="Bold" Padding="0,0,0,3"/>
+            <TextBox Text="{Binding ContactPerson.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}" MinHeight="24" VerticalContentAlignment="Center"/>
+            <Label Content="Bedrijf:" FontWeight="Bold" Padding="0,5,0,3"/>
+            <TextBox Text="{Binding ContactPerson.Company, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}" MinHeight="24" VerticalContentAlignment="Center"/>
+            <Label Content="Type:" FontWeight="Bold" Padding="0,5,0,3"/>
+            <ComboBox MinHeight="24" VerticalContentAlignment="Center"
+                      ItemsSource="{Binding ContactPersonTypeManager.ContactPersonTypes}"
+                      SelectedItem="{Binding ContactPerson.JobRole, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}"
+                      SelectedValuePath="ID"
+                      SelectedValue="{Binding ContactPerson.JobRole.ID}"
+                      DisplayMemberPath="Name"/>
+            <Label Content="Adres:" FontWeight="Bold" Padding="0,5,0,3"/>
+            <TextBox Text="{Binding ContactPerson.Address, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}" MinHeight="24" VerticalContentAlignment="Center"/>
+            <Label Content="Postcode:" FontWeight="Bold" Padding="0,5,0,3"/>
+            <TextBox Text="{Binding ContactPerson.PostalCode, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}" MinHeight="24" VerticalContentAlignment="Center"/>
+            <Label Content="Stad:" FontWeight="Bold" Padding="0,5,0,3"/>
+            <TextBox Text="{Binding ContactPerson.City, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}" MinHeight="24" VerticalContentAlignment="Center"/>
+            <Label Content="E-mail:" FontWeight="Bold" Padding="0,5,0,3"/>
+            <TextBox Text="{Binding ContactPerson.Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}" MinHeight="24" VerticalContentAlignment="Center"/>
+            <Label Content="Tel. Nr.:" FontWeight="Bold" Padding="0,5,0,3"/>
+            <TextBox Text="{Binding ContactPerson.Phone, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}" MinHeight="24" VerticalContentAlignment="Center"/>
+            <Label Content="GSM Nr.:" FontWeight="Bold" Padding="0,5,0,3"/>
+            <TextBox Text="{Binding ContactPerson.Cellphone, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}" MinHeight="24" VerticalContentAlignment="Center"/>
+            <Grid Margin="0,15,0,0">
+                <Button Command="{Binding CancelCommand}" Content="Annuleren" HorizontalAlignment="Right" Height="24" Margin="0,0,108,0" Width="100"/>
+                <Button Command="{Binding SaveCommand}" Content="Opslaan" HorizontalAlignment="Right" Height="24" Margin="0,0,0,0" Width="100"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

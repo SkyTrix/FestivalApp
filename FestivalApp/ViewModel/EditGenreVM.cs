@@ -1,6 +1,6 @@
-﻿using FestivalApp.Model;
-using FestivalApp.Model.DAL;
+﻿using DAL;
 using GalaSoft.MvvmLight.Command;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,24 +20,11 @@ namespace FestivalApp.ViewModel
             set { _dialogResult = value; OnPropertyChanged("DialogResult"); }
         }
 
-        private Genre _genre;
+        private Genre _genre = new Genre();
         public Genre Genre
         {
             get { return _genre; }
             set { _genre = value; OnPropertyChanged("Genre"); }
-        }
-
-        private GenreManager _genreManager;
-        public GenreManager GenreManager
-        {
-            get
-            {
-                if (_genreManager == null)
-                    _genreManager = GenreManager.Instance;
-
-                return _genreManager;
-            }
-            set { _genreManager = value; OnPropertyChanged("GenreManager"); }
         }
 
         public ICommand CancelCommand
@@ -47,7 +34,7 @@ namespace FestivalApp.ViewModel
 
         public ICommand SaveCommand
         {
-            get { return new RelayCommand(Save); }
+            get { return new RelayCommand(Save, Genre.IsValid); }
         }
 
         private void Cancel()
@@ -68,7 +55,7 @@ namespace FestivalApp.ViewModel
             }
             catch (Exception)
             {
-                MessageBox.Show("Er is een fout opgetreden tijdens het wijzigen van het genre.", "Fout bij wijzigen");
+                DialogResult = false;
             }
         }
     }

@@ -1,6 +1,6 @@
-﻿using FestivalApp.Model;
-using FestivalApp.Model.DAL;
+﻿using DAL;
 using GalaSoft.MvvmLight.Command;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace FestivalApp.ViewModel
             set { _dialogResult = value; OnPropertyChanged("DialogResult"); }
         }
 
-        private Stage _stage;
+        private Stage _stage = new Stage();
         public Stage Stage
         {
             get { return _stage; }
@@ -47,7 +47,7 @@ namespace FestivalApp.ViewModel
 
         public ICommand SaveCommand
         {
-            get { return new RelayCommand(Save); }
+            get { return new RelayCommand(Save, Stage.IsValid); }
         }
 
         private void Cancel()
@@ -68,7 +68,7 @@ namespace FestivalApp.ViewModel
             }
             catch (Exception)
             {
-                MessageBox.Show("Er is een fout opgetreden tijdens het wijzigen van de stage.", "Fout bij wijzigen");
+                DialogResult = false;
             }
         }
     }

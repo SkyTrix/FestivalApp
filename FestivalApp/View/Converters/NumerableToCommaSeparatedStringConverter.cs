@@ -1,5 +1,4 @@
-﻿using FestivalApp.Model;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +24,7 @@ namespace FestivalApp.View.Converters
                 output += obj.ToString();
             }
 
-            return output;
+            return output.Length > 0 ? output : "-";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

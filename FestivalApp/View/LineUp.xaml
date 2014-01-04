@@ -4,10 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:c="clr-namespace:FestivalApp.View.Converters"
+             xmlns:vh="clr-namespace:FestivalApp.View.ViewHelpers"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.Resources>
         <c:NumerableToCommaSeparatedStringConverter x:Key="NumerableToCommaSeparatedStringConverter"/>
+        <c:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter"/>
+        <c:StringToPrefixedStringConverter x:Key="StringToPrefixedStringConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -42,7 +45,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" TextWrapping="Wrap" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,0,4" Text="Datum filter:"/>
-                <ComboBox Grid.Column="1" Margin="4,4,4,8" VerticalContentAlignment="Center" ItemsSource="{Binding FestivalManager.Festival.FestivalDates}" SelectedItem="{Binding SelectedFilterFestivalDate}" ItemStringFormat="{}{0:dd/MM/yyyy}"/>
+                <ComboBox Grid.Column="1" Margin="4,4,4,8" VerticalContentAlignment="Center" ItemsSource="{Binding FilterFestivalDates}" SelectedItem="{Binding SelectedFilterFestivalDate}" ItemStringFormat="{}{0:dd/MM/yyyy}"/>
             </Grid>
 
             <Grid Grid.Column="1">
@@ -51,17 +54,17 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" TextWrapping="Wrap" FontWeight="Bold" VerticalAlignment="Center" Text="Stage filter:" Margin="4,0,0,4"/>
-                <ComboBox Grid.Column="1" Margin="4,4,0,8" VerticalContentAlignment="Center" ItemsSource="{Binding StageManager.Stages}" SelectedItem="{Binding SelectedFilterStage}" DisplayMemberPath="Name"/>
+                <ComboBox Grid.Column="1" Margin="4,4,0,8" VerticalContentAlignment="Center" ItemsSource="{Binding FilterStages}" SelectedItem="{Binding SelectedFilterStage}" SelectedValue="{Binding SelectedFilterStage.ID}" SelectedValuePath="ID" DisplayMemberPath="Name"/>
             </Grid>
 
-            <ListView x:Name="lstOverzicht" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding LineUpManager.LineUpItems}" SelectedItem="{Binding SelectedLineUpItem}">
+            <ListView x:Name="lstOverzicht" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding FilteredLineUpItems}" SelectedItem="{Binding SelectedLineUpItem}" vh:GridViewSort.AutoSort="True">
                 <ListView.View>
                     <GridView AllowsColumnReorder="False">
-                        <GridViewColumn Header="Datum" Width="80" DisplayMemberBinding="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}"/>
-                        <GridViewColumn Header="Van" Width="50" DisplayMemberBinding="{Binding StartTime}"/>
-                        <GridViewColumn Header="Tot" Width="50" DisplayMemberBinding="{Binding EndTime}"/>
-                        <GridViewColumn Header="Stage" Width="110" DisplayMemberBinding="{Binding Stage}"/>
-                        <GridViewColumn Header="Band" Width="110" DisplayMemberBinding="{Binding Band}"/>
+                        <GridViewColumn Header="Datum" Width="80" DisplayMemberBinding="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}" vh:GridViewSort.PropertyName="Date"/>
+                        <GridViewColumn Header="Van" Width="50" DisplayMemberBinding="{Binding StartTime}" vh:GridViewSort.PropertyName="StartTime"/>
+                        <GridViewColumn Header="Tot" Width="50" DisplayMemberBinding="{Binding EndTime}" vh:GridViewSort.PropertyName="EndTime"/>
+                        <GridViewColumn Header="Stage" Width="110" DisplayMemberBinding="{Binding Stage}" vh:GridViewSort.PropertyName="Stage.Name"/>
+                        <GridViewColumn Header="Band" Width="110" DisplayMemberBinding="{Binding Band}" vh:GridViewSort.PropertyName="Band.Name"/>
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -71,21 +74,21 @@
             <Label Content="Datum:" FontWeight="Bold" Padding="0,0,0,3"/>
             <ComboBox MinHeight="24" VerticalContentAlignment="Center"
                       ItemsSource="{Binding FestivalManager.Festival.FestivalDates}"
-                      SelectedItem="{Binding SelectedFestivalDate}"
+                      SelectedItem="{Binding LineUpItem.Date, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}"
                       ItemStringFormat="{}{0:dd/MM/yyyy}"/>
             <Label Content="Stage:" FontWeight="Bold" Padding="0,5,0,3"/>
             <ComboBox MinHeight="24" VerticalContentAlignment="Center"
                       ItemsSource="{Binding StageManager.Stages}"
-                      SelectedItem="{Binding SelectedStage}"
+                      SelectedItem="{Binding LineUpItem.Stage, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}"
                       SelectedValuePath="ID"
-                      SelectedValue="{Binding SelectedStage.ID}"
+                      SelectedValue="{Binding LineUpItem.Stage.ID}"
                       DisplayMemberPath="Name"/>
             <Label Content="Band:" FontWeight="Bold" Padding="0,5,0,3"/>
             <ComboBox MinHeight="24" VerticalContentAlignment="Center"
                       ItemsSource="{Binding BandManager.Bands}"
-                      SelectedItem="{Binding SelectedBand}"
+                      SelectedItem="{Binding LineUpItem.Band, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}"
                       SelectedValuePath="ID"
-                      SelectedValue="{Binding SelectedBand.ID}"
+                      SelectedValue="{Binding LineUpItem.Band.ID}"
                       DisplayMemberPath="Name"/>
             <Label Content="Van - Tot:" FontWeight="Bold" Padding="0,5,0,3"/>
             <Grid>
@@ -97,37 +100,40 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="24"/>
                 </Grid.RowDefinitions>
-                <TextBox MinHeight="24" Text="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <TextBox MinHeight="24" Text="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <TextBox MinHeight="24" Text="{Binding LineUpItem.StartTime, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <TextBox MinHeight="24" Text="{Binding LineUpItem.EndTime, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}" Style="{StaticResource TextBoxError}" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 <TextBlock Grid.Column="1" Margin="0,0,0,0" TextWrapping="Wrap" Foreground="Black" TextAlignment="Center" VerticalAlignment="Center" FontSize="13.333"><Run Language="nl-be" Text="-"/></TextBlock>
             </Grid>
             <Button Content="Toevoegen aan line-up" Margin="0,10,0,0" Height="24" Command="{Binding AddLineUpItemCommand}"/>
+            <TextBlock Text="{Binding LineUpError, UpdateSourceTrigger=PropertyChanged}" Foreground="Red" TextWrapping="Wrap" Margin="0,8,0,0" />
         </StackPanel>
 
         <StackPanel Grid.Column="2" Margin="8" Grid.Row="1">
             <Label Content="Band:" FontWeight="Bold" Padding="0,0,0,3"/>
             <ComboBox MinHeight="24" VerticalContentAlignment="Center"
                       ItemsSource="{Binding BandManager.Bands}"
-                      SelectedItem="{Binding SelectedBand}"
+                      SelectedItem="{Binding LineUpItem.Band}"
                       SelectedValuePath="ID"
-                      SelectedValue="{Binding SelectedBand.ID}"
+                      SelectedValue="{Binding LineUpItem.Band.ID}"
                       DisplayMemberPath="Name"/>
             <Label Content="Omschrijving:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding SelectedBand.Description}"/></TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding LineUpItem.Band.Description}"/></TextBlock>
             <Label Content="Foto:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <Image Height="100" Width="100"/>
+            <Border Margin="0,8,0,0" MinHeight="50" MaxHeight="300" BorderThickness="1" BorderBrush="Black">
+                <Image Stretch="Uniform" StretchDirection="DownOnly" AllowDrop="False" Source="{Binding LineUpItem.Band.Picture, Converter={StaticResource ByteArrayToImageConverter}}"></Image>
+            </Border>
             <Label Content="Twitter:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding SelectedBand.Twitter}"/></TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding LineUpItem.Band.Twitter, Converter={StaticResource StringToPrefixedStringConverter}, ConverterParameter='@'}"/></TextBlock>
             <Label Content="Facebook:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding SelectedBand.Facebook}"/></TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding LineUpItem.Band.Facebook, Converter={StaticResource StringToPrefixedStringConverter}, ConverterParameter='http://facebook.com/'}"/></TextBlock>
             <Label Content="Genre:" FontWeight="Bold" Padding="0,5,0,3"/>
-            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding SelectedBand.Genres, Converter={StaticResource NumerableToCommaSeparatedStringConverter}}"/></TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="Black"><Run Language="nl-be" Text="{Binding LineUpItem.Band.Genres, Converter={StaticResource NumerableToCommaSeparatedStringConverter}}"/></TextBlock>
         </StackPanel>
 
         <Button Content="Wijzig" HorizontalAlignment="Right" Height="24" Margin="0,0,116,0" Grid.Row="2" VerticalAlignment="Top" Width="100" Command="{Binding EditLineUpItemCommand}"/>
         <Button Content="Verwijder" HorizontalAlignment="Right" Height="24" Margin="0,0,8,0" Grid.Row="2" VerticalAlignment="Top" Width="100" Command="{Binding DeleteLineUpItemCommand}"/>
 
-        <Button Content="Wijzig" HorizontalAlignment="Right" Height="24" Margin="0,0,116,0" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Width="100"/>
-        <Button Content="Nieuwe band" HorizontalAlignment="Right" Height="24" Margin="0,0,8,0" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Width="100"/>
+        <Button Content="Wijzig" HorizontalAlignment="Right" Height="24" Margin="0,0,116,0" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Width="100" Command="{Binding EditBandCommand}"/>
+        <Button Content="Nieuwe band" HorizontalAlignment="Right" Height="24" Margin="0,0,8,0" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Width="100" Command="{Binding AddBandCommand}"/>
     </Grid>
 </UserControl>

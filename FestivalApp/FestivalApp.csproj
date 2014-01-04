@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="GalaSoft.MvvmLight.Extras.WPF45, Version=4.1.24.16411, Culture=neutral, PublicKeyToken=0e27b6f8be9b2ef7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WPF45\GalaSoft.MvvmLight.Extras.WPF45.dll</HintPath>
@@ -46,10 +47,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WPF45\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="Ookii.Dialogs.Wpf">
+      <HintPath>..\..\..\..\Downloads\Ookii.Dialogs\Ookii.Dialogs.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -72,20 +77,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\Band.cs" />
-    <Compile Include="Model\ContactPerson.cs" />
-    <Compile Include="Model\ContactPersonType.cs" />
-    <Compile Include="Model\DAL\BandManager.cs" />
-    <Compile Include="Model\DAL\FestivalManager.cs" />
-    <Compile Include="Model\DAL\GenreManager.cs" />
-    <Compile Include="Model\DAL\StageManager.cs" />
-    <Compile Include="Model\DAL\TicketManager.cs" />
-    <Compile Include="Model\DAL\TicketTypeManager.cs" />
-    <Compile Include="Utilities\Database.cs" />
-    <Compile Include="Model\DAL\LineUpManager.cs" />
+    <Compile Include="ViewModel\AddBandVM.cs" />
+    <Compile Include="ViewModel\AddContactPersonVM.cs" />
+    <Compile Include="ViewModel\AddReservationVM.cs" />
+    <Compile Include="ViewModel\AddTicketTypeVM.cs" />
+    <Compile Include="ViewModel\EditBandVM.cs" />
+    <Compile Include="ViewModel\EditContactPersonTypeVM.cs" />
+    <Compile Include="ViewModel\EditContactPersonVM.cs" />
     <Compile Include="ViewModel\EditGenreVM.cs" />
+    <Compile Include="ViewModel\EditReservationVM.cs" />
     <Compile Include="ViewModel\EditStageVM.cs" />
+    <Compile Include="ViewModel\EditTicketTypeVM.cs" />
+    <Compile Include="ViewModel\TicketTypeVM.cs" />
+    <Compile Include="View\Converters\EmptyStringToStringConverter.cs" />
     <Compile Include="View\Converters\RemainingTicketsToColorConverter.cs" />
+    <Compile Include="View\Converters\StringToPrefixedStringConverter.cs" />
+    <Compile Include="View\EditContactPersonTypeWindow.xaml.cs">
+      <DependentUpon>EditContactPersonTypeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EditGenreWindow.xaml.cs">
       <DependentUpon>EditGenreWindow.xaml</DependentUpon>
     </Compile>
@@ -93,15 +102,7 @@
       <DependentUpon>EditStageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ViewHelpers\DialogCloser.cs" />
-    <Compile Include="Model\Festival.cs" />
-    <Compile Include="Model\Genre.cs" />
-    <Compile Include="Model\LineUpItem.cs" />
-    <Compile Include="Utilities\ObjectExtensions.cs" />
-    <Compile Include="Model\Stage.cs" />
-    <Compile Include="Model\Ticket.cs" />
-    <Compile Include="Model\TicketType.cs" />
     <Compile Include="ViewModel\ApplicationVM.cs" />
-    <Compile Include="ViewModel\BandVM.cs" />
     <Compile Include="ViewModel\ContactsVM.cs" />
     <Compile Include="ViewModel\EditLineUpVM.cs" />
     <Compile Include="ViewModel\LineUpVM.cs" />
@@ -112,8 +113,8 @@
     <Compile Include="View\BandWindow.xaml.cs">
       <DependentUpon>BandWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ContactsWindow.xaml.cs">
-      <DependentUpon>ContactsWindow.xaml</DependentUpon>
+    <Compile Include="View\ContactPersonWindow.xaml.cs">
+      <DependentUpon>ContactPersonWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Converters\ByteArrayToImageConverter.cs" />
     <Compile Include="View\Converters\NumerableToCommaSeparatedStringConverter.cs" />
@@ -129,12 +130,10 @@
     <Compile Include="View\Ticketing.xaml.cs">
       <DependentUpon>Ticketing.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TicketWindow.xaml.cs">
-      <DependentUpon>TicketWindow.xaml</DependentUpon>
+    <Compile Include="View\TicketTypeWindow.xaml.cs">
+      <DependentUpon>TicketTypeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Window1.xaml.cs">
-      <DependentUpon>Window1.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="View\ViewHelpers\GridViewSort.cs" />
     <Page Include="View\BandWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -143,7 +142,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ContactsWindow.xaml">
+    <Page Include="View\ContactPersonWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditContactPersonTypeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -193,11 +196,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TicketWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Window1.xaml">
+    <Page Include="View\TicketTypeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -219,6 +218,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -229,7 +229,19 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{014c5be0-763d-4506-8c0c-fb53507790c8}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Models\Models.csproj">
+      <Project>{013b545f-e8fb-4bc6-8fa8-f38285268223}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Images\noimage.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
