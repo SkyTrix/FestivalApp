@@ -1,0 +1,95 @@
+﻿@model IList<FestivalWebsite.ViewModels.TicketTypeAmountVM>
+
+@{
+    ViewBag.Title = "Confirm order";
+}
+
+<hgroup class="title">
+    <h1>Confirm order</h1>
+</hgroup>
+
+<p>Please check and confirm your order. If you would like to change something to your order, click the back button.</p>
+
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Price
+        </th>
+        <th class="medium">
+            Amount
+        </th>
+        <th>
+            Subtotal
+        </th>
+    </tr>
+
+@for (int i = 0; i < Model.Count; i++)
+{
+    <tr>
+        <td>
+            @Html.HiddenFor(modelItem => Model[i].TicketType.ID)
+            @Html.DisplayFor(modelItem => Model[i].TicketType.Name)
+        </td>
+        <td>
+            @String.Format("{0:c}", Model[i].TicketType.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model[i].Amount)
+        </td>
+        <td>
+            @String.Format("{0:c}", Model[i].TicketType.Price * Model[i].Amount)
+        </td>
+    </tr>
+}
+
+</table>
+
+<br />
+
+<div class="display-label">
+    <strong>Total</strong>
+</div>
+    
+<div class="display-field">
+    @{
+        double total = 0;
+        foreach(var item in Model)
+        {
+            total += item.TicketType.Price * item.Amount;
+        }
+    }
+
+    @String.Format("{0:c}", total)
+</div>
+
+<br />
+    
+<div class="display-label">
+    <strong>Name</strong>
+</div>
+    
+<div class="display-field">
+    @ViewBag.Customer.FirstName @ViewBag.Customer.LastName
+</div>
+
+<br />
+
+<div class="display-label">
+    <strong>Email</strong>
+</div>
+    
+<div class="display-field">
+    @ViewBag.Customer.Email
+</div>
+    
+<br />
+
+@using (@Html.BeginForm("Confirm", "Ticket", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <input type="button" value="Back" onclick="javascript: history.go(-1)" />
+    <input type="submit" value="Confirm" />
+}

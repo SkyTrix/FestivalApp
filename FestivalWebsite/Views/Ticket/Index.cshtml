@@ -1,0 +1,64 @@
+﻿@model IEnumerable<FestivalWebsite.ViewModels.TicketTypeVM>
+
+@{
+    ViewBag.Title = "Order tickets";
+}
+
+<hgroup class="title">
+    <h1>Order tickets</h1>
+</hgroup>
+
+<p>Select the tickets you would like to order.</p>
+
+@if (ViewData.ModelState["NoTicketsSelected"] != null)
+{
+    <div class="validation-summary-errors" data-valmsg-summary="true">
+        <p>@ViewData.ModelState["NoTicketsSelected"].Errors[0].ErrorMessage</p>
+    </div>
+}
+
+@using (@Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <table>
+        <tr>
+            <th></th>
+            <th>
+                Name
+            </th>
+            <th>
+                Price
+            </th>
+            <th class="wide">
+                Remaining
+            </th>
+        </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @if(item.RemainingTickets > 0)
+                {
+                    <input type="checkbox" name="selectedTickets" value="@item.TicketType.ID">
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TicketType.Name)
+            </td>
+            <td>
+                @String.Format("{0:c}", item.TicketType.Price)
+            </td>
+            <td>
+                @{
+                    string style = "";
+                    if (item.RemainingTickets < 1000) { style = "color: orange;"; }
+                }
+                <span style="@style">@Html.DisplayFor(modelItem => item.RemainingTickets)</span>
+            </td>
+        </tr>
+    }
+
+    </table>
+    <input type="submit" value="Next" />
+}

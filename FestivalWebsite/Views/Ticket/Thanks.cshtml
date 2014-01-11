@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Thanks";
+}
+
+<hgroup class="title">
+    <h1>Thanks</h1>
+</hgroup>
+
+<p>
+    @if(TempData["Error"] != null)
+    {
+        @TempData["Error"]
+    }
+    else
+    {
+        <text>Thank you for your order. We will email you your tickets as soon as they're processed.</text>
+    }
+</p>

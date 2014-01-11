@@ -1,0 +1,85 @@
+﻿@using FestivalWebsite.App_Code
+@model Models.LineUpItem
+
+@{
+    ViewBag.Title = Model.Band.Name + " - Line up";
+}
+
+<hgroup class="title">
+    <h1>@Model.Band.Name</h1>
+</hgroup>
+
+<fieldset>
+    <legend>@Model.Band.Name</legend>
+
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Date)
+    </div>
+
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StartTime) - @Html.DisplayFor(model => model.EndTime)
+    </div>
+
+    @if(Model.Band.Picture != null)
+    {
+        <img width="300" src="data:image;base64,@System.Convert.ToBase64String(Model.Band.Picture)" style="margin-top:8px" />
+    }
+    else
+    {
+        <img width="300" src="~/Content/Images/noimage.png" alt="no image" style="margin-top:8px" />
+    }
+
+    <div class="display-label">
+         Stage:
+    </div>
+
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Stage.Name)
+    </div>
+
+    <br />
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Band.Description):
+    </div>
+
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Band.Description)
+    </div>
+
+    <br />
+
+    <div class="display-label">
+         Genre:
+    </div>
+
+    <div class="display-field">
+        @Html.NumerableToCommaSeparatedString(Model.Band.Genres)
+    </div>
+
+    @if(!string.IsNullOrEmpty(Model.Band.Facebook))
+    {
+    <br />
+
+    <div class="display-label">
+          @Html.DisplayNameFor(model => model.Band.Twitter):
+    </div>
+
+    <div class="display-field">
+        <a href="http://twitter.com/@Model.Band.Twitter">@@@Model.Band.Twitter</a>
+    </div>
+    }
+
+    @if(!string.IsNullOrEmpty(Model.Band.Facebook))
+    {
+    <br />
+
+    <div class="display-label">
+          @Html.DisplayNameFor(model => model.Band.Facebook):
+    </div>
+
+    <div class="display-field">
+        <a href="http://facebook.com/@Model.Band.Facebook">http://facebook.com/@Model.Band.Facebook</a>
+    </div>
+    }
+</fieldset>

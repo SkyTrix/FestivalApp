@@ -1,0 +1,98 @@
+﻿@model IList<FestivalWebsite.ViewModels.TicketTypeAmountVM>
+
+@{
+    ViewBag.Title = "Order tickets";
+}
+
+<hgroup class="title">
+    <h1>Amounts</h1>
+</hgroup>
+
+<p>Select how many of each ticket you would like to order. Please also provide us with your name and email address. The tickets will be sent to the email address you provide here.</p>
+<p>You can remove a ticket type by entering zero for the amount.</p>
+
+@if (ViewData.ModelState["TicketError"] != null)
+{
+    <div class="validation-summary-errors" data-valmsg-summary="true">
+        <p>@ViewData.ModelState["TicketError"].Errors[0].ErrorMessage</p>
+    </div>
+}
+
+@using (@Html.BeginForm("Order", "Ticket", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <table>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Price
+            </th>
+            <th class="wide">
+                Remaining
+            </th>
+            <th>
+                Amount
+            </th>
+        </tr>
+
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <tr>
+            <td>
+                @Html.HiddenFor(modelItem => Model[i].TicketType.ID)
+                @Html.DisplayFor(modelItem => Model[i].TicketType.Name)
+            </td>
+            <td>
+                @String.Format("{0:c}", Model[i].TicketType.Price)
+            </td>
+            <td>
+                @{
+                    string style = "";
+                    if (Model[i].RemainingTickets < 1000) { style = "color: orange;"; }
+                }
+                <span style="@style">@Html.DisplayFor(modelItem => Model[i].RemainingTickets)</span>
+            </td>
+            <td>
+                <input class="text-box single-line" data-val="true" data-val-number="The field Amount must be a number." data-val-regex="Please enter a positive number" data-val-regex-pattern="^[0-9]+$" data-val-required="Please enter an amount" name="[@i].Amount" type="number" style="width:80px" value="@Model[i].Amount">
+                <span class="field-validation-valid" data-valmsg-for="[@i].Amount" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+    }
+
+    </table>
+    
+    <div class="editor-label">
+        <label for="FirstName">First name</label>
+    </div>
+    
+    <div class="editor-field">
+        <input class="text-box single-line" data-val="true" data-val-required="Please enter your name" data-val-length="First name must be at least 2 characters" data-val-length-min="2" id="FirstName" name="FirstName" type="text" value="@ViewBag.Customer.FirstName">
+        <span class="field-validation-valid" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
+    </div>
+    
+    <div class="editor-label">
+        <label for="LastName">Last name</label>
+    </div>
+    
+    <div class="editor-field">
+        <input class="text-box single-line" data-val="true" data-val-required="Please enter your last name" data-val-length="Last name must be at least 2 characters" data-val-length-min="2" id="LastName" name="LastName" type="text" value="@ViewBag.Customer.LastName">
+        <span class="field-validation-valid" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
+    </div>
+    
+    <div class="editor-label">
+        <label for="Email">Email</label>
+    </div>
+    
+    <div class="editor-field">
+        <input class="text-box single-line" data-val="true" data-val-required="Please enter your email address" data-val-email="Invalid email address" id="Email" name="Email" type="email" value="@ViewBag.Customer.Email">
+        <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+    </div>
+    
+    <input type="submit" value="Next" />
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

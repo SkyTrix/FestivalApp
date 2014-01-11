@@ -1,0 +1,107 @@
+﻿@model FestivalWebsite.ViewModels.ReservationsOverviewVM
+
+@{
+    ViewBag.Title = "Reservations";
+}
+
+<hgroup class="title">
+    <h1>Ticket types</h1>
+</hgroup>
+
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Price
+        </th>
+        <th class="medium">
+            Available
+        </th>
+        <th>
+            Sold
+        </th>
+        <th class="wide">
+            Remaining
+        </th>
+        <th>
+            Revenue
+        </th>
+    </tr>
+
+@foreach (var item in Model.TicketTypes)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TicketType.Name)
+        </td>
+        <td>
+            @String.Format("{0:c}", item.TicketType.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TicketType.AvailableTickets)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SoldTickets)
+        </td>
+        <td>
+            @{
+                string style = "";
+                if (item.RemainingTickets < 1000) { style = "color: orange;"; }
+            }
+            <span style="@style">@Html.DisplayFor(modelItem => item.RemainingTickets)</span>
+        </td>
+        <td>
+            @String.Format("{0:c}", item.Revenue)
+        </td>
+    </tr>
+}
+
+</table>
+
+<p><strong>Total revenue: </strong>@string.Format("{0:c}", Model.TotalRevenue)</p>
+
+<h1>Reservations</h1>
+
+<table>
+    <tr>
+        <th>
+            Ticketholder
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Ticket
+        </th>
+        <th class="medium">
+            Amount
+        </th>
+        <th>
+            Revenue
+        </th>
+    </tr>
+
+@foreach (var item in Model.Tickets)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TicketHolder)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TicketHolderEmail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TicketType.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @String.Format("{0:c}", int.Parse(item.Amount) * item.TicketType.Price)
+        </td>
+    </tr>
+}
+
+</table>

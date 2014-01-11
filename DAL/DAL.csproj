@@ -48,6 +48,7 @@
     <Compile Include="FestivalManager.cs" />
     <Compile Include="GenreManager.cs" />
     <Compile Include="LineUpManager.cs" />
+    <Compile Include="NewsItemManager.cs" />
     <Compile Include="ObjectExtensions.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

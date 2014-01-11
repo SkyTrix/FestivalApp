@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Models.LineUpItem>
+
+@{
+    ViewBag.Title = "Line up";
+}
+
+<hgroup class="title">
+    <h1>Line up</h1>
+</hgroup>
+
+<div id="lineupfilter">
+@using(Html.BeginForm("Index", "LineUp", FormMethod.Get))
+{
+    <label class="filterlabel" for="Date">Date:</label> @Html.DropDownList("Date", null, "All")
+    <label class="filterlabel" for="Stage">Stage:</label> @Html.DropDownList("Stage", null, "All")
+    <input type="submit" value="Filter" id="filterButton" />
+}
+</div>
+
+@if (ViewBag.Error == null)
+{
+    <table class="wide" id="lineup">
+        <tr>
+            <th>Picture</th>
+            <th class="@ViewBag.BandSortDirection">
+                @Html.ActionLink("Band", "Index", new { sortOrder = ViewBag.BandSort, Date = ViewBag.SelectedDate, Stage = ViewBag.SelectedStage })
+            </th>
+            <th class="@ViewBag.DateSortDirection">
+                @Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSort, Date = ViewBag.SelectedDate, Stage = ViewBag.SelectedStage })
+            </th>
+            <th>
+                @Html.ActionLink("Time", "Index", new { sortOrder = ViewBag.DateSort, Date = ViewBag.SelectedDate, Stage = ViewBag.SelectedStage })
+            </th>
+            <th class="@ViewBag.StageSortDirection">
+                @Html.ActionLink("Stage", "Index", new { sortOrder = ViewBag.StageSort, Date = ViewBag.SelectedDate, Stage = ViewBag.SelectedStage })
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @if(item.Band.Picture != null)
+                {
+                    <img width="200" alt="@item.Band.Name" src="data:image;base64,@System.Convert.ToBase64String(item.Band.Picture)" />
+                }
+                else
+                {
+                    <img width="200" alt="no image" src="~/Content/Images/noimage.png" />
+                }
+            </td>
+            <td class="bandTitle">
+                @Html.DisplayFor(modelItem => item.Band.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime) - @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stage.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+    </table>
+}
+else
+{
+    <p>@ViewBag.Error</p>
+}
