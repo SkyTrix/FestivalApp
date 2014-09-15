@@ -1,34 +1,34 @@
 # Festival App
 
-Dit is mijn applicatie voor de module Business Applications. Het is een WPF applicatie waarmee een festival kan georganiseerd worden. De solution bevat ook een Windows 8 applicatie waarmee een overzicht van de lineup kan bekeken worden.
+This is a WPF application to manage a festival. The solution also contains a Windows 8 application with an overview of the lineup.
+
+This is a college assignment for the course New Media and Communication Technology.
 
 ## Features
 
-Deze applicatie bevat de volgende features:
-
-- Beheer van stages
- - Stages toevoegen/wijzigen/verwijderen
-- Beheer van bands
- - Bands toevoegen/wijzigen
- - Genres aan band koppelen
-- Beheer van genres
- - Genres toevoegen/wijzigen/verwijderen
-- Lineup beheren
- - Bands aan lineup toevoegen
- - Bands uit lineup verwijderen
- - Bands verplaatsen in lineup
- - Lineup overzichtelijk weergeven
-- Ticketbeheer
- - Tickettypes toevoegen/wijzigen/verwijderen
- - Tickets reserveren voor gebruikers
- - Overzicht weergeven van bestelde tickets
- - Aantal nog beschikbare tickets weergeven
- - Tickets exporteren naar Word
-- Beheer van contactpersonen
- - Contactpersoontypes toevoegen/wijzigen/verwijderen
- - Contactpersoon toevoegen/wijzigen/verwijderen
- - Contactpersonen opzoeken
- - Contactpersonen weergeven
-- Instellingen
- - Naam festival instellen
- - Datums festival instellen
+- Manage stages
+ - Add/edit/remove stages
+- Manage bands
+ - Add/edit bands
+ - Link genres to bands
+- Manage genres
+ - Add/edit/remove genres
+- Manage lineup
+ - Add bands to lineup
+ - Remove bands from lineup
+ - Move bands in lineup
+ - Clear overview of lineup
+- Ticket management
+ - Add/edit/remove ticket types
+ - Reserve tickets for users
+ - Overview of ordered tickets
+ - Display amount of remaining tickets
+ - Export tickets to Word
+- Manage contacts
+ - Add/edit/remove contact types
+ - Add/edit/remove contacts
+ - Search contacts
+ - Detailed display of a contact's details
+- Settings
+ - Festival name
+ - Festival dates
